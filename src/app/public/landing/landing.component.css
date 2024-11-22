@@ -1,0 +1,23 @@
+.landing-container {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    padding: 0px;
+  }
+  
+  .landing-header {
+    background-color: #f4f4f4;
+    padding: 40px;
+    border-bottom: 2px solid #ccc;
+  }
+  
+  .landing-header h1 {
+    color: #333;
+  }
+  
+ 
+  .landing-footer {
+    margin-top: 20px;
+    font-size: 14px;
+    color: #888;
+  }
+  
