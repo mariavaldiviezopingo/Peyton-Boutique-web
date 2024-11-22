@@ -1,0 +1,30 @@
+@keyframes carousel {
+    0% {
+      opacity: 1;
+    }
+    33% {
+      opacity: 0;
+    }
+    66% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
+  .animate-carousel {
+    animation: carousel 9s infinite;
+  }
+  
+  .animate-carousel img:nth-child(1) {
+    animation-delay: 0s;
+  }
+
+  .animate-carousel img:nth-child(2) {
+    animation-delay: 3s;
+  }
+
+  .animate-carousel img:nth-child(3) {
+    animation-delay: 6s;
+  }
