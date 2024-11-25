@@ -3,121 +3,20 @@
     <app-banner></app-banner>
     <app-categorias></app-categorias>
       
-    <div class="w-[1500px] bg-gray-50 flex-col justify-center items-center mx-auto ">
+    <div class="w-full bg-gray-50 flex flex-col justify-center items-center mx-auto pt-10 px-4 sm:px-6 md:px-8 lg:px-10">
       <!-- Campaña Escolar -->
-      <div class="text-center mb-20">
-        <h2 class="text-lg font-semibold tracking-wide border-b border-gray-300 py-2 ">
-          CAMPAÑA ESCOLAR
-        </h2>
-        <div class="relative mt-4">
-          <img
-            src="https://cdn.www.gob.pe/uploads/campaign/photo/000/020/951/Banner-Intranet__2_.jpg"
-            alt="Campaña Escolar"
-            class="w-full h-auto object-cover w-[1500px] h-[300px]"
-          />
-          <button class="absolute bottom-4 left-1/2 transform -translate-x-1/2   bg-white text-teal-900 font-bold px-6 py-2 rounded shadow hover:bg-teal-800 shadow hover:bg-gray-200 hover:text-white">
-            VER MÁS
-          </button>
-        </div>
-      </div>
+      <app-campania></app-campania>
     
       <!-- Destacados -->
-      <div class="mt-12 px-8">
-        <h2 class="text-lg font-semibold tracking-wide  border-b border-gray-300 py-2 text-center">
-          DESTACADOS
-        </h2>
-        <div class="grid grid-cols-4 gap-6 mt-6 pt-10 pb-5">
-          <!-- Tarjetas -->
-          <div class="flex flex-col items-center">
-            <img
-              src="https://thumbs.dreamstime.com/b/casual-adecuado-para-la-vida-joven-linda-chica-con-estilo-de-ropa-calle-informal-aspecto-del-modelo-moda-y-comprar-mujeres-mujer-178115523.jpg"
-              alt="Moda"
-              class="rounded-lg shadow-lg w-[250px] h-[350px]"
-            />
-            <span class="mt-2 text-lg font-medium bg-green-200 text-gray-800 px-4 py-1 rounded-full">
-              Moda
-            </span>
-          </div>
-          <div class="flex flex-col items-center">
-            <img
-              src="https://i.pinimg.com/736x/17/14/13/1714139c275b5824dc3dbcab9b5344cc.jpg"
-              alt="campaña"
-              class="rounded-lg shadow-lg w-[250px] h-[350px]"
-            />
-            <span class="mt-2 text-lg font-medium bg-red-200 text-gray-800 px-4 py-1 rounded-full">
-              Navidad
-            </span>
-          </div>
-          <div class="flex flex-col items-center">
-            <img
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQovtkjkJutB5nsacgk6J4JVwcufYna315jYA&s"
-              alt="escuela"
-              class="rounded-lg shadow-lg w-[250px] h-[350px]"
-            />
-            <span class="mt-2 text-lg font-medium bg-yellow-200 text-gray-800 px-4 py-1 rounded-full">
-              Escuela
-            </span>
-          </div>
-          <div class="flex flex-col items-center">
-            <img
-              src="https://pibadesign.com/wp-content/uploads/2023/08/decoracion-sala.jpg"
-              alt="Hogar"
-              class="rounded-lg shadow-lg w-[250px] h-[350px]"
-            />
-            <span class="mt-2 text- font-medium bg-purple-200 text-gray-800 px-10 py-1 rounded-full">
-              Hogar
-            </span>
-          </div>
-        </div>
-        <div class="text-center mt-8">
-          <button class="bg-teal-700 text-white font-bold px-6 py-2 rounded shadow hover:bg-teal-800">
-            VER MÁS
-          </button>
-        </div>
-      </div>
+      <app-destacados></app-destacados>
     </div>
     
-
-  <!-- Sección de suscripción -->
-  <section class="bg-teal-800 text-white py-20 text-center mt-20">
-    <h1 class="text-3xl font-bold">ÚNETE A LA COMUNIDAD Y ACCEDE A DESCUENTOS EXCLUSIVOS</h1>
-    <p class="mt-3 text-lg">Sé el primero en enterarte de las novedades y accede a descuentos</p>
-    <form class="mt-6 flex justify-center">
-      <input type="email" placeholder="Escribe tu email aquí..."
-        class="px-4 py-2 rounded-l-lg focus:outline-none text-gray-700 w-64">
-      <button type="submit"
-        class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-r-lg font-semibold">ENVIAR</button>
-    </form>
-  </section>
-  
-  <!-- Sección de testimonios -->
-  <section class="py-12">
-    <h2 class="text-2xl font-bold text-center text-gray-700 mb-8">TESTIMONIOS</h2>
-    <div class="flex flex-wrap justify-center gap-6 max-w-5xl mx-auto">
-      <!-- Testimonio 1 -->
-      <div class="bg-white shadow-lg rounded-lg p-6 max-w-sm">
-        <p class="text-yellow-500 text-lg font-bold">★★★★★</p>
-        <p class="mt-3 text-gray-700"><strong>Sarah M.</strong></p>
-        <p class="mt-2 text-gray-600 text-sm">Me encantaron las prendas. Son tal como en las fotos y de muy buena calidad.
-          ¡Volveré a comprar seguro!</p>
-      </div>
-      <!-- Testimonio 2 -->
-      <div class="bg-white shadow-lg rounded-lg p-6 max-w-sm">
-        <p class="text-yellow-500 text-lg font-bold">★★★★★</p>
-        <p class="mt-3 text-gray-700"><strong>Alex K.</strong></p>
-        <p class="mt-2 text-gray-600 text-sm">La experiencia de compra fue rápida y sencilla. La ropa llegó a tiempo y el
-          material es excelente. ¡Muy recomendado!</p>
-      </div>
-      <!-- Testimonio 3 -->
-      <div class="bg-white shadow-lg rounded-lg p-6 max-w-sm">
-        <p class="text-yellow-500 text-lg font-bold">★★★★★</p>
-        <p class="mt-3 text-gray-700"><strong>James L.</strong></p>
-        <p class="mt-2 text-gray-600 text-sm">¡Increíble! El diseño y la comodidad de la prenda superaron mis
-          expectativas. Estoy encantada con mis nuevas adquisiciones.</p>
-      </div>
-    </div>
-  </section>
-
+    
+    <!-- Sección de suscripción -->
+    <app-suscripcion></app-suscripcion>
+    
+    <!-- Sección de testimonios -->
+    <app-testimonios></app-testimonios>
 
 
     <footer class="landing-footer">
