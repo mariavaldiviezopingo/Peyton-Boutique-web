@@ -9,4 +9,8 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   styleUrl: './header.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HeaderComponent {}
+export class HeaderComponent {
+  readonly message = '';
+  readonly isLogged = false;
+  navStyle = this.message ? 'top-6' : 'top-0';
+}
