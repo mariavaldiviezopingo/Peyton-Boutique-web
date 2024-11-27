@@ -1,12 +1,12 @@
 @if (this.message) {
 <div
-  class="fixed flex justify-center left-0 top-0 w-full z-50 bg-secondary text-white"
+  class="flex justify-center left-0 top-0 w-full z-50 bg-secondary text-white"
 >
   {{ this.message }}
 </div>
 }
 <nav
-  class="fixed flex items-center justify-between left-0 px-10 shadow-md w-full z-50 bg-white"
+  class=" flex items-center justify-between left-0 px-10 shadow-md w-full z-50 bg-white"
   [class]="this.navStyle"
 >
   <div class="flex items-center mr-3">
@@ -62,7 +62,7 @@
     </ul>
 
     @if (!isLogged) {
-    <button class="btn-primary h-10 w-44" aria-label="Iniciar sesión">
+    <button class="btn-primary h-10 w-44" aria-label="Iniciar sesión" routerLink='/login'>
       INICIAR SESIÓN
     </button>
     }@else {

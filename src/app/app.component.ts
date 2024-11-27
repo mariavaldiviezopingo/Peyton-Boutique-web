@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-<<<<<<< HEAD
 import { HeaderComponent } from './components';
-import { SignupComponent } from './public/signup/signup.component';
+import { LandingComponent } from './public/landing/landing.component';
 @Component({
   selector: 'app-root',
   standalone: true,
+<<<<<<< Updated upstream
   imports: [RouterOutlet, HeaderComponent, SignupComponent],
 =======
 import { LandingComponent } from './public/landing/landing.component'; // Importa el componente Landing
@@ -16,6 +16,9 @@ import { LandingComponent } from './public/landing/landing.component'; // Import
   standalone: true,
   imports: [RouterOutlet, LandingComponent],
 >>>>>>> 9bc3cd2 (nuevos cambios de luisa)
+=======
+  imports: [RouterOutlet, HeaderComponent, LandingComponent],
+>>>>>>> Stashed changes
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
