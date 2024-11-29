@@ -25,10 +25,11 @@
             "assets": [
               {
                 "glob": "**/*",
-                "input": "public"
+                "input": "src/assets",
+                "output": "assets"
               }
             ],
-            "styles": ["src/styles.css"],
+            "styles": ["src/styles.css", "node_modules/swiper/swiper-bundle.css"],
             "scripts": [],
             "server": "src/main.server.ts",
             "prerender": true,
@@ -86,7 +87,7 @@
                 "input": "public"
               }
             ],
-            "styles": ["src/styles.css"],
+            "styles": ["src/styles.css", "node_modules/swiper/swiper-bundle.css"],
             "scripts": []
           }
         }
@@ -94,10 +95,6 @@
     }
   },
   "cli": {
-<<<<<<< HEAD
-    "analytics": "268f9499-5c31-475e-823c-00692bb1b56e"
-=======
     "analytics": "f1048caa-1f76-4ee0-a998-144813c6a63c"
->>>>>>> 9bc3cd2 (nuevos cambios de luisa)
   }
 }
