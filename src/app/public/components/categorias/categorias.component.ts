@@ -1,39 +1,32 @@
-import { Component, AfterViewInit,ChangeDetectionStrategy } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import Swiper, { Navigation, Pagination } from 'swiper';
-
-// Importa los módulos necesarios de Swiper
-Swiper.use([Pagination]);
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { CommonModule } from '@angular/common'; // Importación necesaria para ngFor y ngIf
 
 @Component({
   selector: 'app-categorias',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule], // Importación de CommonModule
   templateUrl: './categorias.component.html',
-  styleUrl: './categorias.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  styleUrls: ['./categorias.component.css',], // Corrección en styleUrls (plural)
+  changeDetection: ChangeDetectionStrategy.Default
 })
-export class CategoriasComponent implements AfterViewInit {
-  slides: string[] = ['Slide 1', 'Slide 2', 'Slide 3', 'Slide 4', 'Slide 5', 'Slide 6'];
+export class CategoriasComponent {
+  slides = [
+    { image: 'https://images.unsplash.com/photo-1663970206579-c157cba7edda?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8Zm9uZG8lMjBkZSUyMHBhbnRhbGxhJTIwcGFyYSUyMHBjfGVufDB8fDB8fHww', alt: 'Slide 1' },
+    { image: 'https://fotografias.lasexta.com/clipping/cmsimages01/2022/10/06/89BA66AD-53C3-4AFF-8CF7-37175A651B59/fondos-pantalla_98.jpg?crop=1300,731,x0,y19&width=1900&height=1069&optimize=high&format=webply', alt: 'Slide 2' },
+    { image: 'https://marketplace.canva.com/EAFoe6hiEk4/1/0/1600w/canva-fondo-de-pantalla-floral-org%C3%A1nico-rosa-GJjE-IgT0Pg.jpg', alt: 'Slide 3' },
+  ];
+  
+  currentSlide = 0;
 
-  ngAfterViewInit(): void {
-    new Swiper('.centered-slide-carousel', {
-      centeredSlides: true,
-      loop: true,
-      spaceBetween: 0,
-      slideToClickedSlide: true,
-      pagination: {
-        el: '.centered-slide-carousel .swiper-pagination',
-        clickable: true,
-      },
-      breakpoints: {
-        1920: { slidesPerView: 4, spaceBetween: 30 },
-        1440: { slidesPerView: 3, spaceBetween: 20 }, // Nuevo breakpoint
-        1280: { slidesPerView: 3, spaceBetween: 15 }, // Nuevo breakpoint
-        1028: { slidesPerView: 2, spaceBetween: 10 },
-        768: { slidesPerView: 2, spaceBetween: 8 },  // Nuevo breakpoint
-        990: { slidesPerView: 1, spaceBetween: 0 },
-      }
-    });
+  selectSlide(index: number): void {
+    this.currentSlide = index;
+  }
+
+  prevSlide(): void {
+    this.currentSlide = (this.currentSlide - 1 + this.slides.length) % this.slides.length;
+  }
+
+  nextSlide(): void {
+    this.currentSlide = (this.currentSlide + 1) % this.slides.length;
   }
 }
