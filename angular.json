@@ -25,11 +25,10 @@
             "assets": [
               {
                 "glob": "**/*",
-                "input": "src/assets",
-                "output": "assets"
+                "input": "public"
               }
             ],
-            "styles": ["src/styles.css", "node_modules/swiper/swiper-bundle.css"],
+            "styles": ["src/styles.css"],
             "scripts": [],
             "server": "src/main.server.ts",
             "prerender": true,
@@ -87,7 +86,7 @@
                 "input": "public"
               }
             ],
-            "styles": ["src/styles.css", "node_modules/swiper/swiper-bundle.css"],
+            "styles": ["src/styles.css"],
             "scripts": []
           }
         }
@@ -95,6 +94,6 @@
     }
   },
   "cli": {
-    "analytics": "f1048caa-1f76-4ee0-a998-144813c6a63c"
+    "analytics": "4eb4ff8d-04e6-4013-8d06-e28220618405"
   }
 }
