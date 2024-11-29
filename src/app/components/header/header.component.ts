@@ -14,7 +14,7 @@ import { ElementRef, HostListener, inject } from '@angular/core';
 })
 export class HeaderComponent {
   readonly message = '';
-  readonly isLogged = true;
+  readonly isLogged = false;
   navPosition = this.message ? 'top-6' : 'top-0';
   menuPosition = this.message ? 'top-[6.5rem]' : 'top-20';
   menuVisible = false;
