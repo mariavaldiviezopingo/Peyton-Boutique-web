@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <div class="login-container">
     <!-- Columna Izquierda -->
     <div class="login-form">
@@ -30,3 +31,85 @@
     </div>
   </div>
   
+=======
+<div class="flex pt-20 h-screen" role="main">
+  <div
+    class="flex flex-col md:justify-center mt-4 items-center p-1 space-y-3 w-full md:w-1/2"
+  >
+    <header class="flex flex-col items-center">
+      <img
+        ngSrc="images/logo_peyton.webp"
+        alt="Logo Peyton Boutique"
+        width="150"
+        height="150"
+        class="h-32 w-32 md:h-40 md:w-40"
+        priority
+      />
+      <h2 class="font-semibold text-center md:text-lg">
+        Inicia Sesión para comprar
+      </h2>
+    </header>
+
+    <form class="flex flex-col items-center justify-center space-y-1 w-full">
+      <app-input
+        [control]="$any(loginForm().get('email'))"
+        label="Correo"
+        placeholder="Ingrese el email"
+        type="email"
+        errorMessage="El email es requerido"
+        class="w-5/6"
+      ></app-input>
+
+      <app-input
+        [control]="$any(loginForm().get('password'))"
+        label="Contraseña"
+        placeholder="Ingrese la contraseña"
+        type="password"
+        errorMessage="La contraseña es requerida"
+        class="w-5/6"
+      ></app-input>
+
+      <button
+        type="submit"
+        class="btn-secondary w-36 h-10 text-sm md:w-48 md:h-12 md:text-base"
+      >
+        Iniciar Sesión
+      </button>
+    </form>
+
+    <div class="flex flex-col items-center mt-3 space-y-2">
+      <div class="flex">
+        <p class="mr-1 text-sm md:text-base">¿Eres nuevo?</p>
+        <a
+          class="text-secondary hover:text-secondary-dark text-sm md:text-base"
+          href="" routerLink='register'>
+          Crea una cuenta</a>
+        
+      </div>
+      <p class="md:text-xl">-O-</p>
+      <button
+        class="border border-secondary flex items-center justify-center h-10 px-5 py-3 w-72 rounded-lg hover:border-secondary-dark hover:bg-gray-100 md:h-12"
+      >
+        <img
+          ngSrc="icons/google.icon.svg"
+          alt="Google Icon"
+          width="25"
+          height="25"
+          class="mr-2"
+        />
+        <span class="ml-3 font-medium text-sm md:text-base"
+          >Inicia Sesión con Google</span
+        >
+      </button>
+    </div>
+  </div>
+  <img
+    ngSrc="images/login_image.webp"
+    alt="Imagen de formulario de inicio de sesión"
+    width="980"
+    height="875"
+    priority
+    class="rounded-l-lg items-center-center h-auto w-1/2 hidden md:flex object-cover"
+  />
+</div>
+>>>>>>> 87dc97cc6cfccf12211d0e11858e27ec7c84330c
