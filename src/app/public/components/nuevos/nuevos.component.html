@@ -1,0 +1,42 @@
+<div class="p-6">
+    <h2 class="text-2xl font-bold mb-6">AÑADIDOS RECIENTEMENTE</h2>
+    <div class="grid grid-cols-1 lg:grid-cols-5 gap-6">
+      <!-- Banner -->
+      <div class="bg-green-100 p-6 rounded-lg flex flex-col justify-center">
+        <h3 class="text-2xl font-semibold text-green-900 mb-4">Bring nature into your home</h3>
+        <button class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">Shop Now →</button>
+      </div>
+      
+      <!-- Tarjeta de producto -->
+      <ng-container *ngFor="let product of products">
+        <div class="bg-white p-4 rounded-lg shadow-md">
+          <div class="relative">
+            <img [src]="product.image" alt="Product Image" class="w-full h-auto rounded">
+            <div *ngIf="product.discount" class="absolute top-2 left-2 bg-green-500 text-white px-2 py-1 text-sm rounded">
+              {{product.discount}}%
+            </div>
+            <div *ngIf="product.new" class="absolute top-2 right-2 bg-blue-500 text-white px-2 py-1 text-sm rounded">
+              New
+            </div>
+            <div *ngIf="product.hot" class="absolute top-2 right-2 bg-red-500 text-white px-2 py-1 text-sm rounded">
+              Hot
+            </div>
+          </div>
+          <div class="mt-4">
+            <p class="text-gray-500 text-sm">{{product.category}}</p>
+            <h4 class="font-semibold text-lg">{{product.name}}</h4>
+            <div class="flex items-center mt-2">
+              <span class="text-green-600 font-bold text-xl mr-2">{{product.price | currency}}</span>
+              <span class="text-gray-400 line-through">{{product.originalPrice | currency}}</span>
+            </div>
+            <p class="text-sm text-gray-600 mt-1">Sold: {{product.sold}} / {{product.total}}</p>
+            <div class="w-full bg-gray-200 rounded-full h-2.5 mt-2">
+              <div class="bg-green-500 h-2.5 rounded-full" [style.width.%]="(product.sold / product.total) * 100"></div>
+            </div>
+            <button class="mt-4 w-full bg-green-600 text-white py-2 rounded hover:bg-green-700">Add to cart</button>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+  

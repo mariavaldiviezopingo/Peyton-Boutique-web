@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, ViewChild  } from '@angular/core';
 import { CommonModule } from '@angular/common'; // Importación necesaria para ngFor y ngIf
 
 @Component({
@@ -10,23 +10,22 @@ import { CommonModule } from '@angular/common'; // Importación necesaria para n
   changeDetection: ChangeDetectionStrategy.Default
 })
 export class CategoriasComponent {
-  slides = [
-    { image: 'https://images.unsplash.com/photo-1663970206579-c157cba7edda?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8Zm9uZG8lMjBkZSUyMHBhbnRhbGxhJTIwcGFyYSUyMHBjfGVufDB8fDB8fHww', alt: 'Slide 1' },
-    { image: 'https://fotografias.lasexta.com/clipping/cmsimages01/2022/10/06/89BA66AD-53C3-4AFF-8CF7-37175A651B59/fondos-pantalla_98.jpg?crop=1300,731,x0,y19&width=1900&height=1069&optimize=high&format=webply', alt: 'Slide 2' },
-    { image: 'https://marketplace.canva.com/EAFoe6hiEk4/1/0/1600w/canva-fondo-de-pantalla-floral-org%C3%A1nico-rosa-GJjE-IgT0Pg.jpg', alt: 'Slide 3' },
+  categorias = [
+    { nombre: 'VESTIDOS', icon: 'assets/icons/vestidos.svg', color: 'bg-green-100' },
+    { nombre: 'POLOS', icon: 'assets/icons/polos.svg', color: 'bg-blue-100' },
+    { nombre: 'CALZADO', icon: 'assets/icons/calzado.svg', color: 'bg-orange-100' },
+    { nombre: 'ABRIGOS', icon: 'assets/icons/abrigos.svg', color: 'bg-purple-100' },
+    { nombre: 'JUGUETES', icon: 'assets/icons/juguetes.svg', color: 'bg-yellow-100' },
+    { nombre: 'BELLEZA', icon: 'assets/icons/belleza.svg', color: 'bg-red-100' },
   ];
-  
-  currentSlide = 0;
 
-  selectSlide(index: number): void {
-    this.currentSlide = index;
+  @ViewChild('carousel') carousel!: ElementRef;
+
+  scrollLeft() {
+    this.carousel.nativeElement.scrollBy({ left: -200, behavior: 'smooth' });
   }
 
-  prevSlide(): void {
-    this.currentSlide = (this.currentSlide - 1 + this.slides.length) % this.slides.length;
-  }
-
-  nextSlide(): void {
-    this.currentSlide = (this.currentSlide + 1) % this.slides.length;
+  scrollRight() {
+    this.carousel.nativeElement.scrollBy({ left: 200, behavior: 'smooth' });
   }
 }
