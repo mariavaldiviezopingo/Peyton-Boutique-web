@@ -15,7 +15,7 @@ export class ProductosComponent {
     {
       nombre: 'Set de Brochas 8 pc',
       precio: 'S/ 59.90',
-      imagen: 'https://www.maybelline.es/-/media/project/loreal/brand-sites/mny/emea/iberic/tips-and-trends/productos-basicos-de-maquillaje/productos-basicos-de-maquillaje_0.jpg?la=es-es&h=349&w=624&rev=50d56cb1cf11407882d815e667fc3bbc&hash=2B10585742F38F4577E56E6F0BD5AEAE',
+      imagen: '',
     },
     {
       nombre: 'Set de Maquillaje Completo',
