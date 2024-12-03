@@ -1,4 +1,6 @@
-<div class="h-[750px] relative w-full flex flex-col-reverse md:flex-row items-center justify-between p-8 md:p-16 lg:p-32 overflow-hidden">
+<div
+  class="h-[750px] relative w-full flex flex-col-reverse md:flex-row items-center justify-between p-8 md:p-16 lg:p-32 overflow-hidden"
+>
   <!-- Indicadores -->
   <div class="absolute inset-x-0 bottom-4 flex justify-center space-x-3 z-20">
     <button
@@ -25,32 +27,35 @@
     </div>
   </div>
 
+  <!-- Contenido del Banner -->
+  <div
+    class="relative z-40 text-center md:text-left md:max-w-full bg-black/50 p-6 rounded-lg flex flex-col md:flex-row items-center justify-center w-full mt-0"
+  >
+    <!-- Texto del Banner -->
+    <div class="md:w-1/2 text-center md:text-left">
+      <h1 class="text-3xl md:text-5xl font-bold leading-relaxed text-white">
+        DESCUBRE PRODUCTOS
+        <span class="bg-teal-500 text-white px-2">ÚNICOS</span>
+      </h1>
+      <button
+        class="mt-8 bg-teal-800 text-white px-10 py-5 w-[200px] rounded shadow-lg hover:bg-teal-500 transition"
+      >
+        Compra Ahora
+      </button>
+    </div>
 
-<!-- Contenido del Banner -->
-<div class="relative z-40 text-center md:text-left md:max-w-full bg-black/50 p-6 rounded-lg flex flex-col md:flex-row items-center justify-center w-full mt-0">
-  <!-- Texto del Banner -->
-<div class="md:w-1/2 text-center md:text-left">
-  <h1 class="text-3xl md:text-5xl font-bold leading-relaxed text-white ">
-    DESCUBRE 
-    PRODUCTOS 
-    <span class="bg-teal-500 text-white px-2">ÚNICOS</span>
-  </h1>
-  <button class="mt-8 bg-teal-800 text-white px-10 py-5 w-[200px] rounded shadow-lg hover:bg-teal-500 transition">
-    Compra Ahora
-  </button>
-</div>
-
-  <!-- Imagen lateral (visible en pantallas medianas en adelante) -->
-  <div class="md:block flex justify-center">
-    <div class="inline-bloc">
-      <img src="images/logo-peyton-white.webp" alt="Logo Peyton" class="max-w-full md:max-w-sm lg:w-[500px] w-[250px]">
+    <!-- Imagen lateral (visible en pantallas medianas en adelante) -->
+    <div class="md:block flex justify-center">
+      <div class="inline-bloc">
+        <img
+          src="images/logo_peyton_white.webp"
+          alt="Logo Peyton"
+          class="max-w-full md:max-w-sm lg:w-[500px] w-[250px]"
+        />
+      </div>
     </div>
   </div>
-</div>
 
-
-
-  
   <!-- Controles -->
   <button
     (click)="prevSlide()"
@@ -65,4 +70,3 @@
     &#x203A;
   </button>
 </div>
-
