@@ -1,0 +1,63 @@
+<h1 class="mt-32 mb-10 text-center text-3xl font-bold">CATÁLOGO</h1>
+
+<div class="h-auto mb-32">
+  <div class="flex">
+    <!-- Sidebar de filtros -->
+    <aside class="w-1/4 p-4 border-r">
+      <h2 class="text-xl font-bold mb-4">Ordenar por</h2>
+      <select class="mb-6 p-2 border rounded w-full">
+        <option>Precio</option>
+        <option>Popularidad</option>
+        <option>Novedades</option>
+      </select>
+
+      <h2 class="text-lg font-bold mb-2">Categoría</h2>
+      <ul class="mb-4">
+        <li><input type="checkbox" class="mr-2"> Camisas</li>
+        <li><input type="checkbox" class="mr-2"> Pantalones</li>
+      </ul>
+
+      <h2 class="text-lg font-bold mb-2">Marca</h2>
+      <ul class="mb-4">
+        <li><input type="checkbox" class="mr-2"> Marca A</li>
+        <li><input type="checkbox" class="mr-2"> Marca B</li>
+      </ul>
+
+      <h2 class="text-lg font-bold mb-2">Precio</h2>
+      <input type="range" min="0" max="100" class="w-full">
+    </aside>
+
+    <!-- Contenedor de productos -->
+    <div class="w-3/4">
+      <div class="grid grid-cols-4 gap-4 p-4">
+        <div 
+          *ngFor="let product of paginatedProducts" 
+          class="border rounded-lg p-4 flex flex-col items-center bg-gray-100"
+        >
+          <img [src]="product.imageUrl" alt="{{product.name}}" class="w-full h-40 object-cover">
+          <h3 class="text-lg font-bold mt-2">{{ product.name }}</h3>
+          <p class="text-gray-600 mt-1">{{ product.price | currency }}</p>
+        </div>
+      </div>
+
+      <!-- Paginación -->
+      <div class="flex justify-center mt-8 space-x-4">
+        <button 
+          (click)="prevPage()" 
+          [disabled]="currentPage === 1" 
+          class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400 disabled:opacity-50"
+        >
+          Anterior
+        </button>
+        <button 
+          (click)="nextPage()" 
+          [disabled]="currentPage === totalPages" 
+          class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400 disabled:opacity-50"
+        >
+          Siguiente
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+

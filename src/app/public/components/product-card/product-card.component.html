@@ -1,0 +1,5 @@
+<div class="border rounded-lg p-4 flex flex-col items-center">
+  <img [src]="product.imageUrl" alt="{{product.name}}" class="w-full h-40 object-cover">
+  <h3 class="text-lg font-bold mt-2">{{product.name}}</h3>
+  <p class="text-gray-600 mt-1">{{product.price | currency}}</p>
+</div>
