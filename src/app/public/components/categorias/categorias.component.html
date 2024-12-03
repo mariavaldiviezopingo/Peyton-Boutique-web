@@ -1,3 +1,45 @@
-<div class="w-full relative mt-20">
-  categorias
+<div class="relative w-full overflow-hidden px-6 sm:px-12 lg:px-20 py-10 sm:py-16 lg:py-20">
+  <h2 class="text-lg sm:text-xl lg:text-2xl font-bold mb-4 text-center lg:text-left">
+    CATEGORIAS
+  </h2>
+
+  <div class="flex items-center">
+    <!-- Flecha izquierda -->
+    <button
+      class="p-2 text-gray-600 hover:text-black transition-colors duration-300 disabled:opacity-50"
+      (click)="scrollLeft()"
+      [disabled]="isScrollLeftDisabled"
+      aria-label="Scroll left"
+    >
+      &#8592;
+    </button>
+
+    <!-- Carrusel -->
+    <div
+      class="flex gap-4 overflow-x-auto scroll-smooth no-scrollbar w-full"
+      #carousel
+    >
+      <div
+        *ngFor="let categoria of categorias"
+        class="flex flex-col items-center justify-center basis-[90%] sm:basis-[48%] md:basis-[30%] lg:basis-[22%] flex-shrink-0 h-60 sm:h-72 lg:h-80 rounded-lg shadow-md hover:shadow-lg hover:scale-105 transition-transform duration-300 ease-in-out"
+        [ngClass]="categoria.color"
+      >
+        <img [src]="categoria.icon" alt="{{ categoria.nombre }}" class="w-12 h-12 sm:w-16 sm:h-16" />
+        <p class="mt-2 text-center text-sm sm:text-base lg:text-lg font-medium">
+          {{ categoria.nombre }}
+        </p>
+      </div>
+    </div>
+
+    <!-- Flecha derecha -->
+    <button
+      class="p-2 text-gray-600 hover:text-black transition-colors duration-300 disabled:opacity-50"
+      (click)="scrollRight()"
+      [disabled]="isScrollRightDisabled"
+      aria-label="Scroll right"
+    >
+      &#8594;
+    </button>
+  </div>
 </div>
+

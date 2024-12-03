@@ -1,39 +1,46 @@
-import { Component, AfterViewInit,ChangeDetectionStrategy } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import Swiper, { Navigation, Pagination } from 'swiper';
-
-// Importa los módulos necesarios de Swiper
-Swiper.use([Pagination]);
+import {Component, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
+import { CommonModule } from '@angular/common'; // Importación para standalone si es necesario
 
 @Component({
   selector: 'app-categorias',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule], 
   templateUrl: './categorias.component.html',
-  styleUrl: './categorias.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  styleUrls: ['./categorias.component.css',],
 })
 export class CategoriasComponent implements AfterViewInit {
-  slides: string[] = ['Slide 1', 'Slide 2', 'Slide 3', 'Slide 4', 'Slide 5', 'Slide 6'];
+  @ViewChild('carousel') carousel!: ElementRef<HTMLDivElement>;
+  isScrollLeftDisabled = true;
+  isScrollRightDisabled = false;
 
-  ngAfterViewInit(): void {
-    new Swiper('.centered-slide-carousel', {
-      centeredSlides: true,
-      loop: true,
-      spaceBetween: 0,
-      slideToClickedSlide: true,
-      pagination: {
-        el: '.centered-slide-carousel .swiper-pagination',
-        clickable: true,
-      },
-      breakpoints: {
-        1920: { slidesPerView: 4, spaceBetween: 30 },
-        1440: { slidesPerView: 3, spaceBetween: 20 }, // Nuevo breakpoint
-        1280: { slidesPerView: 3, spaceBetween: 15 }, // Nuevo breakpoint
-        1028: { slidesPerView: 2, spaceBetween: 10 },
-        768: { slidesPerView: 2, spaceBetween: 8 },  // Nuevo breakpoint
-        990: { slidesPerView: 1, spaceBetween: 0 },
-      }
-    });
+  categorias = [
+    { nombre: 'Ropa', icon: 'icons/shopping_cart.icon.svg', color: 'bg-blue-100' },
+    { nombre: 'Zapatos', icon: 'icono2.png', color: 'bg-green-100' },
+    { nombre: 'Accesorios', icon: 'icono3.png', color: 'bg-red-100' },
+    { nombre: 'Accesorios', icon: 'icono3.png', color: 'bg-red-100' },
+    { nombre: 'Accesorios', icon: 'icono3.png', color: 'bg-red-100' },
+    { nombre: 'Accesorios', icon: 'icono3.png', color: 'bg-red-100' },
+    { nombre: 'Accesorios', icon: 'icono3.png', color: 'bg-red-100' },
+
+  ];
+
+  ngAfterViewInit() {
+    this.updateButtonState();
+    this.carousel.nativeElement.addEventListener('scroll', () => this.updateButtonState());
+  }
+
+  scrollLeft() {
+    this.carousel.nativeElement.scrollBy({ left: -this.carousel.nativeElement.clientWidth, behavior: 'smooth' });
+  }
+
+  scrollRight() {
+    this.carousel.nativeElement.scrollBy({ left: this.carousel.nativeElement.clientWidth, behavior: 'smooth' });
+  }
+
+  updateButtonState() {
+    const scrollLeft = this.carousel.nativeElement.scrollLeft;
+    const maxScrollLeft = this.carousel.nativeElement.scrollWidth - this.carousel.nativeElement.clientWidth;
+    this.isScrollLeftDisabled = scrollLeft <= 0;
+    this.isScrollRightDisabled = scrollLeft >= maxScrollLeft;
   }
 }

@@ -1,0 +1,25 @@
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-20">
+    <div
+      *ngFor="let producto of productos"
+      class="relative rounded-lg overflow-hidden shadow-lg group"
+    >
+      <!-- Imagen de fondo -->
+      <img
+        src="https://www.maybelline.es/-/media/project/loreal/brand-sites/mny/emea/iberic/tips-and-trends/productos-basicos-de-maquillaje/productos-basicos-de-maquillaje_0.jpg?la=es-es&h=349&w=624&rev=50d56cb1cf11407882d815e667fc3bbc&hash=2B10585742F38F4577E56E6F0BD5AEAE"
+        alt="{{ producto.nombre }}"
+        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+      />
+  
+      <!-- Superposición oscura al hacer hover -->
+      <div
+        class="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-center items-center text-white"
+      >
+        <h3 class="text-lg font-bold">{{ producto.nombre }}</h3>
+        <p class="text-sm">{{ producto.precio }}</p>
+        <button class="mt-4 px-4 py-2 bg-white text-black font-semibold rounded-full">
+          COMPRAR AHORA
+        </button>
+      </div>
+    </div>
+  </div>
+  

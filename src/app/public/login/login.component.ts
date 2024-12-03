@@ -9,28 +9,23 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { InputComponent } from '@app/components';
 import { RouterModule } from '@angular/router'; // Importa RouterModule
 
-interface SignupForm {
-  name: FormControl<string>;
+interface LoginForm {
   email: FormControl<string>;
   password: FormControl<string>;
 }
 
 @Component({
-  selector: 'app-signup',
+  selector: 'app-login',
   standalone: true,
-  imports: [NgOptimizedImage, InputComponent, RouterModule],
-  templateUrl: './signup.component.html',
-  styleUrl: './signup.component.css',
+  imports: [InputComponent, NgOptimizedImage, RouterModule ],
+  templateUrl: './login.component.html',
+  styleUrl: './login.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SignupComponent {
-  signupForm: Signal<FormGroup> = computed(
+export class LoginComponent {
+  loginForm: Signal<FormGroup> = computed(
     () =>
-      new FormGroup<SignupForm>({
-        name: new FormControl('', {
-          nonNullable: true,
-          validators: [Validators.required],
-        }),
+      new FormGroup<LoginForm>({
         email: new FormControl('', {
           nonNullable: true,
           validators: [Validators.required, Validators.email],

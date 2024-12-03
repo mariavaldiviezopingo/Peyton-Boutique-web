@@ -1,30 +1,68 @@
-<div class="relative w-full h-[400px] md:h-[720px] bg-gray-50 flex flex-col md:flex-row items-center justify-between p-8 md:p-16 lg:p-32 overflow-hidden">
-  <!-- Carrusel de Imágenes de Fondo -->
-  <div class="absolute inset-0 flex bg-black">
-    <div class="w-full h-full flex flex-col justify-center items-center bg-cover bg-center animate-carousel">
-      <img src="https://blog.orange.es/wp-content/uploads/sites/4/2024/03/fondos-de-pantalla-3d-paisaje.jpg" 
-           class="w-full h-full object-cover absolute top-0 left-0" />
-      <img src="https://img.freepik.com/foto-gratis/paisaje-natural-lavanda-digital_23-2150538378.jpg" 
-           class="w-full h-full object-cover absolute top-0 left-0 opacity-0" />
-      <img src="https://png.pngtree.com/background/20230519/original/pngtree-landscape-wallpaper-picture-image_2666171.jpg" 
-           class="w-full h-full object-cover absolute top-0 left-0 opacity-0" />
+<div class="h-[750px] relative w-full flex flex-col-reverse md:flex-row items-center justify-between p-8 md:p-16 lg:p-32 overflow-hidden">
+  <!-- Indicadores -->
+  <div class="absolute inset-x-0 bottom-4 flex justify-center space-x-3 z-20">
+    <button
+      *ngFor="let _ of slides; let i = index"
+      (click)="selectSlide(i)"
+      [class.bg-teal-500]="currentSlide === i"
+      class="w-4 h-4 bg-gray-300 rounded-full transition-colors duration-300"
+    ></button>
+  </div>
+
+  <!-- Diapositivas -->
+  <div class="absolute inset-0 w-full h-full z-10 overflow-hidden">
+    <div
+      *ngFor="let slide of slides; let i = index"
+      class="absolute inset-0 flex items-center justify-center transition-opacity duration-700"
+      [class.opacity-100]="currentSlide === i"
+      [class.opacity-0]="currentSlide !== i"
+    >
+      <img
+        [src]="slide.image"
+        [alt]="slide.alt"
+        class="w-full h-full object-cover"
+      />
     </div>
   </div>
 
-  <!-- Contenido del Banner -->
-  <div class="relative text-left z-10">
-    <h1 class="text-4xl md:text-5xl font-bold leading-tight text-white">
-      DESCUBRE <br />
-      PRODUCTOS <br />
-      <span class="bg-teal-500 text-white px-2">ÚNICOS</span>
-    </h1>
-    <button class="mt-6 bg-teal-700 text-white px-6 py-3 rounded shadow-lg hover:bg-teal-800 transition">
-      Compra Ahora
-    </button>
-  </div>
 
-  <!-- Imagen -->
-  <div class="z-10 hidden md:block">
-    <img  src="images/logo-peyton-white.webp">
+<!-- Contenido del Banner -->
+<div class="relative z-40 text-center md:text-left md:max-w-full bg-black/50 p-6 rounded-lg flex flex-col md:flex-row items-center justify-center w-full mt-0">
+  <!-- Texto del Banner -->
+<div class="md:w-1/2 text-center md:text-left">
+  <h1 class="text-3xl md:text-5xl font-bold leading-relaxed text-white ">
+    DESCUBRE 
+    PRODUCTOS 
+    <span class="bg-teal-500 text-white px-2">ÚNICOS</span>
+  </h1>
+  <button class="mt-8 bg-teal-800 text-white px-10 py-5 w-[200px] rounded shadow-lg hover:bg-teal-500 transition">
+    Compra Ahora
+  </button>
+</div>
+
+  <!-- Imagen lateral (visible en pantallas medianas en adelante) -->
+  <div class="md:block flex justify-center">
+    <div class="inline-bloc">
+      <img src="images/logo-peyton-white.webp" alt="Logo Peyton" class="max-w-full md:max-w-sm lg:w-[500px] w-[250px]">
+    </div>
   </div>
 </div>
+
+
+
+  
+  <!-- Controles -->
+  <button
+    (click)="prevSlide()"
+    class="absolute top-1/2 left-4 transform -translate-y-1/2 bg-black/50 text-white rounded-full p-2 hover:bg-black z-40"
+  >
+    &#x2039;
+  </button>
+  <button
+    (click)="nextSlide()"
+    class="absolute top-1/2 right-4 transform -translate-y-1/2 bg-black/50 text-white rounded-full p-2 hover:bg-black z-40"
+  >
+    &#x203A;
+  </button>
+</div>
+

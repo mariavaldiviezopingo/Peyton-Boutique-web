@@ -1,0 +1,36 @@
+<div class="p-6">
+    <h2 class="text-2xl font-bold mb-6">OFERTAS DEL DÍA</h2>
+  
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div
+        *ngFor="let oferta of ofertas"
+        class="border rounded-lg overflow-hidden shadow-lg bg-white"
+      >
+        <img [src]="oferta.imagen" alt="{{ oferta.nombre }}" class="w-full h-40 object-cover" />
+  
+        <!-- Temporizador -->
+        <div class="flex justify-between px-4 py-2 bg-gray-100 text-center">
+          <div *ngFor="let time of oferta.timer" class="flex flex-col">
+            <span class="text-lg font-bold">{{ time.value }}</span>
+            <span class="text-xs">{{ time.label }}</span>
+          </div>
+        </div>
+  
+        <!-- Detalles de la oferta -->
+        <div class="p-4">
+          <h3 class="text-lg font-semibold">{{ oferta.nombre }}</h3>
+          <p class="text-sm text-gray-500">By {{ oferta.marca }}</p>
+          <div class="flex items-center justify-between mt-4">
+            <span class="text-green-600 font-bold text-lg">{{ oferta.precioActual }}</span>
+            <span class="text-sm line-through text-gray-400">{{ oferta.precioAnterior }}</span>
+          </div>
+          <button
+            class="mt-4 w-full bg-green-500 text-white py-2 rounded-md hover:bg-green-600"
+          >
+            Add
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  

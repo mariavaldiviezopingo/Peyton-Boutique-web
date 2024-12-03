@@ -16,7 +16,7 @@
 
 
 .btn-primary {
-  @apply bg-primary flex items-center justify-center px-5 py-3 rounded-lg text-white;
+  @apply bg-primary flex items-center justify-center rounded-lg font-medium text-white;
 }
 
 .btn-primary:hover {
@@ -24,7 +24,7 @@
 }
 
 .btn-secondary {
-  @apply bg-secondary flex items-center justify-center px-5 py-3 rounded-lg text-white;
+  @apply bg-secondary flex items-center justify-center rounded-lg font-medium text-white;
 }
 
 .btn-secondary:hover {
