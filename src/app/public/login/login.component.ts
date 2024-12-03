@@ -6,8 +6,8 @@ import {
   Signal,
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { RouterLink } from '@angular/router';
 import { InputComponent } from '@app/components';
-import { RouterModule } from '@angular/router'; // Importa RouterModule
 
 interface LoginForm {
   email: FormControl<string>;
@@ -17,7 +17,7 @@ interface LoginForm {
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [InputComponent, NgOptimizedImage, RouterModule ],
+  imports: [InputComponent, NgOptimizedImage, RouterLink],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
