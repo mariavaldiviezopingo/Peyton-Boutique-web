@@ -1,31 +1,46 @@
-import { ChangeDetectionStrategy, Component, ElementRef, ViewChild  } from '@angular/core';
-import { CommonModule } from '@angular/common'; // Importación necesaria para ngFor y ngIf
+import {Component, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
+import { CommonModule } from '@angular/common'; // Importación para standalone si es necesario
 
 @Component({
   selector: 'app-categorias',
   standalone: true,
-  imports: [CommonModule], // Importación de CommonModule
+  imports: [CommonModule], 
   templateUrl: './categorias.component.html',
-  styleUrls: ['./categorias.component.css',], // Corrección en styleUrls (plural)
-  changeDetection: ChangeDetectionStrategy.Default
+  styleUrls: ['./categorias.component.css',],
 })
-export class CategoriasComponent {
+export class CategoriasComponent implements AfterViewInit {
+  @ViewChild('carousel') carousel!: ElementRef<HTMLDivElement>;
+  isScrollLeftDisabled = true;
+  isScrollRightDisabled = false;
+
   categorias = [
-    { nombre: 'VESTIDOS', icon: 'assets/icons/vestidos.svg', color: 'bg-green-100' },
-    { nombre: 'POLOS', icon: 'assets/icons/polos.svg', color: 'bg-blue-100' },
-    { nombre: 'CALZADO', icon: 'assets/icons/calzado.svg', color: 'bg-orange-100' },
-    { nombre: 'ABRIGOS', icon: 'assets/icons/abrigos.svg', color: 'bg-purple-100' },
-    { nombre: 'JUGUETES', icon: 'assets/icons/juguetes.svg', color: 'bg-yellow-100' },
-    { nombre: 'BELLEZA', icon: 'assets/icons/belleza.svg', color: 'bg-red-100' },
+    { nombre: 'Ropa', icon: 'icons/shopping_cart.icon.svg', color: 'bg-blue-100' },
+    { nombre: 'Zapatos', icon: 'icono2.png', color: 'bg-green-100' },
+    { nombre: 'Accesorios', icon: 'icono3.png', color: 'bg-red-100' },
+    { nombre: 'Accesorios', icon: 'icono3.png', color: 'bg-red-100' },
+    { nombre: 'Accesorios', icon: 'icono3.png', color: 'bg-red-100' },
+    { nombre: 'Accesorios', icon: 'icono3.png', color: 'bg-red-100' },
+    { nombre: 'Accesorios', icon: 'icono3.png', color: 'bg-red-100' },
+
   ];
 
-  @ViewChild('carousel') carousel!: ElementRef;
+  ngAfterViewInit() {
+    this.updateButtonState();
+    this.carousel.nativeElement.addEventListener('scroll', () => this.updateButtonState());
+  }
 
   scrollLeft() {
-    this.carousel.nativeElement.scrollBy({ left: -200, behavior: 'smooth' });
+    this.carousel.nativeElement.scrollBy({ left: -this.carousel.nativeElement.clientWidth, behavior: 'smooth' });
   }
 
   scrollRight() {
-    this.carousel.nativeElement.scrollBy({ left: 200, behavior: 'smooth' });
+    this.carousel.nativeElement.scrollBy({ left: this.carousel.nativeElement.clientWidth, behavior: 'smooth' });
+  }
+
+  updateButtonState() {
+    const scrollLeft = this.carousel.nativeElement.scrollLeft;
+    const maxScrollLeft = this.carousel.nativeElement.scrollWidth - this.carousel.nativeElement.clientWidth;
+    this.isScrollLeftDisabled = scrollLeft <= 0;
+    this.isScrollRightDisabled = scrollLeft >= maxScrollLeft;
   }
 }

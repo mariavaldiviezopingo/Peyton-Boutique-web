@@ -3,8 +3,8 @@
     <div class="grid grid-cols-1 lg:grid-cols-5 gap-6">
       <!-- Banner -->
       <div class="bg-green-100 p-6 rounded-lg flex flex-col justify-center">
-        <h3 class="text-2xl font-semibold text-green-900 mb-4">Bring nature into your home</h3>
-        <button class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">Shop Now →</button>
+        <h3 class="text-2xl font-semibold text-green-900 mb-4">Lo más nuevo en tienda ya!</h3>
+        <button class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">Comprar Ahora →</button>
       </div>
       
       <!-- Tarjeta de producto -->
@@ -16,10 +16,10 @@
               {{product.discount}}%
             </div>
             <div *ngIf="product.new" class="absolute top-2 right-2 bg-blue-500 text-white px-2 py-1 text-sm rounded">
-              New
+              Nuevo
             </div>
             <div *ngIf="product.hot" class="absolute top-2 right-2 bg-red-500 text-white px-2 py-1 text-sm rounded">
-              Hot
+              Tendencia
             </div>
           </div>
           <div class="mt-4">
@@ -33,7 +33,7 @@
             <div class="w-full bg-gray-200 rounded-full h-2.5 mt-2">
               <div class="bg-green-500 h-2.5 rounded-full" [style.width.%]="(product.sold / product.total) * 100"></div>
             </div>
-            <button class="mt-4 w-full bg-green-600 text-white py-2 rounded hover:bg-green-700">Add to cart</button>
+            <button class="mt-4 w-full bg-green-600 text-white py-2 rounded hover:bg-green-700">Añadir al carrito</button>
           </div>
         </div>
       </ng-container>

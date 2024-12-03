@@ -7,6 +7,7 @@ import {
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { InputComponent } from '@app/components';
+import { RouterModule } from '@angular/router'; // Importa RouterModule
 
 interface SignupForm {
   name: FormControl<string>;
@@ -17,7 +18,7 @@ interface SignupForm {
 @Component({
   selector: 'app-signup',
   standalone: true,
-  imports: [NgOptimizedImage, InputComponent],
+  imports: [NgOptimizedImage, InputComponent, RouterModule],
   templateUrl: './signup.component.html',
   styleUrl: './signup.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
