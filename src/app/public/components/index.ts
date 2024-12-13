@@ -5,6 +5,7 @@ export * from './destacados/destacados.component';
 export * from './info/info.component';
 export * from './nuevos/nuevos.component';
 export * from './ofertas/ofertas.component';
+export * from './product-card/product-card.component';
 export * from './productos/productos.component';
 export * from './suscripcion/suscripcion.component';
 export * from './testimonios/testimonios.component';
