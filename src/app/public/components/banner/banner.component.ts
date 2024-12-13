@@ -29,4 +29,5 @@ export class BannerComponent {
   nextSlide(): void {
     this.currentSlide = (this.currentSlide + 1) % this.slides.length;
   }
+
 }
