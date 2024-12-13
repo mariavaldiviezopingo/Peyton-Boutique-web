@@ -1,10 +1,11 @@
 import { ChangeDetectionStrategy, Component,ElementRef, ViewChild, AfterViewInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router'; // Importa RouterModule
+import { ProductDetailComponent } from '../product-detail/product-detail.component';
 @Component({
   selector: 'app-catalogo',
   standalone: true,
-  imports: [RouterModule, CommonModule],
+  imports: [RouterModule, CommonModule, ProductDetailComponent],
   templateUrl: './catalogo.component.html',
   styleUrl: './catalogo.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush

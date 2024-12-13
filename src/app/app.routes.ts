@@ -8,6 +8,7 @@ import {NosotrosComponent} from './public/nosotros/nosotros.component'
 import {ContactoComponent} from './public/contacto/contacto.component'
 import { PasarelaPagosComponent } from './public/pasarela-pagos/pasarela-pagos.component';
 import { InfoContactoPasaComponent } from './public/info-contacto-pasa/info-contacto-pasa.component';
+import { ProductDetailComponent } from './public';
 
 export const routes: Routes = [
     { path: 'login', component: LoginComponent }, // Ruta login
@@ -19,6 +20,7 @@ export const routes: Routes = [
     {path: 'contacto', component: ContactoComponent },
     {path: 'pasarela', component: PasarelaPagosComponent },
     {path: 'infoContacto', component: InfoContactoPasaComponent },
+    {path: 'detalle', component: ProductDetailComponent },
 
 ];
 

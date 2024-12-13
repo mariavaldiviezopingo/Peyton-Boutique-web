@@ -121,9 +121,10 @@
         <div 
           *ngFor="let product of paginatedProducts" 
           class="border rounded-lg p-2 flex flex-col items-center bg-gray-100"
+          
         >
-          <img [src]="product.imageUrl" alt="{{product.name}}" class="w-full h-60 object-cover">
-          <h3 class="text-lg font-bold mt-2">{{ product.name }}</h3>
+          <img [src]="product.imageUrl" alt="{{product.name}}" class="w-full h-60 object-cover" routerLink="/detalle">
+          <a class="text-lg font-bold mt-2" routerLink="/detalle" >{{ product.name }}</a>
           <p class="text-gray-600 mt-1">{{ product.price | currency }}</p>
         </div>
       </div>
