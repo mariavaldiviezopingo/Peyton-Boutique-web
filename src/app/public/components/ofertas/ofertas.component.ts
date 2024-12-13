@@ -12,7 +12,7 @@ import { CommonModule } from '@angular/common';
 export class OfertasComponent  implements OnInit {
   ofertas = [
     {
-      nombre: 'Organic Cage Grade A Large Eggs',
+      nombre: 'Set de cocina para niños',
       marca: 'Hamberger Hel',
       precioActual: '$21.00',
       precioAnterior: '$24.00',
@@ -25,11 +25,11 @@ export class OfertasComponent  implements OnInit {
       ],
     },
     {
-      nombre: 'Naturally Flavored Cinnamon Vanilla',
-      marca: 'Hamberger Hel',
+      nombre: 'Proyector de luces de Navidad',
+      marca: 'Navidad',
       precioActual: '$51.00',
       precioAnterior: '$55.00',
-      imagen: 'https://www.maybelline.es/-/media/project/loreal/brand-sites/mny/emea/iberic/tips-and-trends/productos-basicos-de-maquillaje/productos-basicos-de-maquillaje_0.jpg?la=es-es&h=349&w=624&rev=50d56cb1cf11407882d815e667fc3bbc&hash=2B10585742F38F4577E56E6F0BD5AEAE',
+      imagen: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSkQw7b2QymFm4Y7U-Z1Gsax4B8jG_HQzhAmw&s',
       timer: [
         { value: '00', label: 'Days' },
         { value: '00', label: 'Hours' },
@@ -38,11 +38,11 @@ export class OfertasComponent  implements OnInit {
       ],
     },
     {
-      nombre: 'Naturally Flavored Cinnamon Vanilla',
+      nombre: 'Maquillaje para niñas 65 piezas',
       marca: 'Hamberger Hel',
       precioActual: '$51.00',
       precioAnterior: '$55.00',
-      imagen: 'https://www.maybelline.es/-/media/project/loreal/brand-sites/mny/emea/iberic/tips-and-trends/productos-basicos-de-maquillaje/productos-basicos-de-maquillaje_0.jpg?la=es-es&h=349&w=624&rev=50d56cb1cf11407882d815e667fc3bbc&hash=2B10585742F38F4577E56E6F0BD5AEAE',
+      imagen: 'https://imagedelivery.net/4fYuQyy-r8_rpBpcY7lH_A/falabellaPE/19899584_1/w=800,h=800,fit=pad',
       timer: [
         { value: '00', label: 'Days' },
         { value: '00', label: 'Hours' },
@@ -51,11 +51,11 @@ export class OfertasComponent  implements OnInit {
       ],
     },
     {
-      nombre: 'Naturally Flavored Cinnamon Vanilla',
-      marca: 'Hamberger Hel',
+      nombre: 'Juego de cama: Edredon y sábanas',
+      marca: 'Hogar',
       precioActual: '$51.00',
       precioAnterior: '$55.00',
-      imagen: 'https://www.maybelline.es/-/media/project/loreal/brand-sites/mny/emea/iberic/tips-and-trends/productos-basicos-de-maquillaje/productos-basicos-de-maquillaje_0.jpg?la=es-es&h=349&w=624&rev=50d56cb1cf11407882d815e667fc3bbc&hash=2B10585742F38F4577E56E6F0BD5AEAE',
+      imagen: 'https://imagedelivery.net/4fYuQyy-r8_rpBpcY7lH_A/falabellaPE/prod16500113_1/public',
       timer: [
         { value: '00', label: 'Days' },
         { value: '00', label: 'Hours' },

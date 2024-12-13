@@ -14,13 +14,13 @@ export class CategoriasComponent implements AfterViewInit {
   isScrollRightDisabled = false;
 
   categorias = [
-    { nombre: 'Ropa', icon: 'icons/shopping_cart.icon.svg', color: 'bg-blue-100' },
-    { nombre: 'Zapatos', icon: 'icono2.png', color: 'bg-green-100' },
-    { nombre: 'Accesorios', icon: 'icono3.png', color: 'bg-red-100' },
-    { nombre: 'Accesorios', icon: 'icono3.png', color: 'bg-red-100' },
-    { nombre: 'Accesorios', icon: 'icono3.png', color: 'bg-red-100' },
-    { nombre: 'Accesorios', icon: 'icono3.png', color: 'bg-red-100' },
-    { nombre: 'Accesorios', icon: 'icono3.png', color: 'bg-red-100' },
+    { nombre: 'Ropa', icon: 'icons/ropa.svg', color: 'bg-blue-100' },
+    { nombre: 'Zapatos', icon: 'icons/zapato.svg', color: 'bg-green-100' },
+    { nombre: 'Accesorios', icon: 'icons/accesorios.svg', color: 'bg-red-100' },
+    { nombre: 'Juguetes', icon: 'icons/juguetes.svg', color: 'bg-orange-100' },
+    { nombre: 'Hogar', icon: 'icons/hogar.svg', color: 'bg-purple-100' },
+    { nombre: 'Escuela', icon: 'icons/escuela.svg', color: 'bg-blue-100' },
+    { nombre: 'Belleza', icon: 'icons/Belleza.svg', color: 'bg-green-100' },
 
   ];
 
