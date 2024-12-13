@@ -1,0 +1,11 @@
+.btn-size {
+  @apply w-9 md:w-10 h-9 md:h-10 border-gray-400 border-2 rounded-lg focus:bg-primary focus:border-primary focus:text-white bg-white;
+}
+
+.product-card {
+  @apply flex-shrink-0 w-1/2 md:flex-1;
+}
+
+.img-small {
+  @apply w-20 h-20 md:w-32 md:h-32 lg:w-40 lg:h-40;
+}
