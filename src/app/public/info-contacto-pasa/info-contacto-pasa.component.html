@@ -1,85 +1,95 @@
-<div class="w-full max-w-md mx-auto mt-8">
+<div class="w-[1200px] max-w-md mx-auto mt-24 bg-lime-500">
     <!-- Progress Bar -->
-    <div class="flex justify-between items-center mb-6">
+    <div class="flex justify-between items-center">
       <div class="flex flex-col items-center">
         <div class="bg-primary text-white w-8 h-8 flex items-center justify-center rounded-full">1</div>
-        <span class="text-sm mt-2">Información de contacto</span>
       </div>
       <div class="flex-1 h-px bg-gray-300 mx-2"></div>
       <div class="flex flex-col items-center">
         <div class="bg-gray-300 text-gray-500 w-8 h-8 flex items-center justify-center rounded-full">2</div>
-        <span class="text-sm mt-2 text-gray-500">Entrega</span>
       </div>
       <div class="flex-1 h-px bg-gray-300 mx-2"></div>
       <div class="flex flex-col items-center">
         <div class="bg-gray-300 text-gray-500 w-8 h-8 flex items-center justify-center rounded-full">3</div>
+      </div>
+    </div>
+    <div class="flex justify-between items-center mb-6 bg-orange-400">
+      <div class="flex flex-col items-center">
+        <span class="text-sm mt-2">Información de contacto</span>
+      </div>
+      <div class="flex-1 "></div>
+      <div class="flex flex-col items-center">
+        <span class="text-sm mt-2 text-gray-500">Entrega</span>
+      </div>
+      <div class="flex-1  mx-2"></div>
+      <div class="flex flex-col items-center">
         <span class="text-sm mt-2 text-gray-500">Pago</span>
       </div>
     </div>
   
-    <!-- Formulario -->
-    <div class="bg-gray-50 p-6 rounded-lg shadow">
-      <form >
-        <!-- Nombres Completos -->
-        <div class="mb-4">
-          <label for="nombres" class="block text-sm font-medium text-gray-700">Nombres Completos</label>
-          <input
-            type="text"
-            id="nombres"
-            name="nombres"
-            ngModel
-            class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary"
-            required
-          />
-        </div>
-  
-        <!-- Apellidos Completos -->
-        <div class="mb-4">
-          <label for="apellidos" class="block text-sm font-medium text-gray-700">Apellidos Completos</label>
-          <input
-            type="text"
-            id="apellidos"
-            name="apellidos"
-            ngModel
-            class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary"
-            required
-          />
-        </div>
-  
-        <!-- DNI o Extranjería -->
-        <div class="mb-4">
-          <label for="dni" class="block text-sm font-medium text-gray-700">Nro DNI ó Extranjería</label>
-          <input
-            type="text"
-            id="dni"
-            name="dni"
-            ngModel
-            class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary"
-            required
-          />
-        </div>
-  
-        <!-- Teléfono -->
-        <div class="mb-4">
-          <label for="telefono" class="block text-sm font-medium text-gray-700">Teléfono</label>
-          <input
-            type="text"
-            id="telefono"
-            name="telefono"
-            ngModel
-            class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary"
-            required
-          />
-        </div>
-  
-        <!-- Botón -->
-        <button
-          type="submit"
-          class="w-full bg-primary text-white py-2 rounded-lg hover:bg-primary-dark"
-        >
-          Continuar
-        </button>
-      </form>
-    </div>
+    
   </div>
-  
+  <!-- Formulario -->
+  <div class="bg-gray-50 p-6 rounded-lg shadow w-[400px] mx-auto">
+    <form >
+      <!-- Nombres Completos -->
+      <div class="mb-4">
+        <label for="nombres" class="block text-sm font-medium text-gray-700">Nombres Completos</label>
+        <input
+          type="text"
+          id="nombres"
+          name="nombres"
+          ngModel
+          class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary"
+          required
+        />
+      </div>
+
+      <!-- Apellidos Completos -->
+      <div class="mb-4">
+        <label for="apellidos" class="block text-sm font-medium text-gray-700">Apellidos Completos</label>
+        <input
+          type="text"
+          id="apellidos"
+          name="apellidos"
+          ngModel
+          class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary"
+          required
+        />
+      </div>
+
+      <!-- DNI o Extranjería -->
+      <div class="mb-4">
+        <label for="dni" class="block text-sm font-medium text-gray-700">Nro DNI ó Extranjería</label>
+        <input
+          type="text"
+          id="dni"
+          name="dni"
+          ngModel
+          class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary"
+          required
+        />
+      </div>
+
+      <!-- Teléfono -->
+      <div class="mb-4">
+        <label for="telefono" class="block text-sm font-medium text-gray-700">Teléfono</label>
+        <input
+          type="text"
+          id="telefono"
+          name="telefono"
+          ngModel
+          class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary"
+          required
+        />
+      </div>
+
+      <!-- Botón -->
+      <button
+        type="submit"
+        class="w-full bg-primary text-white py-2 rounded-lg hover:bg-primary-dark"
+      >
+        Continuar
+      </button>
+    </form>
+  </div>

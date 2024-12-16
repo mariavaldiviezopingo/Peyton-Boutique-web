@@ -2,12 +2,12 @@ import {ChangeDetectionStrategy, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router'; // Importa RouterModule
 import { Router } from '@angular/router';
-
+import { CatalogoComponent } from '../catalogo/catalogo.component';
 
 @Component({
   selector: 'app-carrito-compras',
   standalone: true,
-  imports: [RouterModule, CommonModule],
+  imports: [RouterModule, CommonModule, CatalogoComponent ],
   templateUrl: './carrito-compras.component.html',
   styleUrl: './carrito-compras.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush

@@ -1,10 +1,12 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CommonModule } from '@angular/common'; // Importación necesaria para ngFor y ngIf
+import { RouterLink } from '@angular/router';
+import { ProductDetailComponent } from '@app/public/product-detail/product-detail.component';
 
 @Component({
   selector: 'app-productos',
   standalone: true,
-  imports: [CommonModule], // Importación de CommonModule
+  imports: [CommonModule, RouterLink, ProductDetailComponent], // Importación de CommonModule
   templateUrl: './productos.component.html',
   styleUrls: ['./productos.component.css',], // Corrección en styleUrls (plural)
   changeDetection: ChangeDetectionStrategy.Default

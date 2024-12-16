@@ -8,6 +8,7 @@ import {
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { InputComponent } from '@app/components';
+import { SignupComponent } from '../signup/signup.component';
 
 interface LoginForm {
   email: FormControl<string>;
@@ -17,7 +18,7 @@ interface LoginForm {
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [InputComponent, NgOptimizedImage, RouterLink],
+  imports: [InputComponent, NgOptimizedImage, RouterLink, SignupComponent],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
