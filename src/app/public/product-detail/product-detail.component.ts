@@ -9,4 +9,10 @@ import { ProductCardComponent } from '../components';
   styleUrl: './product-detail.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProductDetailComponent {}
+export class ProductDetailComponent {
+  mainImageSrc: string = 'images/logo_peyton.webp';
+
+  changeMainImage(newSrc: string): void {
+    this.mainImageSrc = newSrc;
+  }
+}
