@@ -10,7 +10,7 @@ import {
   ProductosComponent,
   SuscripcionComponent,
   TestimoniosComponent,
-} from '../components';
+} from './components';
 @Component({
   selector: 'app-landing',
   standalone: true,
