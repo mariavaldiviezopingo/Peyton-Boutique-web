@@ -1,4 +1,4 @@
-<div class="mt-24 lg:px-20">
+<div class="mt-24 lg:px-5">
   <!-- Breadcrumb -->
   <nav class="p-3 mb-4">
     <ul class="flex space-x-2 text-xs md:text-base text-gray-600">
@@ -16,24 +16,26 @@
 
   <div class="flex flex-col md:flex-row gap-4 p-4">
     <!-- Imagenes -->
-    <div class="w-full md:w-2/3 lg:w-2/3 flex flex-col lg:flex-row gap-4">
+    <div
+      class="w-full md:w-2/3 lg:w-2/3 flex flex-col lg:flex-row gap-4 justify-center items-center"
+    >
       <img
         [ngSrc]="mainImageSrc"
         height="100"
         width="100"
         alt=""
-        class="border-2 border-gray-400 rounded-lg w-full md:w-80 lg:w-3/4 max-w-full h-auto lg:order-2 object-cover"
+        class="border-2 border-gray-400 rounded-lg w-full md:w-96 lg:w-3/4 2xl:w-1/2 max-w-full h-auto lg:order-2 object-cover"
         priority
       />
       <div
-        class="w-full md:w-auto flex justify-between lg:flex-col lg:order-1 lg:w-1/4 gap-2"
+        class="w-full lg:w-1/3 justify-center flex lg:flex-col lg:order-1 gap-2 items-center"
       >
         <img
           ngSrc="images/logo_peyton.webp"
           height="60"
           width="60"
           alt=""
-          class="p-2 border-2 border-gray-400 hover:border-gray-600 rounded-lg w-1/4 md:w-16 lg:w-full max-w-full h-auto cursor-pointer"
+          class="img-small"
           (click)="changeMainImage('images/logo_peyton.webp')"
         />
         <img
@@ -41,7 +43,7 @@
           height="60"
           width="60"
           alt=""
-          class="p-2 border-2 border-gray-400 hover:border-gray-600 rounded-lg w-1/4 md:w-16 lg:w-full max-w-full h-auto cursor-pointer"
+          class="img-small"
           (click)="changeMainImage('images/login_image.webp')"
         />
         <img
@@ -49,7 +51,7 @@
           height="60"
           width="60"
           alt=""
-          class="p-2 border-2 border-gray-400 hover:border-gray-600 rounded-lg w-1/4 md:w-16 lg:w-full max-w-full h-auto cursor-pointer"
+          class="img-small"
           (click)="changeMainImage('images/logo_peyton_white.webp')"
         />
       </div>
@@ -72,17 +74,26 @@
       </div>
 
       <!-- Botones -->
-      <div class="flex space-x-2 m-2">
-        <div class="flex rounded-lg overflow-hidden h-9 md:h-12 border-2">
-          <button class="btn-secondary w-8">-</button>
-          <input
-            type="number"
-            class="w-12 appearance-none outline-transparent text-center h-9 md:h-12"
-            value="1"
-            min="1"
-            step="1"
-          />
-          <button class="btn-secondary w-8">+</button>
+      <div class="flex flex-col space-y-4 m-2">
+        <div class="flex items-center">
+          <label for="quantity" class="mr-4">Cantidad:</label>
+          <div class="flex">
+            <button class="btn-secondary w-8 h-9 md:h-12" (click)="decrement()">
+              -
+            </button>
+            <input
+              type="text"
+              class="w-12 appearance-none outline-none text-center h-9 md:h-12"
+              [(ngModel)]="quantity"
+              min="1"
+              step="1"
+              id="quantity"
+              readonly
+            />
+            <button class="btn-secondary w-8 h-9 md:h-12" (click)="increment()">
+              +
+            </button>
+          </div>
         </div>
         <button
           class="btn-secondary h-9 md:h-12 w-40 md:w-48 text-sm md:text-base"
@@ -105,7 +116,7 @@
         </summary>
 
         <p
-          class="ml-2 mt-1 text-xs md:text-base transition-opacity duration-300 ease-in-out opacity-0 group-open:opacity-100 md:w-80 xl:w-96 text-wrap"
+          class="ml-2 mt-1 text-xs md:text-base transition-opacity duration-300 ease-in-out opacity-0 group-open:opacity-100 md:w-80 xl:w-96 text-wrap max-w-full"
         >
           PlayStation 5 Controller Skin High quality vinyl with air channel
           adhesive for easy bubble free install & mess free removal Pressure
