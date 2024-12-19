@@ -1,131 +1,44 @@
 @if (this.message) {
-  <div
-    class="fixed flex justify-center left-0 top-0 w-full z-50 text-xs lg:text-sm py-1 bg-secondary text-white"
-  >
-    {{ this.message }}
-  </div>
-  }
-  <nav
-    class="fixed flex justify-between items-center left-0 px-7 shadow-md h-20 w-full z-50 bg-white"
-    [class]="this.navPosition"
-  >
-    <div class="flex items-center mr-2">
-      <button (click)="toggleMenu($event)" class="block md:hidden">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 -960 960 960"
-          height="30px"
-          width="30px"
-          fill="currentColor"
-          aria-label="Menú"
-          class="mr-3 text-primary hover:text-primary-dark"
-        >
-          <path
-            d="M120-240v-66.67h720V-240H120Zm0-206.67v-66.66h720v66.66H120Zm0-206.66V-720h720v66.67H120Z"
-          />
-        </svg>
-      </button>
-  
-      <a href="" aria-label="Logo Peyton Boutique">
-        <img
-          ngSrc="images/logo_peyton.webp"
-          width="80"
-          height="80"
-          alt="Logo Peyton Boutique"
-          class="mr-3"
-          priority
-        />
-      </a>
-  
-      <div
-        class="border border-primary h-10 items-center lg:h-12 relative rounded-md text-xs w-48 lg:text-base lg:w-[22rem] hover:border-primary-dark hidden md:flex overflow-hidden"
-      >
-        <input
-          type="text"
-          placeholder="Busca tus Productos"
-          class="focus:outline-none ml-4 w-full"
-          aria-label="Buscar productos"
-        />
-        <button
-          class="flex items-center px-2 h-full bg-primary focus:bg-primary-dark cursor-pointer"
-        >
-          <img
-            ngSrc="icons/search.icon.svg"
-            width="30"
-            height="30"
-            alt="Icono de búsqueda"
-          />
-        </button>
-      </div>
-    </div>
-  
-    <div class="flex items-center space-x-4">
-      <ul class="hidden items-center md:flex space-x-4 text-xs lg:text-base">
-        <li>
-          <a class="hover:text-primary-dark" routerLink='catalogo' href="" aria-label="Catálogo"
-            >CATÁLOGO</a
-          >
-        </li>
-        <li>
-          <a class="hover:text-primary-dark" routerLink='nosotros' href="" aria-label="Novedades"
-            >NOSOTROS</a
-          >
-        </li>
-        <li>
-          <a class="hover:text-primary-dark" href="" aria-label="Campaña" routerLink='contacto'
-            >CONTACTO</a
-          >
-        </li>
-      </ul>
-  
-      @if (!isLogged) {
-      <button
-        class="btn-primary h-10 px-0 text-xs w-28 lg:h-12 lg:text-base lg:w-36"
-        aria-label="Iniciar sesión" routerLink='login'
-      >
-        INICIAR SESIÓN
-      </button>
-      }@else {
+<div
+  class="fixed flex justify-center left-0 top-0 w-full z-50 text-xs lg:text-sm py-1 bg-secondary text-white"
+>
+  {{ this.message }}
+</div>
+}
+<nav
+  class="fixed flex justify-between items-center left-0 px-7 shadow-md h-20 w-full z-50 bg-white"
+  [class]="this.navPosition"
+>
+  <div class="flex items-center mr-2">
+    <button (click)="toggleMenu($event)" class="block md:hidden">
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        height="30px"
         viewBox="0 -960 960 960"
+        height="30px"
         width="30px"
         fill="currentColor"
-        aria-label="Opciones de usuario"
-        class="text-primary hover:text-primary-dark w-30 h-30 lg:w-10 lg:h-10"
+        aria-label="Menú"
+        class="mr-3 text-primary hover:text-primary-dark"
       >
         <path
-          d="M480-480.67q-66 0-109.67-43.66Q326.67-568 326.67-634t43.66-109.67Q414-787.33 480-787.33t109.67 43.66Q633.33-700 633.33-634t-43.66 109.67Q546-480.67 480-480.67ZM160-160v-100q0-36.67 18.5-64.17T226.67-366q65.33-30.33 127.66-45.5 62.34-15.17 125.67-15.17t125.33 15.5q62 15.5 127.34 45.17 30.33 14.33 48.83 41.83T800-260v100H160Z"
+          d="M120-240v-66.67h720V-240H120Zm0-206.67v-66.66h720v66.66H120Zm0-206.66V-720h720v66.67H120Z"
         />
       </svg>
-      }
-  
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        height="30px"
-        viewBox="0 -960 960 960"
-        width="30px"
-        fill="currentColor"
-        aria-label="Carrito de compras"
-        class="text-primary hover:text-primary-dark lg:w-10 lg:h-10"
-        routerLink='carrito'
-      >
-        <path
-          d="M284.53-80.67q-30.86 0-52.7-21.97Q210-124.62 210-155.47q0-30.86 21.98-52.7Q253.95-230 284.81-230t52.69 21.98q21.83 21.97 21.83 52.83t-21.97 52.69q-21.98 21.83-52.83 21.83Zm400 0q-30.86 0-52.7-21.97Q610-124.62 610-155.47q0-30.86 21.98-52.7Q653.95-230 684.81-230t52.69 21.98q21.83 21.97 21.83 52.83t-21.97 52.69q-21.98 21.83-52.83 21.83ZM206-800.67h589.38q22.98 0 34.97 20.84 11.98 20.83.32 41.83L693.33-490.67q-11 19.34-28.87 30.67-17.87 11.33-39.13 11.33H324l-52 96h487.33V-286H278q-43 0-63-31.83-20-31.84-.33-68.17l60.66-111.33-149.33-316H47.33V-880h121.34L206-800.67Z"
-        />
-      </svg>
-    </div>
-  </nav>
-  
-  @if (this.menuVisible) {
-  <div
-    id="menu"
-    class="absolute left-0 m-0 z-50 space-y-5 bg-white border border-gray-300 rounded-md shadow-lg w-full p-5"
-    [class]="this.menuPosition"
-  >
+    </button>
+
+    <a aria-label="Logo Peyton Boutique">
+      <img
+        ngSrc="images/logo_peyton.webp"
+        width="80"
+        height="80"
+        alt="Logo Peyton Boutique"
+        class="mr-3"
+        priority
+      />
+    </a>
+
     <div
-      class="border border-primary flex h-10 items-center relative rounded-md w-full hover:border-primary-dark overflow-hidden"
+      class="border border-primary h-10 items-center lg:h-12 relative rounded-md text-xs w-48 lg:text-base lg:w-[22rem] hover:border-primary-dark hidden md:flex overflow-hidden"
     >
       <input
         type="text"
@@ -134,27 +47,130 @@
         aria-label="Buscar productos"
       />
       <button
-        class="flex items-center right-0 px-2 h-full bg-primary focus:bg-primary-dark cursor-pointer"
+        class="flex items-center px-2 h-full bg-primary focus:bg-primary-dark cursor-pointer"
       >
         <img
           ngSrc="icons/search.icon.svg"
-          width="24"
-          height="24"
+          width="30"
+          height="30"
           alt="Icono de búsqueda"
         />
       </button>
     </div>
-  
-    <ul class="space-y-3">
+  </div>
+
+  <div class="flex items-center space-x-4">
+    <ul class="hidden items-center md:flex space-x-4 text-xs lg:text-base">
       <li>
-        <a href="" class="text-primary hover:text-primary-dark" routerLink='catalogo'>CATÁLOGO</a>
+        <a
+          class="hover:text-primary-dark"
+          routerLink="catalogo"
+          aria-label="Catálogo"
+          >CATÁLOGO</a
+        >
       </li>
       <li>
-        <a href="" class="text-primary hover:text-primary-dark" routerLink='nosotros'>NOSOTROS</a>
+        <a
+          class="hover:text-primary-dark"
+          routerLink="nosotros"
+          aria-label="Novedades"
+          >NOSOTROS</a
+        >
       </li>
       <li>
-        <a href="" class="text-primary hover:text-primary-dark" routerLink='contacto'>CONTACTO</a>
+        <a
+          class="hover:text-primary-dark"
+          aria-label="Campaña"
+          routerLink="contacto"
+          >CONTACTO</a
+        >
       </li>
     </ul>
+
+    @if ((this.isLogged | async) === false) {
+    <button
+      class="btn-primary h-10 px-0 text-xs w-28 lg:h-12 lg:text-base lg:w-36"
+      aria-label="Iniciar sesión"
+      routerLink="login"
+    >
+      INICIAR SESIÓN
+    </button>
+    }@else {
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      height="30px"
+      viewBox="0 -960 960 960"
+      width="30px"
+      fill="currentColor"
+      aria-label="Opciones de usuario"
+      class="text-primary hover:text-primary-dark w-30 h-30 lg:w-10 lg:h-10"
+    >
+      <path
+        d="M480-480.67q-66 0-109.67-43.66Q326.67-568 326.67-634t43.66-109.67Q414-787.33 480-787.33t109.67 43.66Q633.33-700 633.33-634t-43.66 109.67Q546-480.67 480-480.67ZM160-160v-100q0-36.67 18.5-64.17T226.67-366q65.33-30.33 127.66-45.5 62.34-15.17 125.67-15.17t125.33 15.5q62 15.5 127.34 45.17 30.33 14.33 48.83 41.83T800-260v100H160Z"
+      />
+    </svg>
+    }
+
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      height="30px"
+      viewBox="0 -960 960 960"
+      width="30px"
+      fill="currentColor"
+      aria-label="Carrito de compras"
+      class="text-primary hover:text-primary-dark lg:w-10 lg:h-10"
+      routerLink="carrito"
+    >
+      <path
+        d="M284.53-80.67q-30.86 0-52.7-21.97Q210-124.62 210-155.47q0-30.86 21.98-52.7Q253.95-230 284.81-230t52.69 21.98q21.83 21.97 21.83 52.83t-21.97 52.69q-21.98 21.83-52.83 21.83Zm400 0q-30.86 0-52.7-21.97Q610-124.62 610-155.47q0-30.86 21.98-52.7Q653.95-230 684.81-230t52.69 21.98q21.83 21.97 21.83 52.83t-21.97 52.69q-21.98 21.83-52.83 21.83ZM206-800.67h589.38q22.98 0 34.97 20.84 11.98 20.83.32 41.83L693.33-490.67q-11 19.34-28.87 30.67-17.87 11.33-39.13 11.33H324l-52 96h487.33V-286H278q-43 0-63-31.83-20-31.84-.33-68.17l60.66-111.33-149.33-316H47.33V-880h121.34L206-800.67Z"
+      />
+    </svg>
   </div>
-  }
+</nav>
+
+@if (this.menuVisible) {
+<div
+  id="menu"
+  class="absolute left-0 m-0 z-50 space-y-5 bg-white border border-gray-300 rounded-md shadow-lg w-full p-5"
+  [class]="this.menuPosition"
+>
+  <div
+    class="border border-primary flex h-10 items-center relative rounded-md w-full hover:border-primary-dark overflow-hidden"
+  >
+    <input
+      type="text"
+      placeholder="Busca tus Productos"
+      class="focus:outline-none ml-4 w-full"
+      aria-label="Buscar productos"
+    />
+    <button
+      class="flex items-center right-0 px-2 h-full bg-primary focus:bg-primary-dark cursor-pointer"
+    >
+      <img
+        ngSrc="icons/search.icon.svg"
+        width="24"
+        height="24"
+        alt="Icono de búsqueda"
+      />
+    </button>
+  </div>
+
+  <ul class="space-y-3">
+    <li>
+      <a class="text-primary hover:text-primary-dark" routerLink="catalogo"
+        >CATÁLOGO</a
+      >
+    </li>
+    <li>
+      <a class="text-primary hover:text-primary-dark" routerLink="nosotros"
+        >NOSOTROS</a
+      >
+    </li>
+    <li>
+      <a class="text-primary hover:text-primary-dark" routerLink="contacto"
+        >CONTACTO</a
+      >
+    </li>
+  </ul>
+</div>
+}

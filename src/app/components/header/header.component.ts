@@ -1,20 +1,28 @@
-import { NgOptimizedImage } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { RouterModule } from '@angular/router'; // Importa RouterModule
-import { ElementRef, HostListener, inject } from '@angular/core';
-
+import { CommonModule, NgOptimizedImage } from '@angular/common';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  HostListener,
+  inject,
+} from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { LoginService } from '@app/services';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [NgOptimizedImage, RouterModule],
+  imports: [NgOptimizedImage, RouterLink, CommonModule],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeaderComponent {
   readonly message = '';
-  readonly isLogged = false;
+
+  private loginService = inject(LoginService);
+  isLogged = this.loginService.isLoggedIn$;
+
   navPosition = this.message ? 'top-6' : 'top-0';
   menuPosition = this.message ? 'top-[6.5rem]' : 'top-20';
   menuVisible = false;
