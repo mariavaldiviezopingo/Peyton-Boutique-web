@@ -2,12 +2,11 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CommonModule } from '@angular/common'; // Importa CommonModule
 
 @Component({
-  selector: 'app-nuevos',
-  standalone: true,
-  imports: [CommonModule,],
-  templateUrl: './nuevos.component.html',
-  styleUrl: './nuevos.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-nuevos',
+    imports: [CommonModule,],
+    templateUrl: './nuevos.component.html',
+    styleUrl: './nuevos.component.css',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NuevosComponent {
 

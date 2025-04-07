@@ -16,12 +16,11 @@ interface LoginForm {
 }
 
 @Component({
-  selector: 'app-login',
-  standalone: true,
-  imports: [InputComponent, NgOptimizedImage, RouterLink, SignupComponent],
-  templateUrl: './login.component.html',
-  styleUrl: './login.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-login',
+    imports: [InputComponent, NgOptimizedImage, RouterLink, SignupComponent],
+    templateUrl: './login.component.html',
+    styleUrl: './login.component.css',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LoginComponent {
   loginForm: Signal<FormGroup> = computed(

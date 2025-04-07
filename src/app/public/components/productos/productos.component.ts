@@ -4,12 +4,11 @@ import { RouterLink } from '@angular/router';
 import { ProductDetailComponent } from '@app/public/product-detail/product-detail.component';
 
 @Component({
-  selector: 'app-productos',
-  standalone: true,
-  imports: [CommonModule, RouterLink, ProductDetailComponent], // Importación de CommonModule
-  templateUrl: './productos.component.html',
-  styleUrls: ['./productos.component.css',], // Corrección en styleUrls (plural)
-  changeDetection: ChangeDetectionStrategy.Default
+    selector: 'app-productos',
+    imports: [CommonModule, RouterLink, ProductDetailComponent], // Importación de CommonModule
+    templateUrl: './productos.component.html',
+    styleUrls: ['./productos.component.css',], // Corrección en styleUrls (plural)
+    changeDetection: ChangeDetectionStrategy.Default
 })
 
 export class ProductosComponent {

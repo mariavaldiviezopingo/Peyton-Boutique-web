@@ -5,12 +5,11 @@ import { ElementRef, HostListener, inject } from '@angular/core';
 
 
 @Component({
-  selector: 'app-header',
-  standalone: true,
-  imports: [NgOptimizedImage, RouterModule],
-  templateUrl: './header.component.html',
-  styleUrl: './header.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-header',
+    imports: [NgOptimizedImage, RouterModule],
+    templateUrl: './header.component.html',
+    styleUrl: './header.component.css',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HeaderComponent {
   readonly message = '';

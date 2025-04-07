@@ -2,12 +2,11 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CommonModule } from '@angular/common'; // Importación necesaria para ngFor y ngIf
 
 @Component({
-  selector: 'app-banner',
-  standalone: true,
-  imports: [CommonModule], // Importación de CommonModule
-  templateUrl: './banner.component.html',
-  styleUrls: ['./banner.component.css',], // Corrección en styleUrls (plural)
-  changeDetection: ChangeDetectionStrategy.Default
+    selector: 'app-banner',
+    imports: [CommonModule], // Importación de CommonModule
+    templateUrl: './banner.component.html',
+    styleUrls: ['./banner.component.css',], // Corrección en styleUrls (plural)
+    changeDetection: ChangeDetectionStrategy.Default
 })
 export class BannerComponent {
   slides = [

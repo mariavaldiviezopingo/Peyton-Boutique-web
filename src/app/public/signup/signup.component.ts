@@ -16,12 +16,11 @@ interface SignupForm {
 }
 
 @Component({
-  selector: 'app-signup',
-  standalone: true,
-  imports: [NgOptimizedImage, InputComponent, RouterLink],
-  templateUrl: './signup.component.html',
-  styleUrl: './signup.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-signup',
+    imports: [NgOptimizedImage, InputComponent, RouterLink],
+    templateUrl: './signup.component.html',
+    styleUrl: './signup.component.css',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SignupComponent {
   signupForm: Signal<FormGroup> = computed(

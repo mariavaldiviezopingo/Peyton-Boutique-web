@@ -2,11 +2,10 @@ import {Component, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common'; // Importación para standalone si es necesario
 
 @Component({
-  selector: 'app-categorias',
-  standalone: true,
-  imports: [CommonModule], 
-  templateUrl: './categorias.component.html',
-  styleUrls: ['./categorias.component.css',],
+    selector: 'app-categorias',
+    imports: [CommonModule],
+    templateUrl: './categorias.component.html',
+    styleUrls: ['./categorias.component.css',]
 })
 export class CategoriasComponent implements AfterViewInit {
   @ViewChild('carousel') carousel!: ElementRef<HTMLDivElement>;

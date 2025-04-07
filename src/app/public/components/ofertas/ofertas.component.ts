@@ -2,12 +2,11 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-ofertas',
-  standalone: true,
-  imports: [CommonModule],
-  templateUrl: './ofertas.component.html',
-  styleUrl: './ofertas.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-ofertas',
+    imports: [CommonModule],
+    templateUrl: './ofertas.component.html',
+    styleUrl: './ofertas.component.css',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OfertasComponent  implements OnInit {
   ofertas = [

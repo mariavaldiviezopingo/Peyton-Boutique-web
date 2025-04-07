@@ -12,22 +12,21 @@ import {
   TestimoniosComponent,
 } from '../components';
 @Component({
-  selector: 'app-landing',
-  standalone: true,
-  imports: [
-    BannerComponent,
-    CategoriasComponent,
-    CampaniaComponent,
-    DestacadosComponent,
-    SuscripcionComponent,
-    TestimoniosComponent,
-    ProductosComponent,
-    OfertasComponent,
-    InfoComponent,
-    NuevosComponent,
-  ],
-  templateUrl: './landing.component.html',
-  styleUrl: './landing.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-landing',
+    imports: [
+        BannerComponent,
+        CategoriasComponent,
+        CampaniaComponent,
+        DestacadosComponent,
+        SuscripcionComponent,
+        TestimoniosComponent,
+        ProductosComponent,
+        OfertasComponent,
+        InfoComponent,
+        NuevosComponent,
+    ],
+    templateUrl: './landing.component.html',
+    styleUrl: './landing.component.css',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LandingComponent {}

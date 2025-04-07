@@ -5,12 +5,11 @@ import { Router } from '@angular/router';
 import { CatalogoComponent } from '../catalogo/catalogo.component';
 
 @Component({
-  selector: 'app-carrito-compras',
-  standalone: true,
-  imports: [RouterModule, CommonModule, CatalogoComponent ],
-  templateUrl: './carrito-compras.component.html',
-  styleUrl: './carrito-compras.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-carrito-compras',
+    imports: [RouterModule, CommonModule, CatalogoComponent],
+    templateUrl: './carrito-compras.component.html',
+    styleUrl: './carrito-compras.component.css',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CarritoComprasComponent {
   constructor(private router: Router) {}
