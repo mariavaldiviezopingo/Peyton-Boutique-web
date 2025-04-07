@@ -5,7 +5,7 @@ import { InfoContactoPasaComponent } from '../info-contacto-pasa/info-contacto-p
 import { LogearseComponent } from '../logearse/logearse.component';
 @Component({
     selector: 'app-pasarela-pagos',
-    imports: [RouterModule, CommonModule, InfoContactoPasaComponent, LogearseComponent],
+    imports: [RouterModule, CommonModule, LogearseComponent],
     templateUrl: './pasarela-pagos.component.html',
     styleUrl: './pasarela-pagos.component.css',
     changeDetection: ChangeDetectionStrategy.OnPush

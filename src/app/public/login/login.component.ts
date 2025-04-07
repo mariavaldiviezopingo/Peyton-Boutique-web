@@ -17,7 +17,7 @@ interface LoginForm {
 
 @Component({
     selector: 'app-login',
-    imports: [InputComponent, NgOptimizedImage, RouterLink, SignupComponent],
+    imports: [InputComponent, NgOptimizedImage, RouterLink],
     templateUrl: './login.component.html',
     styleUrl: './login.component.css',
     changeDetection: ChangeDetectionStrategy.OnPush

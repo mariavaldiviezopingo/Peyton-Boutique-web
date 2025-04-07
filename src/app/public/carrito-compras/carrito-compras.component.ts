@@ -6,7 +6,7 @@ import { CatalogoComponent } from '../catalogo/catalogo.component';
 
 @Component({
     selector: 'app-carrito-compras',
-    imports: [RouterModule, CommonModule, CatalogoComponent],
+    imports: [RouterModule, CommonModule],
     templateUrl: './carrito-compras.component.html',
     styleUrl: './carrito-compras.component.css',
     changeDetection: ChangeDetectionStrategy.OnPush

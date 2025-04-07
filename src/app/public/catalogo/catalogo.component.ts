@@ -4,7 +4,7 @@ import { RouterModule } from '@angular/router'; // Importa RouterModule
 import { ProductDetailComponent } from '../product-detail/product-detail.component';
 @Component({
     selector: 'app-catalogo',
-    imports: [RouterModule, CommonModule, ProductDetailComponent],
+    imports: [RouterModule, CommonModule],
     templateUrl: './catalogo.component.html',
     styleUrl: './catalogo.component.css',
     changeDetection: ChangeDetectionStrategy.OnPush
