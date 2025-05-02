@@ -20,9 +20,9 @@
       #carousel
     >
       <div
-        *ngFor="let categoria of categorias"
+      *ngFor="let categoria of categorias"
         class="flex flex-col items-center justify-center basis-[90%] sm:basis-[48%] md:basis-[30%] lg:basis-[22%] flex-shrink-0 h-60 sm:h-72 lg:h-80 rounded-lg shadow-md hover:shadow-lg hover:scale-105 transition-transform duration-300 ease-in-out"
-        [ngClass]="categoria.color"
+        (click)="selectCategory(categoria.nombre)"
       >
         <img [src]="categoria.icon" alt="{{ categoria.nombre }}" class="w-12 h-12 sm:w-16 sm:h-16" />
         <p class="mt-2 text-center text-sm sm:text-base lg:text-lg font-medium">

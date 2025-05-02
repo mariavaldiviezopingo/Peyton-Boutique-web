@@ -1,49 +1,104 @@
-import { ChangeDetectionStrategy, Component,ElementRef, ViewChild, AfterViewInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router'; // Importa RouterModule
-import { ProductDetailComponent } from '../product-detail/product-detail.component';
+import { HttpClientModule } from '@angular/common/http';
+import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { ActivatedRoute, RouterModule } from '@angular/router'; // Importa RouterModule
+import { CatalogoService, Product } from './catalogo.service';
 @Component({
-    selector: 'app-catalogo',
-    imports: [RouterModule, CommonModule, ProductDetailComponent],
-    templateUrl: './catalogo.component.html',
-    styleUrl: './catalogo.component.css',
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'app-catalogo',
+  standalone: true,
+  imports: [RouterModule, CommonModule, HttpClientModule, FormsModule],
+  templateUrl: './catalogo.component.html',
+  styleUrl: './catalogo.component.css',
 })
+export class CatalogoComponent implements OnInit {
+  constructor(
+    private catalogoService: CatalogoService,
+    private cdr: ChangeDetectorRef,
+    private route: ActivatedRoute
+  ) {}
 
-export class CatalogoComponent {
-  products = [
-    { name: 'Camisa Manga Larga', price: 100, imageUrl: 'https://uploads.tiendada.com/public/file-storage/im/product/95297b9a-21ad-4c3b-aa87-bab00b60bd90.rs6b0l-1727149172935' },
-    { name: 'Pantalón', price: 120, imageUrl: 'https://rimage.ripley.com.pe/home.ripley/Attachment/MKP/4491/PMP20000449884/full_image-1.jpeg' },
-    { name: 'Zapatos', price: 200, imageUrl: 'https://imagedelivery.net/4fYuQyy-r8_rpBpcY7lH_A/falabellaPE/126638798_01/w=1500,h=1500,fit=pad' },
-    { name: 'Gorra', price: 80, imageUrl: 'https://sc04.alicdn.com/kf/Hd47a10a2a6754c4483c5e9171754c994i.jpg' },
-    { name: 'Chaqueta', price: 250, imageUrl: 'https://imagedelivery.net/4fYuQyy-r8_rpBpcY7lH_A/falabellaPE/19899584_1/w=800,h=800,fit=pad' },
-    { name: 'Vestido', price: 150, imageUrl: 'https://isatexhome.com/cdn/shop/files/834E9EDA-4ACD-40AD-9402-62975A36D98E.jpg?v=1698857065&width=2048' },
-    { name: 'Bufanda', price: 60, imageUrl: 'https://imagedelivery.net/4fYuQyy-r8_rpBpcY7lH_A/falabellaPE/14820959_1/w=800,h=800,fit=pad' },
-    { name: 'Guantes', price: 40, imageUrl: 'https://m.media-amazon.com/images/I/610Ep73wfDL.jpg' },
-    { name: 'Cinturón', price: 90, imageUrl: 'path_to_image_9' },
-    { name: 'Bolso', price: 300, imageUrl: 'path_to_image_10' },
-    { name: 'Camisa Manga Larga', price: 100, imageUrl: 'path_to_image_1' },
-    { name: 'Pantalón', price: 120, imageUrl: 'path_to_image_2' },
-    { name: 'Zapatos', price: 200, imageUrl: 'path_to_image_3' },
-    { name: 'Gorra', price: 80, imageUrl: 'path_to_image_4' },
-    { name: 'Chaqueta', price: 250, imageUrl: 'path_to_image_5' },
-    { name: 'Vestido', price: 150, imageUrl: 'path_to_image_6' },
-    { name: 'Bufanda', price: 60, imageUrl: 'path_to_image_7' },
-    { name: 'Guantes', price: 40, imageUrl: 'path_to_image_8' },
-    { name: 'Cinturón', price: 90, imageUrl: 'path_to_image_9' },
-    { name: 'Bolso', price: 300, imageUrl: 'path_to_image_10' }
-  ];
+  ngOnInit(): void {
+    this.route.paramMap.subscribe((params) => {
+      this.selectedCategory = params.get('categoria') || '';
+      this.loadProducts();
+      if (this.selectedCategory) {
+        this.loadSubcategories(this.selectedCategory);
+      }
+    });
+  }
+
+  products: Product[] = [];
+  filteredProducts: Product[] = [];
+  subcategories: string[] = [];
+  selectedCategory: string = '';
+  subcategoriaSeleccionada: string = ''; 
 
   currentPage = 1;
-  itemsPerPage = 8; // Número de productos por página
+  itemsPerPage = 9;
+  selectedTalla = '';
+  selectedColor = '';
+  precioMin?: number;
+  precioMax?: number;
+
+  objectKeys = Object.keys;
+
+  loadProducts(): void {
+    this.catalogoService.getProducts().subscribe({
+      next: (data) => {
+        this.products = data;
+        this.filterProductsByCategory();
+      },
+      error: (err) => console.error('Error al cargar productos', err),
+    });
+  }
+
+  loadSubcategories(categoria: string): void {
+    this.catalogoService.obtenerSubcategorias(categoria).subscribe({
+      next: (subcategorias) => {
+        console.log('Subcategorías cargadas:', subcategorias); // Añade este log
+        this.subcategories = subcategorias;
+      },
+      error: (err) => console.error('Error al obtener subcategorías', err),
+    });
+  }
+  
+
+  filterProductsByCategory(): void {
+    if (this.selectedCategory) {
+      this.filteredProducts = this.products.filter(
+        (producto) => producto.categoria === this.selectedCategory
+      );
+    } else {
+      this.filteredProducts = [...this.products];
+    }
+  }
+  onCategoryChange(event: Event) {
+    const selectElement = event.target as HTMLSelectElement;
+    const selectedCategory = selectElement.value;
+    console.log('Categoría seleccionada:', selectedCategory);
+
+    if (selectedCategory) {
+      this.catalogoService.getProductsByCategory(selectedCategory).subscribe({
+        next: (data) => {
+          console.log('Productos filtrados por categoría:', data);
+          this.filteredProducts = data;
+          this.currentPage = 1; // Reiniciar paginación al cambiar de categoría
+          this.cdr.markForCheck();
+        },
+        error: (err) => {
+          console.error('Error al filtrar productos por categoría', err);
+        },
+      });
+    } else {
+      // Si no hay categoría, cargar todos los productos nuevamente
+      this.loadProducts();
+    }
+  }
 
   get paginatedProducts() {
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
     return this.products.slice(startIndex, startIndex + this.itemsPerPage);
-  }
-
-  get totalPages() {
-    return Math.ceil(this.products.length / this.itemsPerPage);
   }
 
   nextPage() {
@@ -58,55 +113,76 @@ export class CatalogoComponent {
     }
   }
 
-  @ViewChild('drawingCanvas', { static: true }) canvasRef!: ElementRef<HTMLCanvasElement>;
-  private ctx!: CanvasRenderingContext2D;
-  private drawing = false;
-  isCanvasVisible = false;
-
-  ngAfterViewInit(): void {
-    const canvas = this.canvasRef.nativeElement;
-    this.ctx = canvas.getContext('2d')!;
-    this.addCanvasEventListeners(canvas);
+  applyFilters(): void {
+    this.catalogoService
+      .getFilteredProducts({
+        categoria: this.selectedCategory,
+        talla: this.selectedTalla,
+        color: this.selectedColor,
+        precioMin: this.precioMin,
+        precioMax: this.precioMax,
+      })
+      .subscribe({
+        next: (data) => {
+          this.filteredProducts = data;
+          this.currentPage = 1;
+          this.cdr.markForCheck();
+        },
+        error: (err) => {
+          console.error('Error al aplicar filtros', err);
+        },
+      });
   }
 
-  private addCanvasEventListeners(canvas: HTMLCanvasElement): void {
-    // Iniciar dibujo
-    canvas.addEventListener('mousedown', () => {
-      this.drawing = true;
-      this.ctx.beginPath();
-    });
+  filtrarPorSubcategoria(subcat: string): void {
+    this.subcategoriaSeleccionada = subcat;
 
-    // Dibujar
-    canvas.addEventListener('mousemove', (event: MouseEvent) => {
-      if (this.drawing) {
-        const rect = canvas.getBoundingClientRect();
-        const x = event.clientX - rect.left;
-        const y = event.clientY - rect.top;
-        this.ctx.lineTo(x, y);
-        this.ctx.stroke();
-      }
-    });
-
-    // Finalizar dibujo
-    canvas.addEventListener('mouseup', () => {
-      this.drawing = false;
+    this.catalogoService.filtrarPorSubcategoria(subcat).subscribe({
+      next: (productos) => (this.filteredProducts = productos),
+      error: (err) => console.error('Error al filtrar por subcategoría', err),
     });
   }
 
-  toggleCanvasPanel(): void {
-    this.isCanvasVisible = !this.isCanvasVisible;
+  selectCategory(categoria: string): void {
+    this.selectedCategory = categoria;
+    this.applyFilters();
   }
 
-  clearCanvas(): void {
-    const canvas = this.canvasRef.nativeElement;
-    this.ctx.clearRect(0, 0, canvas.width, canvas.height);
+  get paginatedFilteredProducts() {
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    return this.filteredProducts.slice(
+      startIndex,
+      startIndex + this.itemsPerPage
+    );
   }
 
-  saveCanvas(): void {
-    const canvas = this.canvasRef.nativeElement;
-    const link = document.createElement('a');
-    link.download = 'canvas-image.png';
-    link.href = canvas.toDataURL();
-    link.click();
+  get totalPages() {
+    return Math.ceil(this.filteredProducts.length / this.itemsPerPage);
   }
+
+  @ViewChild('carouselContainer', { static: false }) carouselRef!: ElementRef;
+
+  scrollCarrusel(direction: 'left' | 'right') {
+    const container = this.carouselRef.nativeElement as HTMLElement;
+    const scrollAmount = 200; // cantidad a desplazar
+
+    if (direction === 'left') {
+      container.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+    } else {
+      container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+    }
+  }
+
+  getImageForSubcategory(subcat: string): string {
+    const subcatImages: { [key: string]: string } = {
+      "Niños": 'assets/img/subcategorias/ropa-ninos.jpg',
+      "Adultos": 'assets/img/subcategorias/ropa-adultos.jpg',
+      "Mujer": 'assets/img/subcategorias/ropa-mujer.jpg',
+      // Añadir más subcategorías e imágenes según sea necesario
+    };
+  
+    // Retorna la imagen correspondiente o una por defecto
+    return subcatImages[subcat] || 'assets/img/subcategorias/default.jpg';
+  }
+  
 }

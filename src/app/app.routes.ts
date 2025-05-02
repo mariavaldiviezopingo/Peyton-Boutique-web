@@ -1,14 +1,13 @@
 import { Routes } from '@angular/router';
-import { LandingComponent } from './public/landing/landing.component';
-import {SignupComponent} from './public/signup/signup.component'
-import { LoginComponent } from './public';
+import { LoginComponent, ProductDetailComponent } from './public';
+import { CarritoComprasComponent } from './public/carrito-compras/carrito-compras.component';
 import { CatalogoComponent } from './public/catalogo/catalogo.component';
-import { CarritoComprasComponent } from './public/carrito-compras/carrito-compras.component'
-import {NosotrosComponent} from './public/nosotros/nosotros.component'
-import {ContactoComponent} from './public/contacto/contacto.component'
-import { PasarelaPagosComponent } from './public/pasarela-pagos/pasarela-pagos.component';
+import { ContactoComponent } from './public/contacto/contacto.component';
 import { InfoContactoPasaComponent } from './public/info-contacto-pasa/info-contacto-pasa.component';
-import { ProductDetailComponent } from './public';
+import { LandingComponent } from './public/landing/landing.component';
+import { NosotrosComponent } from './public/nosotros/nosotros.component';
+import { PasarelaPagosComponent } from './public/pasarela-pagos/pasarela-pagos.component';
+import { SignupComponent } from './public/signup/signup.component';
 
 export const routes: Routes = [
     { path: 'login', component: LoginComponent }, // Ruta login
@@ -21,6 +20,7 @@ export const routes: Routes = [
     {path: 'pasarela', component: PasarelaPagosComponent },
     {path: 'infoContacto', component: InfoContactoPasaComponent },
     {path: 'detalle', component: ProductDetailComponent },
+    { path: 'catalogo/:categoria', component: CatalogoComponent }
 
 ];
 

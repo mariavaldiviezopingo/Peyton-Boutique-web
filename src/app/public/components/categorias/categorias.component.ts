@@ -1,5 +1,6 @@
-import {Component, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common'; // Importación para standalone si es necesario
+import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
+import { Router } from '@angular/router'; // Importa Router
 
 @Component({
     selector: 'app-categorias',
@@ -8,6 +9,9 @@ import { CommonModule } from '@angular/common'; // Importación para standalone 
     styleUrls: ['./categorias.component.css',]
 })
 export class CategoriasComponent implements AfterViewInit {
+
+  constructor(private router: Router) {} 
+
   @ViewChild('carousel') carousel!: ElementRef<HTMLDivElement>;
   isScrollLeftDisabled = true;
   isScrollRightDisabled = false;
@@ -22,6 +26,11 @@ export class CategoriasComponent implements AfterViewInit {
     { nombre: 'Belleza', icon: 'icons/Belleza.svg', color: 'bg-green-100' },
 
   ];
+
+
+  selectCategory(categoria: string): void {
+    this.router.navigate(['/catalogo', categoria]);
+  }
 
   ngAfterViewInit() {
     this.updateButtonState();
