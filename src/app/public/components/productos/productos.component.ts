@@ -5,7 +5,7 @@ import { ProductDetailComponent } from '@app/public/product-detail/product-detai
 
 @Component({
     selector: 'app-productos',
-    imports: [CommonModule, RouterLink, ProductDetailComponent], // Importación de CommonModule
+    imports: [CommonModule, RouterLink], // Importación de CommonModule
     templateUrl: './productos.component.html',
     styleUrls: ['./productos.component.css',], // Corrección en styleUrls (plural)
     changeDetection: ChangeDetectionStrategy.Default

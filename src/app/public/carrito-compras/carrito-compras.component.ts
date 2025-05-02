@@ -4,7 +4,7 @@ import { Router, RouterModule } from '@angular/router'; // Importa RouterModule
 
 @Component({
     selector: 'app-carrito-compras',
-    imports: [RouterModule, CommonModule,],
+    imports: [RouterModule, CommonModule],
     templateUrl: './carrito-compras.component.html',
     styleUrl: './carrito-compras.component.css',
     changeDetection: ChangeDetectionStrategy.OnPush
