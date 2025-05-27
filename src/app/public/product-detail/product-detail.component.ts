@@ -1,11 +1,95 @@
-import { NgOptimizedImage } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+} from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import {
+  CatalogoService,
+  Product,
+  VarianteProducto,
+} from '../catalogo/catalogo.service';
 import { ProductCardComponent } from '../components';
+
 @Component({
-    selector: 'app-product-detail',
-    imports: [NgOptimizedImage, ProductCardComponent],
-    templateUrl: './product-detail.component.html',
-    styleUrl: './product-detail.component.css',
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'app-product-detail',
+  standalone: true,
+  imports: [CommonModule, ProductCardComponent],
+  templateUrl: './product-detail.component.html',
+  styleUrls: ['./product-detail.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProductDetailComponent {}
+export class ProductDetailComponent implements OnInit {
+  product?: Product;
+  tallasUnicas: string[] = [];
+  selectedVariante: VarianteProducto | null = null;
+  relatedProducts: Product[] = []; // Array para almacenar los productos relacionados
+
+  constructor(
+    private route: ActivatedRoute,
+    private catalogoService: CatalogoService,
+    private cdr: ChangeDetectorRef
+  ) {}
+
+  ngOnInit() {
+    // Escuchar cambios en los parámetros de la ruta
+    this.route.paramMap.subscribe((params) => {
+      const id = params.get('id');
+      console.log('Parámetro ID recibido:', id); // Rastreo del ID recibido
+      if (id) {
+        this.loadProduct(+id); // Cargar el producto con el nuevo ID
+      } else {
+        console.error('No se recibió un ID válido');
+      }
+    });
+  }
+
+  // Método para cargar el producto
+  private loadProduct(id: number) {
+    console.log('Cargando producto con ID:', id); // Rastreo antes de llamar al servicio
+    this.catalogoService.getProductById(id).subscribe({
+      next: (prod) => {
+        console.log('Producto recibido del servicio:', prod); // Rastreo del producto recibido
+        if (prod) {
+          this.product = prod;
+          this.selectedVariante = this.product.variantes[0];
+          console.log('Variante seleccionada:', this.selectedVariante); // Rastreo de la variante seleccionada
+          this.tallasUnicas = [
+            ...new Set(this.product.variantes.map((v) => v.talla)),
+          ];
+          console.log('Tallas únicas calculadas:', this.tallasUnicas); // Rastreo de las tallas únicas
+          // Cargar productos relacionados basados en la categoría
+          this.loadRelatedProducts(this.product.categoria);
+          this.cdr.detectChanges();
+        }
+      },
+      error: (err) => {
+        console.error('Error al cargar producto', err);
+      },
+    });
+  }
+
+  private loadRelatedProducts(category: string) {
+    console.log('Cargando productos relacionados para la categoría:', category);
+    this.catalogoService.getProductsByCategory(category).subscribe({
+      next: (products) => {
+        // Filtrar para excluir el producto actual y limitar a 5 productos
+        this.relatedProducts = products
+          .filter((p) => p.id !== this.product?.id)
+          .slice(0, 5); // Limitar a los primeros 5 productos
+        console.log('Productos relacionados cargados:', this.relatedProducts);
+      },
+      error: (err) => {
+        console.error('Error al cargar productos relacionados:', err);
+      },
+    });
+  }
+
+  selectVariante(variante: VarianteProducto) {
+    console.log('Variante seleccionada manualmente:', variante); // Rastreo de la variante seleccionada manualmente
+    this.selectedVariante = variante;
+    this.selectedVariante = { ...variante };
+  }
+}

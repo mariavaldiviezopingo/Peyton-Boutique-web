@@ -9,3 +9,19 @@
 .img-small {
   @apply w-20 h-20 md:w-32 md:h-32 lg:w-40 lg:h-40;
 }
+
+/* Estilos para ocultar la barra de desplazamiento */
+.no-scrollbar {
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+  scrollbar-width: none; /* Firefox */
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+/* Estilo para las tarjetas de productos */
+.product-card {
+  flex: 0 0 auto; /* Evita que las tarjetas se reduzcan o expandan */
+  width: 20%; /* Ajusta el ancho de cada tarjeta */
+}

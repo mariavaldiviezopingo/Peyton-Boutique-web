@@ -1,0 +1,48 @@
+/* Estilo base para la tarjeta */
+a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0.5rem; /* Espaciado entre tarjetas */
+  text-align: center;
+}
+
+/* Imagen del producto */
+a img {
+  border-radius: 0.5rem; /* Bordes redondeados */
+  object-fit: cover; /* Asegura que la imagen se ajuste correctamente */
+}
+
+/* Ajustes responsivos */
+@media (max-width: 1024px) {
+  a img {
+    width: 8rem; /* Ajustar tamaño de la imagen en pantallas medianas */
+    height: 8rem;
+  }
+
+  a p, a span {
+    font-size: 0.875rem; /* Reducir tamaño de texto en pantallas medianas */
+  }
+}
+
+@media (max-width: 768px) {
+  a img {
+    width: 6rem; /* Ajustar tamaño de la imagen en pantallas pequeñas */
+    height: 6rem;
+  }
+
+  a p, a span {
+    font-size: 0.75rem; /* Reducir tamaño de texto en pantallas pequeñas */
+  }
+}
+
+@media (max-width: 480px) {
+  a img {
+    width: 5rem; /* Ajustar tamaño de la imagen en pantallas muy pequeñas */
+    height: 5rem;
+  }
+
+  a p, a span {
+    font-size: 0.7rem; /* Reducir tamaño de texto en pantallas muy pequeñas */
+  }
+}

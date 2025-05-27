@@ -7,10 +7,10 @@
       </li>
       <li>/</li>
       <li>
-        <a href="/productos" class="hover:underline">Productos</a>
+        <a href="/catalogo" class="hover:underline">Catálogo</a>
       </li>
       <li>/</li>
-      <li class="text-gray-500">Nombre del Producto</li>
+      <li class="text-gray-500">{{ product?.nombre }}</li>
     </ul>
   </nav>
 
@@ -18,55 +18,44 @@
     <!-- Imagenes -->
     <div class="w-full md:w-2/3 lg:w-2/3 flex flex-col lg:flex-row gap-4">
       <img
-        ngSrc="images/logo_peyton.webp"
-        height="100"
-        width="100"
-        alt=""
-        class="border-2 border-gray-400  rounded-lg w-full md:w-80 lg:w-3/4 max-w-full h-auto lg:order-2 object-cover"
-        priority
-      />
-      <div
-      class="w-full md:w-auto flex justify-between lg:flex-col lg:order-1 lg:w-1/4 gap-2"
-      >
-        <img
-          ngSrc="images/logo_peyton.webp"
-          height="60"
-          width="60"
-          alt=""
-          class="p-2 border-2 border-gray-400 hover:border-gray-600 rounded-lg w-1/4 md:w-16 lg:w-full max-w-full h-auto"
-        />
-        <img
-          ngSrc="images/logo_peyton.webp"
-          height="60"
-          width="60"
-          alt=""
-          class="p-2 border-2 border-gray-400 hover:border-gray-600 rounded-lg w-1/4 md:w-16 lg:w-full max-w-full h-auto"
-    
-        />
-        <img
-          ngSrc="images/logo_peyton.webp"
-          height="60"
-          width="60"
-          alt=""
-          class="p-2 border-2 border-gray-400 hover:border-gray-600 rounded-lg w-1/4 md:w-16 lg:w-full max-w-full h-auto"
-        />
-      </div>
+    *ngIf="selectedVariante"
+    [src]="selectedVariante.imagen"
+    height="100"
+    width="100"
+    alt="{{ product?.nombre }} - {{ selectedVariante.talla }} {{ selectedVariante.color }}"
+    class="border-2 border-gray-400 rounded-lg w-full md:w-80 lg:w-3/4 max-w-full h-auto lg:order-2 object-cover"
+  />
+     <!-- Miniaturas -->
+  <div class="w-full md:w-auto flex justify-between lg:flex-col lg:order-1 lg:w-1/4 gap-2">
+    <img
+      *ngFor="let variante of product?.variantes"
+      [src]="variante.imagen"
+      height="60"
+      width="60"
+      alt="{{ product?.nombre }} - {{ variante.talla }} {{ variante.color }}"
+      class="p-2 border-2 rounded-lg w-1/4 md:w-16 lg:w-full max-w-full h-auto
+        border-gray-400 hover:border-gray-600
+        cursor-pointer
+        "
+      [class.border-primary]="variante === selectedVariante"
+      (click)="selectVariante(variante)"
+    />
+  </div>
     </div>
 
+    
     <div class="w-full md:w-1/3 lg:w-1/3 flex flex-col gap-4">
       <!-- Nombre y Precio -->
       <div class="m-2 space-y-5">
-        <h3 class="text-xl font-semibold md:text-2xl">Nombre del Producto</h3>
-        <span class="md:text-lg lg:text-xl">S/. 500</span>
+        <h3 class="text-xl font-semibold md:text-2xl">{{ product?.nombre}}</h3>
+        <span class="md:text-lg lg:text-xl">{{ product?.precio| currency:'PEN ':'symbol':'1.2-2' }}</span>
       </div>
 
       <!-- Tallas -->
       <div class="flex flex-wrap gap-2">
-        <button class="btn-size">XS</button>
-        <button class="btn-size">S</button>
-        <button class="btn-size">M</button>
-        <button class="btn-size">L</button>
-        <button class="btn-size">XL</button>
+        <button class="btn-size" *ngFor="let talla of tallasUnicas">
+          {{ talla }}
+        </button>
       </div>
 
         <!-- Botones -->
@@ -98,38 +87,47 @@
           <span
             class="mr-2 transform transition-transform group-open:rotate-180"
           >
-            <img src="icons/chevron.icon.svg" alt="arrow"
+            <img src="assets/icons/chevron.icon.svg" alt="arrow"
           /></span>
         </summary>
 
         <p
           class="ml-2 mt-1 text-xs md:text-base transition-opacity duration-300 ease-in-out opacity-0 group-open:opacity-100 md:w-80 xl:w-96 text-wrap"
         >
-          PlayStation 5 Controller Skin High quality vinyl with air channel
-          adhesive for easy bubble free install & mess free removal Pressure
-          sensitive.
+          {{ product?.descripcion }}
         </p>
       </details>
     </div>
   </div>
+<!-- Artículos Relacionados -->
+<div class="p-3 flex flex-col space-y-2">
+  <div class="flex align-middle items-center">
+    <div class="h-5 w-2 rounded-lg bg-primary mr-3"></div>
+    <h4 class="text-primary font-semibold">Artículos Relacionados</h4>
+  </div>
 
-  <!-- Articulos Relacionados -->
-  <div class="p-3 flex flex-col space-y-2">
-    <div class="flex align-middle items-center">
-      <div class="h-5 w-2 rounded-lg bg-primary mr-3"></div>
-      <h4 class="text-primary font-semibold">Artículos Relacionados</h4>
+  <div class="relative">
+    <!-- Contenedor con desplazamiento horizontal -->
+    <div
+      class="flex overflow-x-auto no-scrollbar md:overscroll-none w-full space-x-4"
+      style="max-width: 100%;"
+    >
+      <app-product-card
+        *ngFor="let relatedProduct of relatedProducts"
+        [product]="relatedProduct"
+        class="product-card"
+      ></app-product-card>
     </div>
-
-    <div class="relative">
-      <div
-        class="flex overflow-x-scroll no-scrollbar md:overscroll-none w-full"
-      >
-        <app-product-card class="product-card"></app-product-card>
-        <app-product-card class="product-card"></app-product-card>
-        <app-product-card class="product-card"></app-product-card>
-        <app-product-card class="product-card"></app-product-card>
-        <app-product-card class="product-card"></app-product-card>
-      </div>
+    <div *ngIf="relatedProducts.length === 0" class="text-center text-gray-500">
+      No hay artículos relacionados disponibles.
     </div>
   </div>
+</div>
+  
+</div>
+
+
+<!-- Mensaje de carga o error -->
+<div *ngIf="!product" class="text-center mt-32 text-lg text-gray-500">
+  Cargando producto...
 </div>

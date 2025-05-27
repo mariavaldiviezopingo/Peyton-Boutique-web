@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute, RouterModule } from '@angular/router'; // Importa RouterModule
+import { ActivatedRoute, Router, RouterModule } from '@angular/router'; // Importa RouterModule
 import { CatalogoService, Product } from './catalogo.service';
 @Component({
   selector: 'app-catalogo',
@@ -15,10 +15,12 @@ export class CatalogoComponent implements OnInit {
   constructor(
     private catalogoService: CatalogoService,
     private cdr: ChangeDetectorRef,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
+    // Suscripción a los cambios en los parámetros de la URL (como la categoría seleccionada)
     this.route.paramMap.subscribe((params) => {
       this.selectedCategory = params.get('categoria') || '';
       this.loadProducts();
@@ -32,7 +34,7 @@ export class CatalogoComponent implements OnInit {
   filteredProducts: Product[] = [];
   subcategories: string[] = [];
   selectedCategory: string = '';
-  subcategoriaSeleccionada: string = ''; 
+  subcategoriaSeleccionada:  string | null = null;
 
   currentPage = 1;
   itemsPerPage = 9;
@@ -44,13 +46,29 @@ export class CatalogoComponent implements OnInit {
   objectKeys = Object.keys;
 
   loadProducts(): void {
-    this.catalogoService.getProducts().subscribe({
-      next: (data) => {
-        this.products = data;
-        this.filterProductsByCategory();
-      },
-      error: (err) => console.error('Error al cargar productos', err),
-    });
+    if (this.selectedCategory) {
+      this.catalogoService
+        .getProductsByCategory(this.selectedCategory)
+        .subscribe({
+          next: (data) => {
+            this.filteredProducts = data;
+            this.currentPage = 1;
+            this.cdr.detectChanges();
+          },
+          error: (err) =>
+            console.error('Error al cargar productos filtrados', err),
+        });
+    } else {
+      this.catalogoService.getProducts().subscribe({
+        next: (data) => {
+          this.filteredProducts = data;
+          this.currentPage = 1;
+          this.cdr.detectChanges();
+        },
+        error: (err) =>
+          console.error('Error al cargar todos los productos', err),
+      });
+    }
   }
 
   loadSubcategories(categoria: string): void {
@@ -62,7 +80,6 @@ export class CatalogoComponent implements OnInit {
       error: (err) => console.error('Error al obtener subcategorías', err),
     });
   }
-  
 
   filterProductsByCategory(): void {
     if (this.selectedCategory) {
@@ -73,26 +90,36 @@ export class CatalogoComponent implements OnInit {
       this.filteredProducts = [...this.products];
     }
   }
+
   onCategoryChange(event: Event) {
     const selectElement = event.target as HTMLSelectElement;
     const selectedCategory = selectElement.value;
     console.log('Categoría seleccionada:', selectedCategory);
 
     if (selectedCategory) {
-      this.catalogoService.getProductsByCategory(selectedCategory).subscribe({
-        next: (data) => {
-          console.log('Productos filtrados por categoría:', data);
-          this.filteredProducts = data;
-          this.currentPage = 1; // Reiniciar paginación al cambiar de categoría
-          this.cdr.markForCheck();
-        },
-        error: (err) => {
-          console.error('Error al filtrar productos por categoría', err);
-        },
+      // Navegar primero, pero esperar a que Angular reactive la vista
+      this.router.navigate(['/catalogo', selectedCategory]).then(() => {
+        // Actualiza la categoría y carga los productos correspondientes
+        this.selectedCategory = selectedCategory;
+        this.catalogoService.getProductsByCategory(selectedCategory).subscribe({
+          next: (data) => {
+            this.filteredProducts = data;
+            this.currentPage = 1;
+            this.cdr.detectChanges(); // Forzar refresco de la vista
+          },
+          error: (err) => {
+            console.error('Error al filtrar productos por categoría', err);
+          },
+        });
+
+        // Cargar subcategorías asociadas
+        this.loadSubcategories(selectedCategory);
       });
     } else {
-      // Si no hay categoría, cargar todos los productos nuevamente
-      this.loadProducts();
+      this.router.navigate(['/catalogo']).then(() => {
+        this.selectedCategory = '';
+        this.loadProducts();
+      });
     }
   }
 
@@ -113,39 +140,50 @@ export class CatalogoComponent implements OnInit {
     }
   }
 
-  applyFilters(): void {
-    this.catalogoService
-      .getFilteredProducts({
-        categoria: this.selectedCategory,
-        talla: this.selectedTalla,
-        color: this.selectedColor,
-        precioMin: this.precioMin,
-        precioMax: this.precioMax,
-      })
-      .subscribe({
-        next: (data) => {
-          this.filteredProducts = data;
-          this.currentPage = 1;
-          this.cdr.markForCheck();
-        },
-        error: (err) => {
-          console.error('Error al aplicar filtros', err);
-        },
-      });
-  }
+ applyFilters(): void {
+  this.catalogoService.getFilteredProducts({
+    categoria: this.selectedCategory,
+    subcategoria: this.subcategoriaSeleccionada || undefined,
+    talla: this.selectedTalla,
+    color: this.selectedColor,
+    precioMin: this.precioMin,
+    precioMax: this.precioMax,
+  }).subscribe({
+    next: (data) => {
+      this.filteredProducts = data;
+      this.currentPage = 1;
+      this.cdr.markForCheck();
+    },
+    error: (err) => {
+      console.error('Error al aplicar filtros', err);
+    },
+  });
+}
 
   filtrarPorSubcategoria(subcat: string): void {
-    this.subcategoriaSeleccionada = subcat;
+  this.subcategoriaSeleccionada = subcat;
 
-    this.catalogoService.filtrarPorSubcategoria(subcat).subscribe({
-      next: (productos) => (this.filteredProducts = productos),
-      error: (err) => console.error('Error al filtrar por subcategoría', err),
-    });
-  }
+  this.catalogoService.getFilteredProducts({
+    categoria: this.selectedCategory,
+    subcategoria: subcat,
+    talla: this.selectedTalla,
+    color: this.selectedColor,
+    precioMin: this.precioMin,
+    precioMax: this.precioMax,
+  }).subscribe({
+    next: (productos) => {
+      this.filteredProducts = productos;
+      this.currentPage = 1;
+      this.cdr.detectChanges();
+    },
+    error: (err) => console.error('Error al filtrar por subcategoría', err),
+  });
+}
 
   selectCategory(categoria: string): void {
     this.selectedCategory = categoria;
     this.applyFilters();
+    this.router.navigate(['/catalogo', categoria]);
   }
 
   get paginatedFilteredProducts() {
@@ -175,14 +213,14 @@ export class CatalogoComponent implements OnInit {
 
   getImageForSubcategory(subcat: string): string {
     const subcatImages: { [key: string]: string } = {
-      "Niños": 'assets/img/subcategorias/ropa-ninos.jpg',
-      "Adultos": 'assets/img/subcategorias/ropa-adultos.jpg',
-      "Mujer": 'assets/img/subcategorias/ropa-mujer.jpg',
-      // Añadir más subcategorías e imágenes según sea necesario
+      Navidad:'assets/img/descarga.jpg',
+      Tendencia: 'assets/img/descarga.jpg',
+      Niños: 'assets/img/descarga.jpg',
+      Varon:'assets/img/descarga.jpg',
+      Mujer: 'assets/img/descarga.jpg'
     };
-  
+
     // Retorna la imagen correspondiente o una por defecto
     return subcatImages[subcat] || 'assets/img/subcategorias/default.jpg';
   }
-  
 }
