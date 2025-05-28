@@ -1,4 +1,4 @@
-import { NgOptimizedImage } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -13,7 +13,13 @@ import { AuthService } from '@app/services/auth.service';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule, InputComponent, NgOptimizedImage, RouterLink],
+  imports: [
+    ReactiveFormsModule,
+    InputComponent,
+    NgOptimizedImage,
+    RouterLink,
+    CommonModule,
+  ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -29,6 +35,7 @@ export class LoginComponent {
   });
 
   loginForm = signal(this._form);
+  loginSuccessMessage = signal<string | null>(null);
 
   onSubmit(): void {
     const form = this.loginForm();
@@ -44,13 +51,16 @@ export class LoginComponent {
       next: () => {
         this.authService.currentUser$.subscribe((user) => {
           if (user) {
-            this.router.navigate(['/']);
+            alert('✅ Login exitoso');
+            setTimeout(() => {
+              this.router.navigate(['/']);
+            }, 1500);
           }
         });
       },
       error: (error) => {
         console.error('Login error:', error);
-        alert('❌ Credenciales inválidas o error del servidor.');
+        alert('❌ Ingrese un usuario y una contraseña valida.');
       },
     });
   }

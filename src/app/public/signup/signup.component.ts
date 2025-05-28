@@ -64,7 +64,7 @@ export class SignupComponent {
       },
       error: (error) => {
         console.error('Error al registrar:', error);
-        // aquí puedes mostrar un mensaje al usuario
+        alert('❌ Ingrese un usuario y una contraseña valida.');
       },
     });
   }

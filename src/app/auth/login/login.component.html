@@ -47,6 +47,13 @@
       </button>
     </form>
 
+    <div
+      *ngIf="loginSuccessMessage()"
+      class="text-green-600 font-medium text-sm md:text-base"
+    >
+      {{ loginSuccessMessage() }}
+    </div>
+
     <div class="flex flex-col items-center mt-3 space-y-2">
       <div class="flex">
         <p class="mr-1 text-sm md:text-base">¿Eres nuevo?</p>
