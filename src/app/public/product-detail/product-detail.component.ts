@@ -5,18 +5,22 @@ import {
   Component,
   OnInit,
 } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { CarritoService } from '../carrito-compras/carrito.service';
 import {
   CatalogoService,
   Product,
   VarianteProducto,
 } from '../catalogo/catalogo.service';
 import { ProductCardComponent } from '../components';
+import { ColorHexPipe } from './color-hex.pipe';
+
 
 @Component({
   selector: 'app-product-detail',
   standalone: true,
-  imports: [CommonModule, ProductCardComponent],
+  imports: [CommonModule, ProductCardComponent, ColorHexPipe, FormsModule],
   templateUrl: './product-detail.component.html',
   styleUrls: ['./product-detail.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -24,13 +28,20 @@ import { ProductCardComponent } from '../components';
 export class ProductDetailComponent implements OnInit {
   product?: Product;
   tallasUnicas: string[] = [];
+  coloresUnicos: string[] = [];
+
+  cantidadSeleccionada = 1;
+  tallaSeleccionada: string | null = null;
+  colorSeleccionado: string | null = null;
+
   selectedVariante: VarianteProducto | null = null;
   relatedProducts: Product[] = []; // Array para almacenar los productos relacionados
 
   constructor(
     private route: ActivatedRoute,
     private catalogoService: CatalogoService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private carritoService: CarritoService
   ) {}
 
   ngOnInit() {
@@ -58,6 +69,9 @@ export class ProductDetailComponent implements OnInit {
           console.log('Variante seleccionada:', this.selectedVariante); // Rastreo de la variante seleccionada
           this.tallasUnicas = [
             ...new Set(this.product.variantes.map((v) => v.talla)),
+          ];
+          this.coloresUnicos = [
+            ...new Set(this.product.variantes.map((v) => v.color)),
           ];
           console.log('Tallas únicas calculadas:', this.tallasUnicas); // Rastreo de las tallas únicas
           // Cargar productos relacionados basados en la categoría
@@ -91,5 +105,34 @@ export class ProductDetailComponent implements OnInit {
     console.log('Variante seleccionada manualmente:', variante); // Rastreo de la variante seleccionada manualmente
     this.selectedVariante = variante;
     this.selectedVariante = { ...variante };
+  }
+
+  selectTalla(talla: string) {
+    this.tallaSeleccionada = talla;
+  }
+
+  selectColor(color: string) {
+    this.colorSeleccionado = color;
+  }
+
+  agregarAlCarrito() {
+    if (!this.product || !this.tallaSeleccionada || !this.colorSeleccionado) {
+      alert('Selecciona talla y color');
+      return;
+    }
+    this.carritoService.addItem({
+      id: this.product.id,
+      nombre: this.product.nombre,
+      precio: this.product.precio,
+      imagen: this.selectedVariante?.imagen || '',
+      color: this.colorSeleccionado,
+      talla: this.tallaSeleccionada,
+      cantidad: this.cantidadSeleccionada,
+    });
+    alert('Producto agregado al carrito');
+  }
+
+  decrementarCantidad() {
+    this.cantidadSeleccionada = Math.max(1, this.cantidadSeleccionada - 1);
   }
 }
