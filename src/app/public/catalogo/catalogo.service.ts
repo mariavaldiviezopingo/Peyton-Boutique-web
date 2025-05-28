@@ -10,6 +10,7 @@ export interface VarianteProducto {
   color: string;
   stock: number;
   imagen: string;
+  desestimado?: boolean;
 }
 
 export interface Product {
