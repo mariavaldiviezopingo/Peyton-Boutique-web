@@ -136,8 +136,27 @@ export class AuthService {
     name: string;
     email: string;
     password: string;
-  }): Observable<any> {
-    return this.http.post(`${this.authUrl}/auth/signup`, data);
+  }): Observable<TokenResponse> {
+    return this.http
+      .post<TokenResponse>(`${this.authUrl}/auth/signup`, data)
+      .pipe(
+        tap((response) => {
+          if (this.isBrowser()) {
+            localStorage.setItem('jwt', response.jwt);
+          }
+
+          this.isAuthenticatedSubject.next(true);
+
+          this.getCurrentUser().subscribe((user) => {
+            if (this.isBrowser()) {
+              localStorage.setItem('currentUser', JSON.stringify(user));
+            }
+            this.currentUserSubject.next(user);
+            this.router.navigate([user.role === 'ADMIN' ? '/admin' : '/']);
+          });
+        }),
+        catchError((error) => throwError(() => error))
+      );
   }
 
   private isBrowser(): boolean {
