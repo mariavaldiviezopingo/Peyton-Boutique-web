@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '@app/services/auth.service';
 
@@ -10,11 +11,14 @@ export class LoginSuccessComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    @Inject(PLATFORM_ID) private platformId: Object
   ) {}
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
+      if (!isPlatformBrowser(this.platformId)) return;
+
       const token = params['token'];
 
       if (token) {
@@ -23,8 +27,8 @@ export class LoginSuccessComponent implements OnInit {
         this.authService.getCurrentUser().subscribe({
           next: (user) => {
             if (user) {
-              localStorage.setItem('user', JSON.stringify(user));
-              this.authService.setCurrentUser(user); // <-- Método que debes crear
+              localStorage.setItem('currentUser', JSON.stringify(user));
+              this.authService.setCurrentUser(user); // asegúrate de tener este método
               this.router.navigate(['/']);
             } else {
               this.router.navigate(['/login']);

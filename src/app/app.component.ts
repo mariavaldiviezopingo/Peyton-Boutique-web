@@ -12,7 +12,7 @@ import { AuthService } from './services/auth.service';
 })
 export class AppComponent {
   title = 'peyton-boutique';
-  logo = 'images/logo_peyton.webp';
+  logo = 'assets/img/login_image.webp';
 
   private authService = inject(AuthService);
 

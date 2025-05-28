@@ -95,13 +95,17 @@
       </button>
       <div
         *ngIf="showUserMenu"
-        class="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg flex flex-col text-xs lg:text-sm items-end z-50"
+        class="absolute right-0 mt-2 min-w-[200px] max-w-xs bg-white border border-gray-200 rounded-md shadow-lg flex flex-col text-sm items-start z-50 p-4"
       >
-        <span class="text-primary px-4 pt-3">{{ currentUser()?.name }}</span>
-        <span class="text-gray-500 px-4">{{ currentUser()?.email }}</span>
+        <span class="text-primary font-semibold break-words w-full">{{
+          currentUser()?.name
+        }}</span>
+        <span class="text-gray-500 text-xs break-words w-full">{{
+          currentUser()?.email
+        }}</span>
         <button
           (click)="logout()"
-          class="text-red-500 text-xs hover:underline px-4 pb-3 text-right w-full"
+          class="text-red-500 text-xs hover:underline mt-2 self-end"
         >
           Cerrar sesión
         </button>

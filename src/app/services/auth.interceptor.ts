@@ -1,5 +1,6 @@
+import { isPlatformBrowser } from '@angular/common';
 import { HttpErrorResponse, HttpInterceptorFn } from '@angular/common/http';
-import { inject } from '@angular/core';
+import { inject, PLATFORM_ID } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '@app/services/auth.service';
 import { catchError, throwError } from 'rxjs';
@@ -7,7 +8,11 @@ import { catchError, throwError } from 'rxjs';
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const authService = inject(AuthService);
   const router = inject(Router);
-  const token = localStorage.getItem('jwt');
+  const platformId = inject(PLATFORM_ID);
+
+  const token = isPlatformBrowser(platformId)
+    ? localStorage.getItem('jwt')
+    : null;
 
   if (token) {
     const cloneRequest = req.clone({
@@ -16,9 +21,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
 
     return next(cloneRequest).pipe(
       catchError((error: HttpErrorResponse) => {
-        // URLs que no deben forzar logout en caso de error 403/401
-        const IGNORE_URLS = ['/reporte-laboratorio']; // puedes agregar más
-
+        const IGNORE_URLS = ['/reporte-laboratorio'];
         const shouldIgnore = IGNORE_URLS.some((url) => req.url.includes(url));
 
         if ((error.status === 401 || error.status === 403) && !shouldIgnore) {
@@ -29,7 +32,6 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
           );
         }
 
-        // En caso de que se ignore, solo lanza el error para que el servicio lo maneje localmente
         return throwError(() => error);
       })
     );

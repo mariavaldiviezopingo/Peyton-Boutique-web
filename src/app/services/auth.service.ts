@@ -1,7 +1,7 @@
 import { isPlatformBrowser } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, PLATFORM_ID } from '@angular/core';
-import { Router } from '@angular/router'; // Importar Router para redirigir
+import { Router } from '@angular/router';
 import { CurrentUser } from '@app/models/current-user';
 import {
   BehaviorSubject,
@@ -30,16 +30,20 @@ interface TokenResponse {
 export class AuthService {
   private readonly authUrl = environment.authUrl;
   private platformId = inject(PLATFORM_ID);
-
-  private isAuthenticatedSubject = new BehaviorSubject<boolean>(
-    this.hasValidToken()
-  );
-  private currentUserSubject = new BehaviorSubject<CurrentUser | null>(
-    this.loadCurrentUserFromStorage()
-  );
-
   private readonly http = inject(HttpClient);
   private readonly router = inject(Router);
+
+  private isAuthenticatedSubject = new BehaviorSubject<boolean>(false);
+  private currentUserSubject = new BehaviorSubject<CurrentUser | null>(null);
+
+  constructor() {
+    if (this.isBrowser()) {
+      const user = this.loadCurrentUserFromStorage();
+      const valid = this.hasValidToken();
+      this.currentUserSubject.next(user);
+      this.isAuthenticatedSubject.next(valid);
+    }
+  }
 
   get isAuthenticated$(): Observable<boolean> {
     return this.isAuthenticatedSubject.asObservable();
@@ -49,23 +53,10 @@ export class AuthService {
     return this.currentUserSubject.asObservable();
   }
 
-  fetchCurrentUser(): Observable<CurrentUser | null> {
-    return this.http.get<CurrentUser>(`${this.authUrl}/auth/currentUser`).pipe(
-      tap((response) => {
-        this.isAuthenticatedSubject.next(true);
-        this.currentUserSubject.next(response);
-      }),
-      catchError(() => {
-        this.currentUserSubject.next(null);
-        this.isAuthenticatedSubject.next(false);
-        this.clearCurrentUserFromStorage();
-        return of(null);
-      })
-    );
-  }
-
   login(request: LoginRequest): Observable<TokenResponse> {
-    localStorage.removeItem('jwt');
+    if (this.isBrowser()) {
+      localStorage.removeItem('jwt');
+    }
 
     return this.http
       .post<TokenResponse>(`${this.authUrl}/auth/login`, request)
@@ -74,19 +65,15 @@ export class AuthService {
           if (this.isBrowser()) {
             localStorage.setItem('jwt', response.jwt);
           }
+
           this.isAuthenticatedSubject.next(true);
 
-          // Aquí pedimos los datos del usuario y actualizamos el observable
           this.getCurrentUser().subscribe((user) => {
             if (this.isBrowser()) {
               localStorage.setItem('currentUser', JSON.stringify(user));
             }
             this.currentUserSubject.next(user);
-            if (user.role === 'ADMIN') {
-              this.router.navigate(['/admin']);
-            } else {
-              this.router.navigate(['/']); // Página de inicio para user normal
-            }
+            this.router.navigate([user.role === 'ADMIN' ? '/admin' : '/']);
           });
         }),
         catchError((error) => throwError(() => error))
@@ -102,25 +89,28 @@ export class AuthService {
     this.router.navigate(['/login']);
   }
 
+  fetchCurrentUser(): Observable<CurrentUser | null> {
+    return this.http.get<CurrentUser>(`${this.authUrl}/auth/currentUser`).pipe(
+      tap((response) => {
+        this.isAuthenticatedSubject.next(true);
+        this.currentUserSubject.next(response);
+      }),
+      catchError(() => {
+        this.clearCurrentUserFromStorage();
+        this.currentUserSubject.next(null);
+        this.isAuthenticatedSubject.next(false);
+        return of(null);
+      })
+    );
+  }
+
   getCurrentUser(): Observable<CurrentUser> {
     return this.http.get<CurrentUser>(`${this.authUrl}/auth/currentUser`);
   }
 
-  private hasValidToken(): boolean {
-    if (!this.isBrowser()) return false;
-    const token = localStorage.getItem('jwt');
-    if (!token) return false;
-
-    try {
-      const tokenData = JSON.parse(atob(token.split('.')[1]));
-      return tokenData.exp * 1000 > Date.now();
-    } catch {
-      return false;
-    }
-  }
-
   validateCurrentToken(): Observable<boolean> {
     if (!this.isBrowser()) return of(false);
+
     const token = localStorage.getItem('jwt');
     const userJson = localStorage.getItem('currentUser');
 
@@ -131,12 +121,12 @@ export class AuthService {
       this.currentUserSubject.next(user);
       this.isAuthenticatedSubject.next(true);
       return of(true);
-    } catch (error) {
-      // Por si el JSON está malformado
+    } catch {
       this.logout();
       return of(false);
     }
   }
+
   setCurrentUser(user: CurrentUser): void {
     this.currentUserSubject.next(user);
     this.isAuthenticatedSubject.next(true);
@@ -150,62 +140,32 @@ export class AuthService {
     return this.http.post(`${this.authUrl}/auth/signup`, data);
   }
 
-  // private loginForm(): {
-  //   invalid: boolean;
-  //   markAllAsTouched: () => void;
-  //   value: { email: string; password: string };
-  // } {
-  //   return {
-  //     invalid: false, // Replace with actual validation logic
-  //     markAllAsTouched: () => {
-  //       console.log('Marking all fields as touched');
-  //     },
-  //     value: {
-  //       email: '', // Replace with actual email value
-  //       password: '', // Replace with actual password value
-  //     },
-  //   };
-  // }
-
-  // onSubmit(): void {
-  //   if (this.loginForm().invalid) {
-  //     this.loginForm().markAllAsTouched();
-  //     return;
-  //   }
-
-  //   const { email, password } = this.loginForm().value;
-  //   this.login({ username: email, password }).subscribe({
-  //     next: () => {
-  //       this.router.navigate(['/dashboard']); // ✅ Redirige tras login exitoso
-  //     },
-  //     error: (err) => {
-  //       console.error('Error en login', err);
-  //       // Mostrar mensaje de error al usuario si deseas
-  //     },
-  //   });
-  // }
-
   private isBrowser(): boolean {
     return isPlatformBrowser(this.platformId);
   }
 
-  private saveCurrentUserToStorage(user: CurrentUser): void {
-    if (this.isBrowser()) {
-      localStorage.setItem('currentUser', JSON.stringify(user));
-    }
-  }
-
   private loadCurrentUserFromStorage(): CurrentUser | null {
-    if (this.isBrowser()) {
-      const user = localStorage.getItem('currentUser');
-      return user ? JSON.parse(user) : null;
-    }
-    return null;
+    if (!this.isBrowser()) return null;
+    const user = localStorage.getItem('currentUser');
+    return user ? JSON.parse(user) : null;
   }
 
   private clearCurrentUserFromStorage(): void {
     if (this.isBrowser()) {
       localStorage.removeItem('currentUser');
+    }
+  }
+
+  private hasValidToken(): boolean {
+    if (!this.isBrowser()) return false;
+    const token = localStorage.getItem('jwt');
+    if (!token) return false;
+
+    try {
+      const tokenData = JSON.parse(atob(token.split('.')[1]));
+      return tokenData.exp * 1000 > Date.now();
+    } catch {
+      return false;
     }
   }
 }
