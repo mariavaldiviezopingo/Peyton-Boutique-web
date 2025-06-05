@@ -2,10 +2,13 @@ import { Routes } from '@angular/router';
 import { AdminGuard } from './auth/authGuard/admin.guard';
 import { LoginComponent } from './auth/login/login.component';
 import { LoginSuccessComponent } from './pages/login-success/login-success.component';
+import { InventarioProductosComponent } from './private/inventario-productos/inventario-productos.component';
 import { ProductDetailComponent } from './public';
 import { CarritoComprasComponent } from './public/carrito-compras/carrito-compras.component';
 import { CatalogoComponent } from './public/catalogo/catalogo.component';
 import { ContactoComponent } from './public/contacto/contacto.component';
+import { FormLocationComponent } from './public/form-location/form-location.component';
+import { FormPagoComponent } from './public/form-pago/form-pago.component';
 import { InfoContactoPasaComponent } from './public/info-contacto-pasa/info-contacto-pasa.component';
 import { LandingComponent } from './public/landing/landing.component';
 import { NosotrosComponent } from './public/nosotros/nosotros.component';
@@ -73,9 +76,14 @@ export const routes: Routes = [
       { path: 'contacto', component: ContactoComponent },
       { path: 'pasarela', component: PasarelaPagosComponent },
       { path: 'infoContacto', component: InfoContactoPasaComponent },
+      { path: 'entrega', component: FormLocationComponent },
+      { path: 'pago', component: FormPagoComponent },
       { path: 'detalle', component: ProductDetailComponent },
       { path: 'detalle/:id', component: ProductDetailComponent },
       { path: 'catalogo/:categoria', component: CatalogoComponent },
+      { path: 'inventario-productos', component: InventarioProductosComponent }
+
+      
     ],
   },
   {
