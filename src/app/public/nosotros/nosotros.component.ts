@@ -1,10 +1,11 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router'; 
+import { InfoComponent } from '../components';
 
 @Component({
     selector: 'app-nosotros',
-    imports: [RouterModule, CommonModule],
+    imports: [RouterModule, CommonModule, InfoComponent],
     templateUrl: './nosotros.component.html',
     styleUrl: './nosotros.component.css',
     changeDetection: ChangeDetectionStrategy.OnPush
