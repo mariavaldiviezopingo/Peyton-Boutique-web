@@ -17,7 +17,7 @@
             <div>
               <p class="text-lg font-bold">S/ {{item.precio* item.cantidad}}</p>
             </div>
-            <button class="text-gray-500 text-xl text-center">x</button>
+            <button class="text-gray-500 text-xl text-center" (click)="eliminarProducto(item)">x</button>
           </div>
         </div> 
       </div>

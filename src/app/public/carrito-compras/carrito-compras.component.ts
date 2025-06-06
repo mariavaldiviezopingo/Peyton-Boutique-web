@@ -24,7 +24,7 @@ export class CarritoComprasComponent {
     this.router.navigate(['pasarela']);
   }
 
-  get subtotal(): number { 
+  get subtotal(): number {
     return this.items.reduce(
       (sum, item) => sum + item.precio * item.cantidad,
       0
@@ -34,5 +34,9 @@ export class CarritoComprasComponent {
   get total(): number {
     // Si tienes costo de envío, súmalo aquí. Por ahora es 0.
     return this.subtotal;
+  }
+  eliminarProducto(item: ItemCarrito) {
+    this.carritoService.removeItem(item);
+    this.items = this.carritoService.getItems(); // refrescar lista local
   }
 }
