@@ -1,0 +1,6 @@
+.title {
+  @apply text-3xl md:text-4xl font-bold text-gray-800 mb-4;
+}
+.title_underline {
+  @apply w-24 h-1 bg-primary mb-6 transition-all;
+}
