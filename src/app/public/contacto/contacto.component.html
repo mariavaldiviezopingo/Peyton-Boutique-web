@@ -146,13 +146,13 @@
         @if (showSuccessMessage()) {
         <div
           [class]="
-            'fixed top-24 left-1/2 z-50 bg-green-50 border border-green-200 rounded-lg p-4 shadow-lg w-10/12 max-w-md mx-4 ' +
+            'fixed top-24 left-1/2 transform -translate-x-1/2 z-50 bg-green-50 border border-green-200 rounded-lg p-6 shadow-xl w-11/12 max-w-md ' +
             (isAnimatingOut() ? 'animate-out' : 'animate-in')
           "
         >
           <div class="flex items-center">
             <svg
-              class="size-10 text-green-400 mr-3"
+              class="w-8 h-8 text-green-400 mr-3 flex-shrink-0"
               fill="currentColor"
               viewBox="0 0 20 20"
             >
@@ -162,7 +162,7 @@
                 clip-rule="evenodd"
               ></path>
             </svg>
-            <p class="text-green-800 font-medium">
+            <p class="text-green-800 font-medium text-sm sm:text-base">
               ¡Mensaje enviado exitosamente! Nos pondremos en contacto contigo
               pronto.
             </p>
