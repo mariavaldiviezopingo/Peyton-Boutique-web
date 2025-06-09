@@ -12,10 +12,16 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { WhatsappButtonComponent } from '../components';
 
 @Component({
   selector: 'app-contacto',
-  imports: [RouterModule, CommonModule, ReactiveFormsModule],
+  imports: [
+    RouterModule,
+    CommonModule,
+    ReactiveFormsModule,
+    WhatsappButtonComponent,
+  ],
   templateUrl: './contacto.component.html',
   styleUrl: './contacto.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
