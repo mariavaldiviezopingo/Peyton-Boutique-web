@@ -1,0 +1,126 @@
+Paso 2: Entrega
+<div class="w-full max-w-[1200px] px-4 mx-auto mt-24">
+  <!-- Progress Bar -->
+  <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
+    <div class="flex flex-col items-center">
+      <div class="bg-primary text-white w-8 h-8 flex items-center justify-center rounded-full">1</div>
+      <span class="text-sm mt-2 text-center">Información de contacto</span>
+    </div>
+    <div class="flex-1 hidden sm:block h-px bg-gray-300 mx-2"></div>
+    <div class="flex flex-col items-center">
+      <div class="bg-primary text-white w-8 h-8 flex items-center justify-center rounded-full">2</div>
+      <span class="text-sm mt-2 text-center text-primary font-semibold">Entrega</span>
+    </div>
+    <div class="flex-1 hidden sm:block h-px bg-gray-300 mx-2"></div>
+    <div class="flex flex-col items-center">
+      <div class="bg-gray-300 text-gray-500 w-8 h-8 flex items-center justify-center rounded-full">3</div>
+      <span class="text-sm mt-2 text-center text-gray-500">Pago</span>
+    </div>
+  </div>
+</div>
+
+<!-- Formulario Entrega -->
+<div class="bg-white p-6 rounded-lg shadow-md w-full max-w-lg mx-auto mt-10 px-4">
+  <form>
+    <!-- País / Región -->
+    <div class="mb-4">
+      <label for="pais" class="block text-sm font-semibold text-gray-700">País / Región</label>
+      <input
+        type="text"
+        id="pais"
+        name="pais"
+        ngModel
+        class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-primary outline-none"
+        required
+      />
+    </div>
+
+    <!-- Dirección completa -->
+    <div class="mb-4">
+      <label for="direccion" class="block text-sm font-semibold text-gray-700">Dirección completa</label>
+      <input
+        type="text"
+        id="direccion"
+        name="direccion"
+        ngModel
+        class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-primary outline-none"
+        required
+      />
+    </div>
+
+    <!-- Departamento / Provincia -->
+    <div class="mb-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div>
+        <label for="departamento" class="block text-sm font-semibold text-gray-700">Departamento</label>
+        <input
+          type="text"
+          id="departamento"
+          name="departamento"
+          ngModel
+          class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-primary outline-none"
+          required
+        />
+      </div>
+      <div>
+        <label for="provincia" class="block text-sm font-semibold text-gray-700">Provincia</label>
+        <input
+          type="text"
+          id="provincia"
+          name="provincia"
+          ngModel
+          class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-primary outline-none"
+          required
+        />
+      </div>
+    </div>
+
+    <!-- Distrito / Código Postal -->
+    <div class="mb-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div>
+        <label for="distrito" class="block text-sm font-semibold text-gray-700">Distrito</label>
+        <input
+          type="text"
+          id="distrito"
+          name="distrito"
+          ngModel
+          class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-primary outline-none"
+          required
+        />
+      </div>
+      <div>
+        <label for="postal" class="block text-sm font-semibold text-gray-700">Código Postal</label>
+        <input
+          type="text"
+          id="postal"
+          name="postal"
+          ngModel
+          class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-primary outline-none"
+          required
+        />
+      </div>
+    </div>
+
+    <!-- Referencia -->
+    <div class="mb-6">
+      <label for="referencia" class="block text-sm font-semibold text-gray-700">Referencia</label>
+      <input
+        type="text"
+        id="referencia"
+        name="referencia"
+        ngModel
+        class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary focus:border-primary outline-none"
+        required
+      />
+    </div>
+
+    <!-- Botón -->
+    <button
+      type="submit"
+      class="w-full bg-primary text-white py-2 rounded-lg hover:bg-primary-dark transition-colors duration-300 font-semibold"
+    >
+      Continuar
+    </button>
+  </form>
+</div>
+
+

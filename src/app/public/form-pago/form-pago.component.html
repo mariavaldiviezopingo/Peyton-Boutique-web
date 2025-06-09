@@ -1,0 +1,142 @@
+<!-- Paso 3: Pago -->
+  <div class="w-full max-w-[1200px] px-4 mx-auto mt-24 h-auto">
+    <!-- Progress Bar -->
+    <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
+      <div class="flex flex-col items-center">
+        <a href="/infoContacto" class="bg-primary text-white w-8 h-8 flex items-center justify-center rounded-full">1</a>
+        <span class="text-sm mt-2 text-center">Información de contacto</span>
+      </div>
+      <div class="flex-1 hidden sm:block h-px bg-gray-300 mx-2"></div>
+      <div class="flex flex-col items-center">
+        <a href="/entrega" class="bg-primary text-white w-8 h-8 flex items-center justify-center rounded-full">2</a>
+        <span class="text-sm mt-2 text-center">Entrega</span>
+      </div>
+      <div class="flex-1 hidden sm:block h-px bg-gray-300 mx-2"></div>
+      <div class="flex flex-col items-center">
+        <div class="bg-primary text-white w-8 h-8 flex items-center justify-center rounded-full">3</div>
+        <span class="text-sm mt-2 text-center text-primary font-semibold">Pago</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Contenido del paso de pago -->
+  <div class="w-full max-w-[1200px] mx-auto px-4 mt-10 grid grid-cols-1 md:grid-cols-3 gap-6 mb-20">
+    
+  <!-- Métodos de Pago -->
+  <div class="md:col-span-2 space-y-6">
+    <!-- Yape -->
+    <label class="block cursor-pointer">
+      <input type="radio" name="paymentMethod" value="yape" class="sr-only peer" />
+      <div
+        class="flex flex-row justify-between bg-gray-50 border border-gray-200 peer-checked:border-primary rounded-lg p-4 shadow-sm">
+        <div>
+          <div class="flex items-center mb-4">
+            <div
+              class="w-4 h-4 border-2 border-gray-400 rounded-full mr-2 flex items-center justify-center peer-checked:border-primary peer-checked:bg-primary">
+              <div class="w-2 h-2 bg-white rounded-full"></div>
+            </div>
+            <h3 class="text-lg font-semibold text-gray-800">Yape</h3>
+          </div>
+          <p class="text-sm text-gray-600 mb-4">
+            Para finalizar la compra:<br />
+            1. Escanea el siguiente QR desde tu App Yape<br />
+            2. Verifica el monto.<br />
+            3. Confirma el pago.
+          </p>
+        </div>
+        <img src="https://pepestubroaster.com/wp-content/uploads/QR-Yape-Pepes-Tu-Broaster.jpg" alt="QR Yape" class="w-40 h-40 object-cover" />
+      </div>
+    </label>
+  
+    <!-- Tarjeta de crédito -->
+    <label class="block cursor-pointer">
+      <input type="radio" name="paymentMethod" value="tarjeta" class="sr-only peer" />
+      <div class="bg-gray-50 border border-gray-200 peer-checked:border-primary rounded-lg p-4 shadow-sm">
+        <div class="flex items-center mb-4">
+          <div
+            class="w-4 h-4 border-2 border-gray-400 rounded-full mr-2 flex items-center justify-center peer-checked:border-primary peer-checked:bg-primary">
+            <div class="w-2 h-2 bg-white rounded-full"></div>
+          </div>
+          <h3 class="text-lg font-semibold text-gray-800">Tarjeta de crédito</h3>
+        </div>
+        <form class="space-y-4">
+          <input type="text" placeholder="Número de tarjeta"
+            class="w-full border-b-2 border-primary focus:outline-none p-2" />
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <input type="text" placeholder="Expiración" class="border-b-2 border-primary focus:outline-none p-2" />
+            <input type="text" placeholder="Código de Seguridad"
+              class="border-b-2 border-primary focus:outline-none p-2" />
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <select class="border-b-2 border-primary focus:outline-none p-2">
+              <option>DNI</option>
+              <option>CE</option>
+              <option>Pasaporte</option>
+            </select>
+            <input type="text" placeholder="Nro de documento" class="border-b-2 border-primary focus:outline-none p-2" />
+          </div>
+        </form>
+      </div>
+    </label>
+  </div>
+
+
+  <!-- Resumen de compra -->
+  <div class="p-6 bg-white rounded-lg shadow-xl border-2 border-gray-200">
+    <div class="space-y-2">
+      <div class="flex items-center justify-between border border-primary rounded-md p-2">
+        <div class="flex items-center space-x-2">
+          <span class="bg-primary text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">3</span>
+          <span class="text-sm">Blusa woman</span>
+        </div>
+        <span class="text-sm font-medium">150.00</span>
+      </div>
+      <div class="flex items-center justify-between border border-primary rounded-md p-2">
+        <span class="text-sm">Pantalón men</span>
+        <span class="text-sm font-medium">300.00</span>
+      </div>
+      <div class="flex items-center justify-between border border-primary rounded-md p-2">
+        <span class="text-sm">Vestido blue</span>
+        <span class="text-sm font-medium">130.00</span>
+      </div>
+    </div>
+  
+    <div class="border-t pt-4 space-y-1">
+      <h4 class="text-base font-semibold text-primary mb-2">Resumen de la compra</h4>
+      <div class="flex justify-between text-sm">
+        <span>Subtotal:</span>
+        <span>580.00</span>
+      </div>
+      <div class="flex justify-between text-sm">
+        <span>Precio IGV:</span>
+        <span>10.00</span>
+      </div>
+      <div class="flex justify-between font-semibold text-lg mt-2">
+        <span>Monto total:</span>
+        <span>590.00</span>
+      </div>
+    </div>
+  
+    <button type="button"
+      class="w-full bg-primary text-white py-2 rounded-lg hover:bg-primary-dark transition duration-300 font-semibold">
+      Continuar
+    </button>
+  </div>
+
+  </div>
+
+
+  <form>
+  <p>Seleccione su color favorito:</p>
+
+  <input type="radio" id="rojo" name="color" value="rojo">
+  <label for="rojo">Rojo</label><br>
+
+  <input type="radio" id="azul" name="color" value="azul">
+  <label for="azul">Azul</label><br>
+
+  <input type="radio" id="verde" name="color" value="verde">
+  <label for="verde">Verde</label><br>
+
+  <input type="submit" value="Enviar">
+</form>

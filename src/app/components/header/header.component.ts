@@ -10,6 +10,7 @@ import {
 } from '@angular/core';
 import { RouterModule } from '@angular/router'; // Importa RouterModule
 import { CurrentUser } from '@app/models/current-user';
+import { CarritoService } from '@app/public/carrito-compras/carrito.service';
 import { AuthService } from '@app/services/auth.service';
 
 @Component({
@@ -24,6 +25,7 @@ export class HeaderComponent {
   navPosition = this.message ? 'top-6' : 'top-0';
   menuPosition = this.message ? 'top-[6.5rem]' : 'top-20';
   menuVisible = false;
+  cantidadCarrito = 0;
 
   eRef = inject(ElementRef);
   private authService = inject(AuthService);
@@ -32,7 +34,7 @@ export class HeaderComponent {
   isLogged = signal(false);
   currentUser = signal<CurrentUser | null>(null);
 
-  constructor() {
+  constructor(private carritoService: CarritoService) {
     // Escuchar el estado de autenticación
     effect(() => {
       this.authService.isAuthenticated$.subscribe((auth) => {
@@ -44,6 +46,10 @@ export class HeaderComponent {
       this.authService.currentUser$.subscribe((user) => {
         this.currentUser.set(user);
       });
+    });
+
+    this.carritoService.cantidadTotal$.subscribe(cantidad => {
+      this.cantidadCarrito = cantidad;
     });
   }
 

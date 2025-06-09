@@ -7,6 +7,7 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { CarritoService } from '../carrito-compras/carrito.service';
 import {
   CatalogoService,
@@ -36,6 +37,10 @@ export class ProductDetailComponent implements OnInit {
 
   selectedVariante: VarianteProducto | null = null;
   relatedProducts: Product[] = []; // Array para almacenar los productos relacionados
+  private routeSub?: Subscription;
+
+  estadoStock: string = 'Stock';
+  colorStock: string = 'text-green-600';
 
   constructor(
     private route: ActivatedRoute,
@@ -45,16 +50,22 @@ export class ProductDetailComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    // Escuchar cambios en los parámetros de la ruta
-    this.route.paramMap.subscribe((params) => {
+    // Suscribirse a los cambios de parámetros de la ruta
+    this.routeSub = this.route.paramMap.subscribe((params) => {
       const id = params.get('id');
-      console.log('Parámetro ID recibido:', id); // Rastreo del ID recibido
       if (id) {
-        this.loadProduct(+id); // Cargar el producto con el nuevo ID
+        this.loadProduct(+id);
       } else {
-        console.error('No se recibió un ID válido');
+        this.product = undefined;
+        this.relatedProducts = [];
+        this.cdr.markForCheck();
       }
     });
+  }
+
+  ngOnDestroy() {
+    // Limpiar la suscripción al destruir el componente
+    this.routeSub?.unsubscribe();
   }
 
   // Método para cargar el producto
@@ -74,9 +85,13 @@ export class ProductDetailComponent implements OnInit {
             ...new Set(this.product.variantes.map((v) => v.color)),
           ];
           console.log('Tallas únicas calculadas:', this.tallasUnicas); // Rastreo de las tallas únicas
+
           // Cargar productos relacionados basados en la categoría
-          this.loadRelatedProducts(this.product.categoria);
-          this.cdr.detectChanges();
+          this.loadRelatedProducts(this.product.categoria, this.product.id);
+          this.cdr.markForCheck();
+
+          this.actualizarEstadoStock();
+          this.cdr.markForCheck();
         }
       },
       error: (err) => {
@@ -85,18 +100,20 @@ export class ProductDetailComponent implements OnInit {
     });
   }
 
-  private loadRelatedProducts(category: string) {
+  private loadRelatedProducts(category: string, currentProductId: number) {
+    this.relatedProducts = [];
     console.log('Cargando productos relacionados para la categoría:', category);
     this.catalogoService.getProductsByCategory(category).subscribe({
       next: (products) => {
-        // Filtrar para excluir el producto actual y limitar a 5 productos
         this.relatedProducts = products
-          .filter((p) => p.id !== this.product?.id)
-          .slice(0, 5); // Limitar a los primeros 5 productos
+          .filter((p) => p.id !== currentProductId)
+          .slice(0, 5);
         console.log('Productos relacionados cargados:', this.relatedProducts);
+        this.cdr.markForCheck();
       },
       error: (err) => {
         console.error('Error al cargar productos relacionados:', err);
+        this.cdr.markForCheck();
       },
     });
   }
@@ -135,4 +152,39 @@ export class ProductDetailComponent implements OnInit {
   decrementarCantidad() {
     this.cantidadSeleccionada = Math.max(1, this.cantidadSeleccionada - 1);
   }
+
+  actualizarEstadoStock() {
+  if (!this.product || !this.product.variantes || this.product.variantes.length === 0) {
+    this.estadoStock = '';
+    this.colorStock = '';
+    return;
+  }
+
+  // Si todas las variantes tienen stock 0, mostrar "Agotado"
+  const todasAgotadas = this.product.variantes.every(v => v.stock === 0);
+  if (todasAgotadas) {
+    this.estadoStock = 'Agotado';
+    this.colorStock = 'text-red-600';
+    return;
+  }
+
+  // Si hay variante seleccionada, evalúa su estado
+  if (this.selectedVariante) {
+    if (this.selectedVariante.stock === 0) {
+      this.estadoStock = 'Agotado';
+      this.colorStock = 'text-red-600';
+    } else if (this.selectedVariante.desestimado) {
+      this.estadoStock = 'Desestimado';
+      this.colorStock = 'text-orange-500';
+    } else {
+      this.estadoStock = 'Stock';
+      this.colorStock = 'text-green-600';
+    }
+    return;
+  }
+
+  // Si no hay variante seleccionada y no todas están agotadas, mostrar "Stock"
+  this.estadoStock = 'Stock';
+  this.colorStock = 'text-green-600';
+}
 }
