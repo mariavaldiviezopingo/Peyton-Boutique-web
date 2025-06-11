@@ -65,23 +65,17 @@
             </svg>
           </div>
           <div class="min-w-0 flex-1">
-            <h3
-              class="text-lg font-semibold text-secondary transition-colors duration-200"
-            >
-              Ubicación
+            <h3 class="text-lg font-semibold text-secondary mb-1">
+              Nuestra Ubicación
             </h3>
-            <p
-              class="text-gray-600 text-sm sm:text-base transition-colors duration-200"
-            >
-              Jirón Callao 375 - Piura
-            </p>
+            <p class="text-gray-600 text-sm">Jr. Callao 375, Piura 20001</p>
           </div>
         </div>
       </a>
 
       <a
         href="mailto:casasempeño&#64;gmail.com?subject=Consulta desde sitio web&body=Hola, me gustaría obtener más información sobre sus servicios."
-        class="block bg-white rounded-xl shadow-lg p-6 border-l-4 border-primary transition-all duration-300 transform hover:-translate-y-1 cursor-pointer"
+        class="block bg-white rounded-xl shadow-lg p-6 border-l-4 border-primary hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer"
         title="Enviar correo electrónico"
       >
         <div class="flex items-center mb-4">
@@ -103,14 +97,10 @@
             </svg>
           </div>
           <div class="min-w-0 flex-1">
-            <h3
-              class="text-lg font-semibold text-secondary transition-colors duration-200"
-            >
-              Email
+            <h3 class="text-lg font-semibold text-secondary mb-1">
+              Correo Electrónico
             </h3>
-            <p
-              class="text-gray-600 text-sm sm:text-base break-words transition-colors duration-200"
-            >
+            <p class="text-gray-600 text-sm break-words">
               casasempeño&#64;gmail.com
             </p>
           </div>
@@ -139,10 +129,8 @@
             </svg>
           </div>
           <div class="min-w-0 flex-1">
-            <h3 class="text-lg font-semibold text-secondary">Teléfono</h3>
-            <p class="text-gray-600 text-sm sm:text-base">
-              978781880 - 969575831
-            </p>
+            <h3 class="text-lg font-semibold text-secondary mb-1">Teléfono</h3>
+            <p class="text-gray-600 text-sm">978781880 - 969575831</p>
           </div>
         </div>
       </div>
@@ -188,6 +176,32 @@
         </div>
         }
 
+        <!-- Error Message -->
+        @if (showErrorMessage()) {
+        <div
+          [class]="
+            'fixed top-24 left-1/2 transform -translate-x-1/2 z-50 bg-red-50 border border-red-200 rounded-lg p-6 shadow-xl w-11/12 max-w-md ' +
+            (isAnimatingOut() ? 'animate-out' : 'animate-in')
+          "
+        >
+          <div class="flex items-center">
+            <svg
+              class="w-8 h-8 text-red-400 mr-3 flex-shrink-0"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                clip-rule="evenodd"
+              ></path>
+            </svg>
+            <p class="text-red-800 font-medium text-sm sm:text-base">
+              {{ errorMessage() }}
+            </p>
+          </div>
+        </div>
+        }
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           <!-- Nombre Field -->
           <div class="space-y-2">
@@ -316,6 +330,29 @@
               ></path>
             </svg>
             {{ getFieldError("mensaje") }}
+          </p>
+          }
+        </div>
+
+        <!-- reCAPTCHA Field -->
+        <div class="space-y-2">
+          <div class="flex justify-center">
+            <div
+              #recaptchaElement
+              id="recaptcha-container"
+              class="g-recaptcha transform scale-90 sm:scale-100 origin-center"
+            ></div>
+          </div>
+          @if (recaptchaError()) {
+          <p class="text-red-500 text-sm flex items-center justify-center">
+            <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+              <path
+                fill-rule="evenodd"
+                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                clip-rule="evenodd"
+              ></path>
+            </svg>
+            Por favor, completa la verificación reCAPTCHA
           </p>
           }
         </div>

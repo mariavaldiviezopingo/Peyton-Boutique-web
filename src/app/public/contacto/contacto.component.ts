@@ -3,6 +3,9 @@ import {
   Component,
   inject,
   signal,
+  AfterViewInit,
+  ElementRef,
+  ViewChild,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -13,7 +16,11 @@ import {
   Validators,
 } from '@angular/forms';
 import { WhatsappButtonComponent } from '../components';
-import { ContactService, ContactFormData } from '../../services';
+import {
+  ContactService,
+  ContactFormData,
+  RecaptchaService,
+} from '../../services';
 
 @Component({
   selector: 'app-contacto',
@@ -27,9 +34,16 @@ import { ContactService, ContactFormData } from '../../services';
   styleUrl: './contacto.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ContactoComponent {
+export class ContactoComponent implements AfterViewInit {
+  @ViewChild('recaptchaElement', { static: false })
+  recaptchaElement!: ElementRef;
+
   private fb = inject(FormBuilder);
   private contactService = inject(ContactService);
+  private recaptchaService = inject(RecaptchaService);
+
+  private recaptchaWidgetId: number | null = null;
+  private recaptchaToken: string = '';
 
   contactForm: FormGroup = this.fb.group({
     nombre: [
@@ -58,10 +72,49 @@ export class ContactoComponent {
   isSubmitting = signal(false);
   formSubmitted = signal(false);
   showSuccessMessage = signal(false);
+  showErrorMessage = signal(false);
+  errorMessage = signal('');
   isAnimatingOut = signal(false);
+  recaptchaError = signal(false);
+
+  ngAfterViewInit(): void {
+    this.initRecaptcha();
+  }
+
+  private async initRecaptcha(): Promise<void> {
+    if (!this.recaptchaElement) {
+      console.error('Elemento reCAPTCHA no encontrado');
+      return;
+    }
+
+    try {
+      this.recaptchaWidgetId = await this.recaptchaService.renderRecaptcha(
+        this.recaptchaElement.nativeElement,
+        (token: string) => {
+          this.recaptchaToken = token;
+          this.recaptchaError.set(false);
+        }
+      );
+    } catch (error) {
+      console.error('Error al inicializar reCAPTCHA:', error);
+    }
+  }
+
+  private resetRecaptcha(): void {
+    if (this.recaptchaWidgetId !== null) {
+      this.recaptchaService.resetRecaptcha(this.recaptchaWidgetId);
+      this.recaptchaToken = '';
+    }
+  }
 
   onSubmit() {
     this.formSubmitted.set(true);
+
+    // Validar reCAPTCHA
+    if (!this.recaptchaToken) {
+      this.recaptchaError.set(true);
+      return;
+    }
 
     if (this.contactForm.valid) {
       this.isSubmitting.set(true);
@@ -71,6 +124,7 @@ export class ContactoComponent {
         correoElectronico: this.contactForm.get('correo')?.value,
         asunto: this.contactForm.get('asunto')?.value,
         mensaje: this.contactForm.get('mensaje')?.value,
+        recaptchaToken: this.recaptchaToken,
       };
 
       this.contactService.sendContactForm(formData).subscribe({
@@ -80,6 +134,7 @@ export class ContactoComponent {
           this.showSuccessMessage.set(true);
           this.contactForm.reset();
           this.formSubmitted.set(false);
+          this.resetRecaptcha();
 
           setTimeout(() => {
             this.isAnimatingOut.set(true);
@@ -92,9 +147,29 @@ export class ContactoComponent {
         error: (error) => {
           console.error('Error al enviar el formulario:', error);
           this.isSubmitting.set(false);
-          alert(
-            'Hubo un error al enviar el mensaje. Por favor, inténtalo de nuevo.'
-          );
+          this.resetRecaptcha();
+
+          let errorMsg =
+            'Hubo un error al enviar el mensaje. Por favor, inténtalo de nuevo.';
+
+          if (error.error?.error === 'RECAPTCHA_VALIDATION_FAILED') {
+            errorMsg =
+              'Verificación de reCAPTCHA fallida. Por favor, inténtalo nuevamente.';
+          } else if (error.error?.message) {
+            errorMsg = error.error.message;
+          }
+
+          this.errorMessage.set(errorMsg);
+          this.showErrorMessage.set(true);
+
+          setTimeout(() => {
+            this.isAnimatingOut.set(true);
+            setTimeout(() => {
+              this.showErrorMessage.set(false);
+              this.isAnimatingOut.set(false);
+              this.errorMessage.set('');
+            }, 300);
+          }, 5000);
         },
       });
     } else {
@@ -129,6 +204,12 @@ export class ContactoComponent {
         if (fieldName === 'nombre') {
           return 'El nombre solo puede contener letras y espacios';
         }
+      }
+      if (field.errors['invalidName']) {
+        return 'El nombre solo puede contener letras y espacios';
+      }
+      if (field.errors['onlySpaces']) {
+        return 'El campo no puede contener solo espacios';
       }
     }
     return '';

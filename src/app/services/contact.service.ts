@@ -8,11 +8,13 @@ export interface ContactFormData {
   correoElectronico: string;
   asunto: string;
   mensaje: string;
+  recaptchaToken: string;
 }
 
 export interface ContactFormResponse {
   success: boolean;
   message: string;
+  error?: string | null;
 }
 
 @Injectable({

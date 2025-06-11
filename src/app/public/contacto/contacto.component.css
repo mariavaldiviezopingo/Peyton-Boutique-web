@@ -42,3 +42,14 @@
 .animate-out {
   animation: slide-out-to-top 0.3s ease-in forwards;
 }
+
+.g-recaptcha {
+  display: inline-block;
+}
+
+@media (max-width: 640px) {
+  .g-recaptcha {
+    transform: scale(0.85);
+    transform-origin: 0 0;
+  }
+}
