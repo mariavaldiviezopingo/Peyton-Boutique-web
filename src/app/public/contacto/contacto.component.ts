@@ -13,6 +13,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { WhatsappButtonComponent } from '../components';
+import { ContactService, ContactFormData } from '../../services';
 
 @Component({
   selector: 'app-contacto',
@@ -28,6 +29,7 @@ import { WhatsappButtonComponent } from '../components';
 })
 export class ContactoComponent {
   private fb = inject(FormBuilder);
+  private contactService = inject(ContactService);
 
   contactForm: FormGroup = this.fb.group({
     nombre: [
@@ -64,22 +66,37 @@ export class ContactoComponent {
     if (this.contactForm.valid) {
       this.isSubmitting.set(true);
 
-      // Simulamos el envío del formulario - conectar a backend o servicio
-      setTimeout(() => {
-        console.log('Formulario enviado:', this.contactForm.value);
-        this.isSubmitting.set(false);
-        this.showSuccessMessage.set(true);
-        this.contactForm.reset();
-        this.formSubmitted.set(false);
+      const formData: ContactFormData = {
+        nombreCompleto: this.contactForm.get('nombre')?.value,
+        correoElectronico: this.contactForm.get('correo')?.value,
+        asunto: this.contactForm.get('asunto')?.value,
+        mensaje: this.contactForm.get('mensaje')?.value,
+      };
 
-        setTimeout(() => {
-          this.isAnimatingOut.set(true);
+      this.contactService.sendContactForm(formData).subscribe({
+        next: (response) => {
+          console.log('Formulario enviado exitosamente:', response);
+          this.isSubmitting.set(false);
+          this.showSuccessMessage.set(true);
+          this.contactForm.reset();
+          this.formSubmitted.set(false);
+
           setTimeout(() => {
-            this.showSuccessMessage.set(false);
-            this.isAnimatingOut.set(false);
-          }, 300);
-        }, 4000);
-      }, 2000);
+            this.isAnimatingOut.set(true);
+            setTimeout(() => {
+              this.showSuccessMessage.set(false);
+              this.isAnimatingOut.set(false);
+            }, 300);
+          }, 4000);
+        },
+        error: (error) => {
+          console.error('Error al enviar el formulario:', error);
+          this.isSubmitting.set(false);
+          alert(
+            'Hubo un error al enviar el mensaje. Por favor, inténtalo de nuevo.'
+          );
+        },
+      });
     } else {
       Object.keys(this.contactForm.controls).forEach((key) => {
         this.contactForm.get(key)?.markAsTouched();
