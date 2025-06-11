@@ -59,6 +59,9 @@ export class ContactoComponent {
   formSubmitted = signal(false);
   showSuccessMessage = signal(false);
   isAnimatingOut = signal(false);
+  showErrorMessage = signal(false);
+  isAnimatingOutError = signal(false);
+  errorMessage = signal('');
 
   onSubmit() {
     this.formSubmitted.set(true);
@@ -92,9 +95,31 @@ export class ContactoComponent {
         error: (error) => {
           console.error('Error al enviar el formulario:', error);
           this.isSubmitting.set(false);
-          alert(
-            'Hubo un error al enviar el mensaje. Por favor, inténtalo de nuevo.'
-          );
+
+          // Configurar mensaje de error basado en el tipo de error
+          let errorMsg =
+            'Hubo un error al enviar el mensaje. Por favor, inténtalo de nuevo.';
+
+          if (error.status === 0) {
+            errorMsg =
+              'Error de conexión. Verifica tu conexión a internet e inténtalo de nuevo.';
+          } else if (error.status >= 400 && error.status < 500) {
+            errorMsg =
+              'Error en los datos enviados. Por favor, verifica la información e inténtalo de nuevo.';
+          } else if (error.status >= 500) {
+            errorMsg = 'Error del servidor. Por favor, inténtalo más tarde.';
+          }
+
+          this.errorMessage.set(errorMsg);
+          this.showErrorMessage.set(true);
+
+          setTimeout(() => {
+            this.isAnimatingOutError.set(true);
+            setTimeout(() => {
+              this.showErrorMessage.set(false);
+              this.isAnimatingOutError.set(false);
+            }, 300);
+          }, 5000);
         },
       });
     } else {
