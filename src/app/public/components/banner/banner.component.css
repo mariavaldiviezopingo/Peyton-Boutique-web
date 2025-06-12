@@ -1,44 +1,43 @@
 @keyframes carousel {
-    0%, 100% {
-        opacity: 1;
-    }
-    33%, 66% {
-        opacity: 0;
-    }
+  0%,
+  100% {
+    opacity: 1;
+  }
+  33%,
+  66% {
+    opacity: 0;
+  }
 }
 
 .animate-carousel {
-    position: relative;
-    width: 100%;
-    height: 100%;
+  position: relative;
+  width: 100%;
+  height: 100%;
 }
 
 .animate-carousel img {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    opacity: 0;  /* Todas las imágenes comienzan invisibles */
-    animation: carousel 9s infinite;  /* Duración extendida */
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0; /* Todas las imágenes comienzan invisibles */
+  animation: carousel 9s infinite; /* Duración extendida */
 }
 
 /* Configuración para cada imagen */
 .animate-carousel img:nth-child(1) {
-    animation-delay: 0s; /* Primera imagen empieza primero */
+  animation-delay: 0s; /* Primera imagen empieza primero */
 }
 
 .animate-carousel img:nth-child(2) {
-    animation-delay: 3s; /* Segunda imagen aparece después de 3 segundos */
+  animation-delay: 3s; /* Segunda imagen aparece después de 3 segundos */
 }
 
 .animate-carousel img:nth-child(3) {
-    animation-delay: 6s; /* Tercera imagen aparece después de 6 segundos */
+  animation-delay: 6s; /* Tercera imagen aparece después de 6 segundos */
 }
-
-
-
 
 .btn {
   border: none;
@@ -52,13 +51,13 @@
   color: #fff;
   font-weight: 700;
   font-size: 15px;
-  background-color: #003C4B;
+  background-color: #003c4b;
   padding: 17px 60px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.20);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
 .btn span {
-  position: relative; 
+  position: relative;
   z-index: 1;
 }
 
@@ -69,9 +68,9 @@
   top: 0;
   height: 490%;
   width: 140%;
-  background: #00A48A;
-  -webkit-transition: all .5s ease-in-out;
-  transition: all .5s ease-in-out;
+  background: #00a48a;
+  -webkit-transition: all 0.5s ease-in-out;
+  transition: all 0.5s ease-in-out;
   -webkit-transform: translateX(-98%) translateY(-25%) rotate(45deg);
   transform: translateX(-98%) translateY(-25%) rotate(45deg);
 }
@@ -88,5 +87,5 @@
 
 .link a {
   color: #000;
-  font-size: 25px; 
+  font-size: 25px;
 }

@@ -27,29 +27,26 @@
     </div>
   </div>
 
-  
-
-<!-- Contenido del Banner -->
-<div class="relative z-40 text-center md:text-left md:max-w-full bg-black/50 p-6 rounded-lg flex flex-col md:flex-row items-center justify-center w-full mt-0">
-  <!-- Texto del Banner -->
-<div class="md:w-1/2 text-center md:text-left">
-  <h1 class="text-3xl md:text-5xl font-bold leading-relaxed text-white ">
-    DESCUBRE 
-    PRODUCTOS 
-    <span class="bg-teal-500 text-white px-2">ÚNICOS</span>
-  </h1>
-  <div>
-    <div class="mt-10">
-      <button class="btn"><span>COMPRAR AHORA!</span></button>
-      <!--<p class="link">
+  <!-- Contenido del Banner -->
+  <div
+    class="relative z-40 text-center md:text-left md:max-w-full bg-black/50 p-6 rounded-lg flex flex-col md:flex-row items-center justify-center w-full mt-0"
+  >
+    <!-- Texto del Banner -->
+    <div class="md:w-1/2 text-center md:text-left">
+      <h1 class="text-3xl md:text-5xl font-bold leading-relaxed text-white">
+        DESCUBRE PRODUCTOS
+        <span class="bg-teal-500 text-white px-2">ÚNICOS</span>
+      </h1>
+      <div>
+        <div class="mt-10">
+          <button class="btn"><span>COMPRAR AHORA!</span></button>
+          <!--<p class="link">
         Design by 
         <a href="https://dribbble.com/skytrip" target="_blank">SkyTrip</a>
       </p>-->
+        </div>
+      </div>
     </div>
-  </div>
-  
- 
-</div>
 
     <!-- Imagen lateral (visible en pantallas medianas en adelante) -->
     <div class="md:block flex justify-center">
@@ -59,20 +56,21 @@
           alt="Logo Peyton"
           class="max-w-full md:max-w-sm lg:w-[500px] w-[250px]"
         />
+      </div>
     </div>
-  </div>
 
-  <!-- Controles -->
-  <button
-    (click)="prevSlide()"
-    class="absolute top-1/2 left-4 transform -translate-y-1/2 bg-black/50 text-white rounded-full p-2 hover:bg-black z-40"
-  >
-    &#x2039;
-  </button>
-  <button
-    (click)="nextSlide()"
-    class="absolute top-1/2 right-4 transform -translate-y-1/2 bg-black/50 text-white rounded-full p-2 hover:bg-black z-40"
-  >
-    &#x203A;
-  </button>
+    <!-- Controles -->
+    <button
+      (click)="prevSlide()"
+      class="absolute top-1/2 left-4 transform -translate-y-1/2 bg-black/50 text-white rounded-full p-2 hover:bg-black z-40"
+    >
+      &#x2039;
+    </button>
+    <button
+      (click)="nextSlide()"
+      class="absolute top-1/2 right-4 transform -translate-y-1/2 bg-black/50 text-white rounded-full p-2 hover:bg-black z-40"
+    >
+      &#x203A;
+    </button>
+  </div>
 </div>
