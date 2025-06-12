@@ -1,15 +1,16 @@
 <div
   class="relative w-full overflow-hidden px-4 sm:px-12 lg:px-20 py-6 sm:py-16 lg:py-20"
 >
-  <div class="flex items-center justify-between mb-4 sm:mb-6">
-    <h2
-      class="text-base sm:text-xl lg:text-2xl font-bold relative text-secondary"
-    >
-      CATEGORÍAS
-      <span
-        class="absolute bottom-0 left-0 w-8 sm:w-12 h-0.5 sm:h-1 bg-primary rounded-full"
-      ></span>
-    </h2>
+  <div
+    class="flex items-center lg:items-start justify-between lg:justify-start mb-4 sm:mb-6"
+  >
+    <div class="text-center lg:text-left w-full">
+      <h2 class="text-3xl md:text-4xl font-bold text-secondary mb-4">
+        Categorías
+      </h2>
+      <div class="w-24 h-1 bg-primary mx-auto lg:mx-0 mb-6"></div>
+    </div>
+
     <!-- Botones de navegación solo visibles en pantallas más grandes -->
     <div class="hidden sm:flex space-x-2">
       <button
@@ -74,7 +75,7 @@
         />
       </div>
       <p
-        class="text-center text-xs xs:text-sm sm:text-base lg:text-lg font-medium text-secondary group-hover:text-primary transition-colors duration-300 px-1"
+        class="text-center text-sm sm:text-base lg:text-lg font-medium text-secondary group-hover:text-primary transition-colors duration-300 px-1"
       >
         {{ categoria.nombre }}
       </p>
