@@ -16,56 +16,103 @@ export class CategoriasComponent implements AfterViewInit {
   isScrollRightDisabled = false;
 
   categorias = [
-    { nombre: 'Ropa', icon: 'assets/icons/ropa.svg', color: 'bg-blue-100' },
+    {
+      nombre: 'Ropa',
+      icon: 'assets/icons/ropa.svg',
+      color: 'bg-primary/5 hover:bg-primary/10',
+    },
     {
       nombre: 'Zapatos',
       icon: 'assets/icons/zapato.svg',
-      color: 'bg-green-100',
+      color: 'bg-primary/5 hover:bg-primary/10',
     },
     {
       nombre: 'Accesorios',
       icon: 'assets/icons/accesorios.svg',
-      color: 'bg-red-100',
+      color: 'bg-primary/5 hover:bg-primary/10',
     },
     {
       nombre: 'Juguetes',
       icon: 'assets/icons/juguetes.svg',
-      color: 'bg-orange-100',
+      color: 'bg-primary/5 hover:bg-primary/10',
     },
-    { nombre: 'Hogar', icon: 'assets/icons/hogar.svg', color: 'bg-purple-100' },
+    {
+      nombre: 'Hogar',
+      icon: 'assets/icons/hogar.svg',
+      color: 'bg-primary/5 hover:bg-primary/10',
+    },
     {
       nombre: 'Escuela',
       icon: 'assets/icons/escuela.svg',
-      color: 'bg-blue-100',
+      color: 'bg-primary/5 hover:bg-primary/10',
     },
     {
       nombre: 'Belleza',
       icon: 'assets/icons/Belleza.svg',
-      color: 'bg-green-100',
+      color: 'bg-primary/5 hover:bg-primary/10',
     },
   ];
-
-  selectCategory(categoria: string): void {
-    this.router.navigate(['/catalogo', categoria]);
-  }
 
   ngAfterViewInit() {
     this.updateButtonState();
     this.carousel.nativeElement.addEventListener('scroll', () =>
       this.updateButtonState()
     );
+
+    // Mejorar la experiencia en móvil con gestos de toque
+    this.setupTouchNavigation();
+  }
+
+  private setupTouchNavigation() {
+    let startX = 0;
+    let scrollLeft = 0;
+    let isDown = false;
+
+    this.carousel.nativeElement.addEventListener(
+      'touchstart',
+      (e: TouchEvent) => {
+        isDown = true;
+        startX = e.touches[0].pageX - this.carousel.nativeElement.offsetLeft;
+        scrollLeft = this.carousel.nativeElement.scrollLeft;
+      }
+    );
+
+    this.carousel.nativeElement.addEventListener(
+      'touchmove',
+      (e: TouchEvent) => {
+        if (!isDown) return;
+        e.preventDefault();
+        const x = e.touches[0].pageX - this.carousel.nativeElement.offsetLeft;
+        const walk = (x - startX) * 2;
+        this.carousel.nativeElement.scrollLeft = scrollLeft - walk;
+      }
+    );
+
+    this.carousel.nativeElement.addEventListener('touchend', () => {
+      isDown = false;
+    });
   }
 
   scrollLeft() {
+    const scrollAmount =
+      window.innerWidth < 640
+        ? this.carousel.nativeElement.clientWidth * 0.8
+        : this.carousel.nativeElement.clientWidth;
+
     this.carousel.nativeElement.scrollBy({
-      left: -this.carousel.nativeElement.clientWidth,
+      left: -scrollAmount,
       behavior: 'smooth',
     });
   }
 
   scrollRight() {
+    const scrollAmount =
+      window.innerWidth < 640
+        ? this.carousel.nativeElement.clientWidth * 0.8
+        : this.carousel.nativeElement.clientWidth;
+
     this.carousel.nativeElement.scrollBy({
-      left: this.carousel.nativeElement.clientWidth,
+      left: scrollAmount,
       behavior: 'smooth',
     });
   }
@@ -75,7 +122,17 @@ export class CategoriasComponent implements AfterViewInit {
     const maxScrollLeft =
       this.carousel.nativeElement.scrollWidth -
       this.carousel.nativeElement.clientWidth;
-    this.isScrollLeftDisabled = scrollLeft <= 0;
-    this.isScrollRightDisabled = scrollLeft >= maxScrollLeft;
+
+    // Add small buffer to prevent disabled state when very close to edge
+    this.isScrollLeftDisabled = scrollLeft <= 4;
+    this.isScrollRightDisabled = scrollLeft >= maxScrollLeft - 5;
+  }
+
+  selectCategory(categoria: string): void {
+    // Agregar feedback haptic en dispositivos móviles si está disponible
+    if ('vibrate' in navigator) {
+      navigator.vibrate(50);
+    }
+    this.router.navigate(['/catalogo', categoria]);
   }
 }
