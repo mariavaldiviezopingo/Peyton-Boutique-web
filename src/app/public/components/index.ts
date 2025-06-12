@@ -9,3 +9,4 @@ export * from './product-card/product-card.component';
 export * from './productos/productos.component';
 export * from './suscripcion/suscripcion.component';
 export * from './testimonios/testimonios.component';
+export * from './whatsapp-button/whatsapp-button.component';
