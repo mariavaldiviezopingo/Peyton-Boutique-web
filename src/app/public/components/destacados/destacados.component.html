@@ -1,7 +1,7 @@
 <div class="mt-12 px-4 sm:px-6 md:px-8 lg:px-10 w-full mx-auto">
   <div class="text-center mb-8">
     <h2
-      class="text-xl sm:text-2xl lg:text-3xl font-bold tracking-wide text-gray-800 mb-2"
+      class="text-2xl md:text-3xl font-bold text-secondary tracking-wide mb-2"
     >
       DESTACADOS
     </h2>
@@ -13,7 +13,7 @@
     </p>
   </div>
   <div
-    class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 lg:gap-10 mt-6 pt-6 pb-8"
+    class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-8 lg:gap-10 mt-6 pt-6 pb-8"
   >
     <!-- Tarjetas -->
     <div
@@ -29,7 +29,7 @@
         <img
           [src]="categoria.imagen"
           [alt]="categoria.alt"
-          class="w-[200px] sm:w-[220px] md:w-[240px] lg:w-[250px] h-[280px] sm:h-[300px] md:h-[320px] lg:h-[350px] object-cover transition-all duration-500 group-hover:scale-110"
+          class="w-[160px] sm:w-[220px] md:w-[240px] lg:w-[250px] h-[200px] sm:h-[300px] md:h-[320px] lg:h-[350px] object-cover transition-all duration-500 group-hover:scale-110"
         />
         <div
           class="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
@@ -40,7 +40,7 @@
       </div>
       <div class="mt-4 text-center">
         <span
-          class="inline-block text-sm sm:text-base lg:text-lg font-semibold text-white px-6 py-2 rounded-full shadow-md transform transition-all duration-300 group-hover:scale-105 group-hover:shadow-lg"
+          class="inline-block text-xs sm:text-base lg:text-lg font-semibold text-white px-4 sm:px-6 py-1 sm:py-2 rounded-full shadow-md transform transition-all duration-300 group-hover:scale-105 group-hover:shadow-lg"
           [class]="'bg-gradient-to-r ' + categoria.gradiente"
         >
           {{ categoria.nombre }}
