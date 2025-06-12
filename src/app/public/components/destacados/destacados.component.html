@@ -1,54 +1,59 @@
 <div class="mt-12 px-4 sm:px-6 md:px-8 lg:px-10 w-full mx-auto">
-  <h2 class="text-xl sm:text-2xl font-semibold tracking-wide border-b border-gray-300 py-2 text-center">
-    DESTACADOS
-  </h2>
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10 lg:gap-16 mt-6 pt-10 pb-5">
+  <div class="text-center mb-8">
+    <h2
+      class="text-xl sm:text-2xl lg:text-3xl font-bold tracking-wide text-gray-800 mb-2"
+    >
+      DESTACADOS
+    </h2>
+    <div
+      class="w-20 h-1 bg-gradient-to-r from-primary to-primary-dark mx-auto rounded-full"
+    ></div>
+    <p class="text-gray-600 mt-3 text-sm sm:text-base">
+      Descubre nuestras categorías más populares
+    </p>
+  </div>
+  <div
+    class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 lg:gap-10 mt-6 pt-6 pb-8"
+  >
     <!-- Tarjetas -->
-    <div class="flex flex-col items-center">
-      <img
-        src="https://thumbs.dreamstime.com/b/casual-adecuado-para-la-vida-joven-linda-chica-con-estilo-de-ropa-calle-informal-aspecto-del-modelo-moda-y-comprar-mujeres-mujer-178115523.jpg"
-        alt="Moda"
-        class="rounded-lg shadow-lg w-[200px] sm:w-[220px] md:w-[240px] lg:w-[250px] h-[280px] sm:h-[300px] md:h-[320px] lg:h-[350px] transform transition-transform duration-300 hover:scale-105 hover:shadow-xl"
-      />
-      <span class="mt-2 text-sm sm:text-base lg:text-lg font-medium bg-green-200 text-gray-800 px-4 py-1 rounded-full">
-        Moda
-      </span>
-    </div>
-    <div class="flex flex-col items-center">
-      <img
-        src="https://i.pinimg.com/736x/17/14/13/1714139c275b5824dc3dbcab9b5344cc.jpg"
-        alt="campaña"
-        class="rounded-lg shadow-lg w-[200px] sm:w-[220px] md:w-[240px] lg:w-[250px] h-[280px] sm:h-[300px] md:h-[320px] lg:h-[350px] transform transition-transform duration-300 hover:scale-105 hover:shadow-xl"
-      />
-      <span class="mt-2 text-sm sm:text-base lg:text-lg font-medium bg-red-200 text-gray-800 px-4 py-1 rounded-full">
-        Navidad
-      </span>
-    </div>
-    <div class="flex flex-col items-center">
-      <img
-        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQovtkjkJutB5nsacgk6J4JVwcufYna315jYA&s"
-        alt="escuela"
-        class="rounded-lg shadow-lg w-[200px] sm:w-[220px] md:w-[240px] lg:w-[250px] h-[280px] sm:h-[300px] md:h-[320px] lg:h-[350px] transform transition-transform duration-300 hover:scale-105 hover:shadow-xl"
-      />
-      <span class="mt-2 text-sm sm:text-base lg:text-lg font-medium bg-yellow-200 text-gray-800 px-4 py-1 rounded-full">
-        Escuela
-      </span>
-    </div>
-    <div class="flex flex-col items-center">
-      <img
-        src="https://pibadesign.com/wp-content/uploads/2023/08/decoracion-sala.jpg"
-        alt="Hogar"
-        class="rounded-lg shadow-lg w-[200px] sm:w-[220px] md:w-[240px] lg:w-[250px] h-[280px] sm:h-[300px] md:h-[320px] lg:h-[350px] transform transition-transform duration-300 hover:scale-105 hover:shadow-xl"
-      />
-      <span class="mt-2 text-sm sm:text-base lg:text-lg font-medium bg-purple-200 text-gray-800 px-4 py-1 rounded-full">
-        Hogar
-      </span>
+    <div
+      *ngFor="let categoria of categorias; trackBy: trackByCategoria"
+      class="group flex flex-col items-center cursor-pointer"
+      (click)="onCategoriaClick(categoria.nombre)"
+      role="button"
+      tabindex="0"
+      (keydown.enter)="onCategoriaClick(categoria.nombre)"
+      (keydown.space)="onCategoriaClick(categoria.nombre)"
+    >
+      <div class="relative overflow-hidden rounded-xl shadow-lg bg-white">
+        <img
+          [src]="categoria.imagen"
+          [alt]="categoria.alt"
+          class="w-[200px] sm:w-[220px] md:w-[240px] lg:w-[250px] h-[280px] sm:h-[300px] md:h-[320px] lg:h-[350px] object-cover transition-all duration-500 group-hover:scale-110"
+        />
+        <div
+          class="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+        ></div>
+        <div
+          class="absolute inset-0 ring-0 group-hover:ring-2 ring-primary/30 rounded-xl transition-all duration-300"
+        ></div>
+      </div>
+      <div class="mt-4 text-center">
+        <span
+          class="inline-block text-sm sm:text-base lg:text-lg font-semibold text-white px-6 py-2 rounded-full shadow-md transform transition-all duration-300 group-hover:scale-105 group-hover:shadow-lg"
+          [class]="'bg-gradient-to-r ' + categoria.gradiente"
+        >
+          {{ categoria.nombre }}
+        </span>
+      </div>
     </div>
   </div>
-  <div class="text-center mt-8">
-    <button class="bg-teal-700 text-white font-bold px-4 sm:px-6 py-2 rounded shadow hover:bg-teal-800">
+  <div class="text-center mt-10">
+    <button
+      class="bg-gradient-to-r from-primary to-primary-dark text-white font-bold px-8 sm:px-10 py-3 rounded-full shadow-lg transform transition-all duration-300 hover:scale-105 hover:shadow-xl hover:from-primary-dark hover:to-primary focus:outline-none focus:ring-4 focus:ring-primary/30"
+      (click)="onVerMasClick()"
+    >
       VER MÁS
     </button>
   </div>
 </div>
-
