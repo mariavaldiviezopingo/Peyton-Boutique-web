@@ -1,5 +1,5 @@
 <!-- Sección de productos -->
-<section class="py-8 sm:py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+<section class="py-8 sm:py-16 px-10 sm:px-6 lg:px-8 max-w-7xl mx-auto">
   <!-- Título de la sección -->
   <div class="text-center mb-8 sm:mb-12">
     <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-secondary mb-3 sm:mb-4">
@@ -12,7 +12,7 @@
   </div>
 
   <!-- Grid de productos -->
-  <div class="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
+  <div class="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-6 lg:gap-8">
     <div
       *ngFor="let producto of productos; trackBy: trackByProducto"
       class="product-card relative rounded-xl sm:rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl group bg-white transform hover:-translate-y-1 sm:hover:-translate-y-2 transition-all duration-500 ease-out"
