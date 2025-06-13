@@ -1,42 +1,101 @@
-<div class="p-6">
-    <h2 class="text-2xl font-bold mb-6">AÑADIDOS RECIENTEMENTE</h2>
-    <div class="grid grid-cols-1 lg:grid-cols-5 gap-6">
-      <!-- Banner -->
-      <div class="bg-green-100 p-6 rounded-lg flex flex-col justify-center">
-        <h3 class="text-2xl font-semibold text-secondary-dark mb-4">Lo más nuevo en tienda ya!</h3>
-        <button class="bg-primary text-white px-4 py-2 rounded hover:bg-primary-dark">Comprar Ahora →</button>
-      </div>
-      
-      <!-- Tarjeta de producto -->
-      <ng-container *ngFor="let product of products">
-        <div class="bg-white p-4 rounded-lg shadow-md">
-          <div class="relative">
-            <img [src]="product.image" alt="Product Image" class="w-full h-auto rounded">
-            <div *ngIf="product.discount" class="absolute top-2 left-2 bg-green-500 text-white px-2 py-1 text-sm rounded">
-              {{product.discount}}%
+<div class="p-6 w-full">
+  <div class="text-start mb-8">
+    <h2
+      class="text-2xl sm:text-3xl md:text-4xl font-bold text-secondary mb-3 sm:mb-4"
+    >
+      AÑADIDOS RECIENTEMENTE
+    </h2>
+    <div class="w-16 sm:w-24 h-1 bg-primary mb-4 sm:mb-6"></div>
+  </div>
+  <div class="grid grid-cols-1 lg:grid-cols-5 gap-6 px-4 md:px-0">
+    <!-- Banner -->
+    <div
+      class="bg-gradient-to-br from-primary/10 to-primary/20 p-6 rounded-xl border border-primary/20 flex flex-col justify-center hover:shadow-lg transition-all duration-300"
+    >
+      <h3 class="text-2xl font-semibold text-secondary-dark mb-4 leading-tight">
+        Lo más nuevo en tienda ya!
+      </h3>
+      <button
+        class="bg-primary text-white px-6 py-3 rounded-lg hover:bg-primary-dark transition-all duration-300 font-medium shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
+      >
+        Comprar Ahora →
+      </button>
+    </div>
+
+    <!-- Tarjeta de producto -->
+    <ng-container *ngFor="let product of products">
+      <div
+        class="bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 overflow-hidden group"
+      >
+        <div class="relative overflow-hidden">
+          <img
+            [src]="product.image"
+            alt="Product Image"
+            class="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105"
+          />
+
+          <!-- Overlay gradient -->
+          <div
+            class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+          ></div>
+
+          <!-- Badges -->
+          <div class="absolute top-3 left-3 flex flex-col gap-1">
+            <div
+              *ngIf="product.discount"
+              class="bg-primary text-white px-2 py-1 text-xs font-medium rounded-full shadow-md"
+            >
+              -{{ product.discount }}%
             </div>
-            <div *ngIf="product.new" class="absolute top-2 right-2 bg-blue-500 text-white px-2 py-1 text-sm rounded">
-              Nuevo
-            </div>
-            <div *ngIf="product.hot" class="absolute top-2 right-2 bg-red-500 text-white px-2 py-1 text-sm rounded">
-              Tendencia
-            </div>
-          </div>
-          <div class="mt-4">
-            <p class="text-gray-500 text-sm">{{product.category}}</p>
-            <h4 class="font-semibold text-lg">{{product.name}}</h4>
-            <div class="flex items-center mt-2">
-              <span class="text-primary font-bold text-xl mr-2">{{product.price | currency}}</span>
-              <span class="text-gray-400 line-through">{{product.originalPrice | currency}}</span>
-            </div>
-            <p class="text-sm text-gray-600 mt-1">Sold: {{product.sold}} / {{product.total}}</p>
-            <div class="w-full bg-gray-200 rounded-full h-2.5 mt-2">
-              <div class="bg-primary0 h-2.5 rounded-full" [style.width.%]="(product.sold / product.total) * 100"></div>
-            </div>
-            <button class="mt-4 w-full bg-primary text-white py-2 rounded hover:bg-primary-dark">Añadir al carrito</button>
           </div>
         </div>
-      </ng-container>
-    </div>
+
+        <div class="p-4">
+          <p class="text-primary/70 text-sm font-medium mb-1">
+            {{ product.category }}
+          </p>
+          <h4
+            class="font-semibold text-lg text-secondary-dark mb-2 line-clamp-2 hover:text-primary transition-colors duration-200"
+          >
+            {{ product.name }}
+          </h4>
+
+          <div class="flex items-center mb-3">
+            <span class="text-primary font-bold text-xl mr-2">{{
+              product.price | currency
+            }}</span>
+            <span
+              *ngIf="product.originalPrice"
+              class="text-gray-400 line-through text-sm"
+              >{{ product.originalPrice | currency }}</span
+            >
+          </div>
+
+          <!-- Progress bar con información de ventas -->
+          <div class="mb-4">
+            <div class="flex justify-between text-xs text-gray-600 mb-1">
+              <span>Vendidos: {{ product.sold }}</span>
+              <span>Total: {{ product.total }}</span>
+            </div>
+            <div class="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
+              <div
+                class="bg-gradient-to-r from-primary to-primary-dark h-2 rounded-full transition-all duration-500 ease-out"
+                [style.width.%]="(product.sold / product.total) * 100"
+              ></div>
+            </div>
+            <p class="text-xs text-primary font-medium mt-1">
+              {{ (product.sold / product.total) * 100 | number : "1.0-0" }}%
+              vendido
+            </p>
+          </div>
+
+          <button
+            class="w-full bg-primary text-white py-3 rounded-lg hover:bg-primary-dark transition-all duration-300 font-medium shadow-md hover:shadow-lg transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2"
+          >
+            Añadir al carrito
+          </button>
+        </div>
+      </div>
+    </ng-container>
   </div>
-  
+</div>
