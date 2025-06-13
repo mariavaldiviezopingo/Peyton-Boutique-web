@@ -1,6 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router'; // Importa RouterModule
 import { CatalogoService, Product } from './catalogo.service';
@@ -34,7 +40,7 @@ export class CatalogoComponent implements OnInit {
   filteredProducts: Product[] = [];
   subcategories: string[] = [];
   selectedCategory: string = '';
-  subcategoriaSeleccionada:  string | null = null;
+  subcategoriaSeleccionada: string | null = null;
 
   currentPage = 1;
   itemsPerPage = 9;
@@ -140,45 +146,49 @@ export class CatalogoComponent implements OnInit {
     }
   }
 
- applyFilters(): void {
-  this.catalogoService.getFilteredProducts({
-    categoria: this.selectedCategory,
-    subcategoria: this.subcategoriaSeleccionada || undefined,
-    talla: this.selectedTalla,
-    color: this.selectedColor,
-    precioMin: this.precioMin,
-    precioMax: this.precioMax,
-  }).subscribe({
-    next: (data) => {
-      this.filteredProducts = data;
-      this.currentPage = 1;
-      this.cdr.markForCheck();
-    },
-    error: (err) => {
-      console.error('Error al aplicar filtros', err);
-    },
-  });
-}
+  applyFilters(): void {
+    this.catalogoService
+      .getFilteredProducts({
+        categoria: this.selectedCategory,
+        subcategoria: this.subcategoriaSeleccionada || undefined,
+        talla: this.selectedTalla,
+        color: this.selectedColor,
+        precioMin: this.precioMin,
+        precioMax: this.precioMax,
+      })
+      .subscribe({
+        next: (data) => {
+          this.filteredProducts = data;
+          this.currentPage = 1;
+          this.cdr.markForCheck();
+        },
+        error: (err) => {
+          console.error('Error al aplicar filtros', err);
+        },
+      });
+  }
 
   filtrarPorSubcategoria(subcat: string): void {
-  this.subcategoriaSeleccionada = subcat;
+    this.subcategoriaSeleccionada = subcat;
 
-  this.catalogoService.getFilteredProducts({
-    categoria: this.selectedCategory,
-    subcategoria: subcat,
-    talla: this.selectedTalla,
-    color: this.selectedColor,
-    precioMin: this.precioMin,
-    precioMax: this.precioMax,
-  }).subscribe({
-    next: (productos) => {
-      this.filteredProducts = productos;
-      this.currentPage = 1;
-      this.cdr.detectChanges();
-    },
-    error: (err) => console.error('Error al filtrar por subcategoría', err),
-  });
-}
+    this.catalogoService
+      .getFilteredProducts({
+        categoria: this.selectedCategory,
+        subcategoria: subcat,
+        talla: this.selectedTalla,
+        color: this.selectedColor,
+        precioMin: this.precioMin,
+        precioMax: this.precioMax,
+      })
+      .subscribe({
+        next: (productos) => {
+          this.filteredProducts = productos;
+          this.currentPage = 1;
+          this.cdr.detectChanges();
+        },
+        error: (err) => console.error('Error al filtrar por subcategoría', err),
+      });
+  }
 
   selectCategory(categoria: string): void {
     this.selectedCategory = categoria;
@@ -213,11 +223,11 @@ export class CatalogoComponent implements OnInit {
 
   getImageForSubcategory(subcat: string): string {
     const subcatImages: { [key: string]: string } = {
-      Navidad:'assets/img/descarga.jpg',
+      Navidad: 'assets/img/descarga.jpg',
       Tendencia: 'assets/img/descarga.jpg',
       Niños: 'assets/img/descarga.jpg',
-      Varon:'assets/img/descarga.jpg',
-      Mujer: 'assets/img/descarga.jpg'
+      Varon: 'assets/img/descarga.jpg',
+      Mujer: 'assets/img/descarga.jpg',
     };
 
     // Retorna la imagen correspondiente o una por defecto
