@@ -1,0 +1,69 @@
+<div class="flex justify-between items-center mb-6">
+  <div class="flex items-center space-x-3">
+    <div
+      class="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center"
+    >
+      <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+        <path
+          d="M12 12c2.7 0 5-2.3 5-5s-2.3-5-5-5-5 2.3-5 5 2.3 5 5 5zm0 2c-3.3 0-10 1.7-10 5v3h20v-3c0-3.3-6.7-5-10-5z"
+        />
+      </svg>
+    </div>
+    <div class="flex flex-col">
+      <span class="font-semibold text-lg text-gray-700">{{ userName }}</span>
+      <span class="text-sm text-gray-500">{{ userRole }}</span>
+    </div>
+  </div>
+  <div class="flex items-center space-x-4">
+    <!-- Ver sitio web -->
+    <button
+      (click)="goToEcommerce()"
+      class="header-button view-site-btn p-2 text-gray-600 hover:text-teal-600 transition-colors"
+      title="Ver sitio web"
+    >
+      <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+        <path
+          d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"
+        />
+      </svg>
+    </button>
+
+    <!-- Notifications -->
+    <button
+      class="header-button relative p-2 text-gray-600 hover:text-teal-600 transition-colors"
+      title="Notificaciones"
+    >
+      <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+        <path
+          d="M12 22a2 2 0 0 0 2-2h-4a2 2 0 0 0 2 2zm6-6v-5a6 6 0 1 0-12 0v5l-2 2v1h16v-1l-2-2z"
+        />
+      </svg>
+      <span
+        class="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white transform translate-x-1/2 -translate-y-1/2 bg-red-500 rounded-full notification-badge"
+      >
+        {{ notificationCount }}
+      </span>
+    </button>
+
+    <!-- Cerrar sesión -->
+    <button
+      (click)="logout()"
+      class="header-button logout-btn p-2 text-gray-600 hover:text-red-600 transition-colors"
+      title="Cerrar sesión"
+    >
+      <svg
+        class="w-6 h-6"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+        ></path>
+      </svg>
+    </button>
+  </div>
+</div>
