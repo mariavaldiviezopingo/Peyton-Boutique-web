@@ -8,8 +8,9 @@ import {
   ViewChild,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router'; // Importa RouterModule
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { CatalogoService, Product } from './catalogo.service';
+
 @Component({
   selector: 'app-catalogo',
   standalone: true,
@@ -18,24 +19,6 @@ import { CatalogoService, Product } from './catalogo.service';
   styleUrl: './catalogo.component.css',
 })
 export class CatalogoComponent implements OnInit {
-  constructor(
-    private catalogoService: CatalogoService,
-    private cdr: ChangeDetectorRef,
-    private route: ActivatedRoute,
-    private router: Router
-  ) {}
-
-  ngOnInit(): void {
-    // Suscripción a los cambios en los parámetros de la URL (como la categoría seleccionada)
-    this.route.paramMap.subscribe((params) => {
-      this.selectedCategory = params.get('categoria') || '';
-      this.loadProducts();
-      if (this.selectedCategory) {
-        this.loadSubcategories(this.selectedCategory);
-      }
-    });
-  }
-
   products: Product[] = [];
   filteredProducts: Product[] = [];
   subcategories: string[] = [];
@@ -51,12 +34,39 @@ export class CatalogoComponent implements OnInit {
 
   objectKeys = Object.keys;
 
+  constructor(
+    private catalogoService: CatalogoService,
+    private cdr: ChangeDetectorRef,
+    private route: ActivatedRoute,
+    private router: Router
+  ) {}
+
+  ngOnInit(): void {
+    // Suscripción a los cambios en los parámetros de la URL (como la categoría seleccionada)
+    this.route.paramMap.subscribe((params) => {
+      this.selectedCategory = params.get('categoria') || '';
+      this.loadProducts();
+      if (this.selectedCategory) {
+        this.loadSubcategories(this.selectedCategory);
+      } else {
+        // Limpiar filtros cuando no hay categoría seleccionada
+        this.subcategories = [];
+        this.subcategoriaSeleccionada = null;
+        this.selectedTalla = '';
+        this.selectedColor = '';
+        this.precioMin = undefined;
+        this.precioMax = undefined;
+      }
+    });
+  }
+
   loadProducts(): void {
     if (this.selectedCategory) {
       this.catalogoService
         .getProductsByCategory(this.selectedCategory)
         .subscribe({
           next: (data) => {
+            this.products = data;
             this.filteredProducts = data;
             this.currentPage = 1;
             this.cdr.detectChanges();
@@ -67,6 +77,7 @@ export class CatalogoComponent implements OnInit {
     } else {
       this.catalogoService.getProducts().subscribe({
         next: (data) => {
+          this.products = data;
           this.filteredProducts = data;
           this.currentPage = 1;
           this.cdr.detectChanges();
@@ -80,7 +91,6 @@ export class CatalogoComponent implements OnInit {
   loadSubcategories(categoria: string): void {
     this.catalogoService.obtenerSubcategorias(categoria).subscribe({
       next: (subcategorias) => {
-        console.log('Subcategorías cargadas:', subcategorias); // Añade este log
         this.subcategories = subcategorias;
       },
       error: (err) => console.error('Error al obtener subcategorías', err),
@@ -100,7 +110,6 @@ export class CatalogoComponent implements OnInit {
   onCategoryChange(event: Event) {
     const selectElement = event.target as HTMLSelectElement;
     const selectedCategory = selectElement.value;
-    console.log('Categoría seleccionada:', selectedCategory);
 
     if (selectedCategory) {
       // Navegar primero, pero esperar a que Angular reactive la vista
@@ -109,6 +118,7 @@ export class CatalogoComponent implements OnInit {
         this.selectedCategory = selectedCategory;
         this.catalogoService.getProductsByCategory(selectedCategory).subscribe({
           next: (data) => {
+            this.products = data;
             this.filteredProducts = data;
             this.currentPage = 1;
             this.cdr.detectChanges(); // Forzar refresco de la vista
@@ -124,6 +134,12 @@ export class CatalogoComponent implements OnInit {
     } else {
       this.router.navigate(['/catalogo']).then(() => {
         this.selectedCategory = '';
+        this.subcategories = [];
+        this.subcategoriaSeleccionada = null;
+        this.selectedTalla = '';
+        this.selectedColor = '';
+        this.precioMin = undefined;
+        this.precioMax = undefined;
         this.loadProducts();
       });
     }
@@ -192,8 +208,22 @@ export class CatalogoComponent implements OnInit {
 
   selectCategory(categoria: string): void {
     this.selectedCategory = categoria;
+    this.subcategoriaSeleccionada = null; // Limpiar subcategoría
     this.applyFilters();
     this.router.navigate(['/catalogo', categoria]);
+  }
+
+  selectAllCategories(): void {
+    this.router.navigate(['/catalogo']).then(() => {
+      this.selectedCategory = '';
+      this.subcategories = [];
+      this.subcategoriaSeleccionada = null;
+      this.selectedTalla = '';
+      this.selectedColor = '';
+      this.precioMin = undefined;
+      this.precioMax = undefined;
+      this.loadProducts();
+    });
   }
 
   get paginatedFilteredProducts() {
@@ -219,6 +249,13 @@ export class CatalogoComponent implements OnInit {
     } else {
       container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
     }
+  }
+
+  getMaxItemsForCurrentPage(): number {
+    return Math.min(
+      this.currentPage * this.itemsPerPage,
+      this.filteredProducts.length
+    );
   }
 
   getImageForSubcategory(subcat: string): string {
