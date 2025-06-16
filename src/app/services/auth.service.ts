@@ -3,11 +3,13 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { Router } from '@angular/router';
 import { CurrentUser } from '@app/models/current-user';
+import { CarritoService } from '@app/public/carrito-compras/carrito.service';
 import {
   BehaviorSubject,
   catchError,
   Observable,
   of,
+  switchMap,
   tap,
   throwError,
 } from 'rxjs';
@@ -29,9 +31,11 @@ interface TokenResponse {
 })
 export class AuthService {
   private readonly authUrl = environment.authUrl;
+  private readonly apiUrl = environment.apiUrl;
   private platformId = inject(PLATFORM_ID);
   private readonly http = inject(HttpClient);
   private readonly router = inject(Router);
+  private readonly carritoService = inject(CarritoService);
 
   private isAuthenticatedSubject = new BehaviorSubject<boolean>(false);
   private currentUserSubject = new BehaviorSubject<CurrentUser | null>(null);
@@ -45,6 +49,10 @@ export class AuthService {
     }
   }
 
+  isAuthenticated(): boolean {
+    return this.isAuthenticatedSubject.value;
+  }
+
   get isAuthenticated$(): Observable<boolean> {
     return this.isAuthenticatedSubject.asObservable();
   }
@@ -53,7 +61,7 @@ export class AuthService {
     return this.currentUserSubject.asObservable();
   }
 
-  login(request: LoginRequest): Observable<TokenResponse> {
+  login(request: LoginRequest): Observable<CurrentUser> {
     if (this.isBrowser()) {
       localStorage.removeItem('jwt');
     }
@@ -65,16 +73,42 @@ export class AuthService {
           if (this.isBrowser()) {
             localStorage.setItem('jwt', response.jwt);
           }
-
           this.isAuthenticatedSubject.next(true);
+        }),
+        switchMap(() => this.getCurrentUser()),
+        tap((user) => {
+          if (this.isBrowser()) {
+            localStorage.setItem('currentUser', JSON.stringify(user));
+          }
+          this.currentUserSubject.next(user);
+          this.carritoService.sincronizarCarritoAlIniciarSesion(); // <-- llamada al servicio limpio
+          this.router.navigate([user.role === 'ADMIN' ? '/admin' : '/']);
+        }),
+        catchError((error) => throwError(() => error))
+      );
+  }
 
-          this.getCurrentUser().subscribe((user) => {
-            if (this.isBrowser()) {
-              localStorage.setItem('currentUser', JSON.stringify(user));
-            }
-            this.currentUserSubject.next(user);
-            this.router.navigate([user.role === 'ADMIN' ? '/admin' : '/']);
-          });
+  register(data: {
+    name: string;
+    email: string;
+    password: string;
+  }): Observable<CurrentUser> {
+    return this.http
+      .post<TokenResponse>(`${this.authUrl}/auth/signup`, data)
+      .pipe(
+        tap((response) => {
+          if (this.isBrowser()) {
+            localStorage.setItem('jwt', response.jwt);
+          }
+          this.isAuthenticatedSubject.next(true);
+        }),
+        switchMap(() => this.getCurrentUser()),
+        tap((user) => {
+          if (this.isBrowser()) {
+            localStorage.setItem('currentUser', JSON.stringify(user));
+          }
+          this.currentUserSubject.next(user);
+          this.router.navigate([user.role === 'ADMIN' ? '/admin' : '/']);
         }),
         catchError((error) => throwError(() => error))
       );
@@ -88,6 +122,18 @@ export class AuthService {
     this.currentUserSubject.next(null);
     this.router.navigate(['/login']);
   }
+
+  // logout(): void {
+  //   if (this.isBrowser()) {
+  //     // localStorage.clear(); // <-- Esto borra TODO, incluido el carrito
+  //     localStorage.removeItem('jwt');
+  //     localStorage.removeItem('currentUser');
+  //     // NO borres 'carrito'
+  //   }
+  //   this.isAuthenticatedSubject.next(false);
+  //   this.currentUserSubject.next(null);
+  //   this.router.navigate(['/login']);
+  // }
 
   fetchCurrentUser(): Observable<CurrentUser | null> {
     return this.http.get<CurrentUser>(`${this.authUrl}/auth/currentUser`).pipe(
@@ -132,33 +178,6 @@ export class AuthService {
     this.isAuthenticatedSubject.next(true);
   }
 
-  register(data: {
-    name: string;
-    email: string;
-    password: string;
-  }): Observable<TokenResponse> {
-    return this.http
-      .post<TokenResponse>(`${this.authUrl}/auth/signup`, data)
-      .pipe(
-        tap((response) => {
-          if (this.isBrowser()) {
-            localStorage.setItem('jwt', response.jwt);
-          }
-
-          this.isAuthenticatedSubject.next(true);
-
-          this.getCurrentUser().subscribe((user) => {
-            if (this.isBrowser()) {
-              localStorage.setItem('currentUser', JSON.stringify(user));
-            }
-            this.currentUserSubject.next(user);
-            this.router.navigate([user.role === 'ADMIN' ? '/admin' : '/']);
-          });
-        }),
-        catchError((error) => throwError(() => error))
-      );
-  }
-
   private isBrowser(): boolean {
     return isPlatformBrowser(this.platformId);
   }
@@ -185,6 +204,29 @@ export class AuthService {
       return tokenData.exp * 1000 > Date.now();
     } catch {
       return false;
+    }
+  }
+
+  private mergeAnonymousCart(): void {
+    if (!this.isBrowser()) return;
+
+    const cartJson = localStorage.getItem('cart');
+    if (!cartJson) return;
+
+    try {
+      const anonymousCart = JSON.parse(cartJson);
+      if (!Array.isArray(anonymousCart) || anonymousCart.length === 0) return;
+
+      this.http.post(`${this.apiUrl}/carrito/merge`, anonymousCart).subscribe({
+        next: () => {
+          localStorage.removeItem('cart');
+        },
+        error: (err) => {
+          console.error('Error al fusionar el carrito anónimo:', err);
+        },
+      });
+    } catch (e) {
+      console.error('Error al parsear carrito anónimo:', e);
     }
   }
 }

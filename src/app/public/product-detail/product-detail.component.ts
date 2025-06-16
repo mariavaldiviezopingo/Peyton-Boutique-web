@@ -7,8 +7,12 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { AuthService } from '@app/services/auth.service';
 import { Subscription } from 'rxjs';
-import { CarritoService } from '../carrito-compras/carrito.service';
+import {
+  CarritoService,
+  ItemCarrito,
+} from '../carrito-compras/carrito.service';
 import {
   CatalogoService,
   Product,
@@ -16,7 +20,6 @@ import {
 } from '../catalogo/catalogo.service';
 import { ProductCardComponent } from '../components';
 import { ColorHexPipe } from './color-hex.pipe';
-
 
 @Component({
   selector: 'app-product-detail',
@@ -41,12 +44,12 @@ export class ProductDetailComponent implements OnInit {
 
   estadoStock: string = 'Stock';
   colorStock: string = 'text-green-600';
-
   constructor(
     private route: ActivatedRoute,
     private catalogoService: CatalogoService,
     private cdr: ChangeDetectorRef,
-    private carritoService: CarritoService
+    private carritoService: CarritoService,
+    private authService: AuthService
   ) {}
 
   ngOnInit() {
@@ -132,21 +135,61 @@ export class ProductDetailComponent implements OnInit {
     this.colorSeleccionado = color;
   }
 
+  // agregarAlCarrito() {
+  //   if (!this.product || !this.tallaSeleccionada || !this.colorSeleccionado) {
+  //     alert('Selecciona talla y color');
+  //     return;
+  //   }
+  //   this.carritoService.addItem({
+  //     id: this.product.id,
+  //     varianteId: this.selectedVariante?.id || 0,
+  //     nombre: this.product.nombre,
+  //     precio: this.product.precio,
+  //     imagen: this.selectedVariante?.imagen || '',
+  //     color: this.colorSeleccionado,
+  //     talla: this.tallaSeleccionada,
+  //     cantidad: this.cantidadSeleccionada,
+  //   });
+  //   alert('Producto agregado al carrito');
+  // }
+
   agregarAlCarrito() {
     if (!this.product || !this.tallaSeleccionada || !this.colorSeleccionado) {
       alert('Selecciona talla y color');
       return;
     }
-    this.carritoService.addItem({
-      id: this.product.id,
+
+    const item: ItemCarrito = {
+      productoId: this.product.id,
+      varianteId: this.selectedVariante?.id || 0,
       nombre: this.product.nombre,
       precio: this.product.precio,
       imagen: this.selectedVariante?.imagen || '',
       color: this.colorSeleccionado,
       talla: this.tallaSeleccionada,
       cantidad: this.cantidadSeleccionada,
-    });
-    alert('Producto agregado al carrito');
+    };
+
+    if (this.authService.isAuthenticated()) {
+      // Usuario logueado → enviar al backend
+      this.carritoService.agregarProductoAlServidor(item).subscribe({
+        next: () => {
+          alert('Producto agregado al carrito de tu cuenta');
+        },
+        error: (err) => {
+          console.error('Error al agregar producto al servidor', err);
+          if (err.status === 400 && err.error) {
+            alert(err.error);
+          } else {
+            alert('Error inesperado al agregar el producto');
+          }
+        },
+      });
+    } else {
+      // Usuario no logueado → guardar en localStorage
+      this.carritoService.addItem(item);
+      alert('Producto agregado al carrito local');
+    }
   }
 
   decrementarCantidad() {
@@ -154,37 +197,41 @@ export class ProductDetailComponent implements OnInit {
   }
 
   actualizarEstadoStock() {
-  if (!this.product || !this.product.variantes || this.product.variantes.length === 0) {
-    this.estadoStock = '';
-    this.colorStock = '';
-    return;
-  }
+    if (
+      !this.product ||
+      !this.product.variantes ||
+      this.product.variantes.length === 0
+    ) {
+      this.estadoStock = '';
+      this.colorStock = '';
+      return;
+    }
 
-  // Si todas las variantes tienen stock 0, mostrar "Agotado"
-  const todasAgotadas = this.product.variantes.every(v => v.stock === 0);
-  if (todasAgotadas) {
-    this.estadoStock = 'Agotado';
-    this.colorStock = 'text-red-600';
-    return;
-  }
-
-  // Si hay variante seleccionada, evalúa su estado
-  if (this.selectedVariante) {
-    if (this.selectedVariante.stock === 0) {
+    // Si todas las variantes tienen stock 0, mostrar "Agotado"
+    const todasAgotadas = this.product.variantes.every((v) => v.stock === 0);
+    if (todasAgotadas) {
       this.estadoStock = 'Agotado';
       this.colorStock = 'text-red-600';
-    } else if (this.selectedVariante.desestimado) {
-      this.estadoStock = 'Desestimado';
-      this.colorStock = 'text-orange-500';
-    } else {
-      this.estadoStock = 'Stock';
-      this.colorStock = 'text-green-600';
+      return;
     }
-    return;
-  }
 
-  // Si no hay variante seleccionada y no todas están agotadas, mostrar "Stock"
-  this.estadoStock = 'Stock';
-  this.colorStock = 'text-green-600';
-}
+    // Si hay variante seleccionada, evalúa su estado
+    if (this.selectedVariante) {
+      if (this.selectedVariante.stock === 0) {
+        this.estadoStock = 'Agotado';
+        this.colorStock = 'text-red-600';
+      } else if (this.selectedVariante.desestimado) {
+        this.estadoStock = 'Desestimado';
+        this.colorStock = 'text-orange-500';
+      } else {
+        this.estadoStock = 'Stock';
+        this.colorStock = 'text-green-600';
+      }
+      return;
+    }
+
+    // Si no hay variante seleccionada y no todas están agotadas, mostrar "Stock"
+    this.estadoStock = 'Stock';
+    this.colorStock = 'text-green-600';
+  }
 }

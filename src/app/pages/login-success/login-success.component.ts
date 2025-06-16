@@ -1,6 +1,7 @@
 import { isPlatformBrowser } from '@angular/common';
 import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { CarritoService } from '@app/public/carrito-compras/carrito.service';
 import { AuthService } from '@app/services/auth.service';
 
 @Component({
@@ -12,6 +13,7 @@ export class LoginSuccessComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private authService: AuthService,
+    private carritoService: CarritoService,
     @Inject(PLATFORM_ID) private platformId: Object
   ) {}
 
@@ -28,7 +30,10 @@ export class LoginSuccessComponent implements OnInit {
           next: (user) => {
             if (user) {
               localStorage.setItem('currentUser', JSON.stringify(user));
-              this.authService.setCurrentUser(user); // asegúrate de tener este método
+              this.authService.setCurrentUser(user);
+
+              // this.carritoService.sincronizarCarritoAlIniciarSesion();
+
               this.router.navigate(['/']);
             } else {
               this.router.navigate(['/login']);

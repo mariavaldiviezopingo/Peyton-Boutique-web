@@ -12,8 +12,12 @@ import { CarritoService, ItemCarrito } from './carrito.service';
 })
 export class CarritoComprasComponent {
   items: ItemCarrito[] = [];
-  constructor(private router: Router, private carritoService: CarritoService) {
-    this.items = this.carritoService.getItems();
+
+  constructor(private router: Router, private carritoService: CarritoService) {}
+
+  ngOnInit(): void {
+    const carritoItems = this.carritoService.getItems();
+    this.items = Array.isArray(carritoItems) ? carritoItems : [];
   }
 
   procederPago() {
@@ -32,9 +36,20 @@ export class CarritoComprasComponent {
   }
 
   get total(): number {
-    // Si tienes costo de envío, súmalo aquí. Por ahora es 0.
-    return this.subtotal;
+    return this.carritoService.getTotalCarrito();
   }
+
+  // get subtotal(): number {
+  //   return this.items.reduce(
+  //     (sum, item) => sum + item.precio * item.cantidad,
+  //     0
+  //   );
+  // }
+
+  // get total(): number {
+  //   // Si tienes costo de envío, súmalo aquí. Por ahora es 0.
+  //   return this.subtotal;
+  // }
   eliminarProducto(item: ItemCarrito) {
     this.carritoService.removeItem(item);
     this.items = this.carritoService.getItems(); // refrescar lista local

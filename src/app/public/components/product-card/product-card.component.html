@@ -2,8 +2,8 @@
   <div class="flex justify-center">
     <img
       [routerLink]="['/detalle', product.id]"
-      [src]="product.variantes[0]?.imagen || 'assets/img/default-product.webp'"
-      alt="{{ product?.nombre }}"
+      [src]="product.variantes[0].imagen || 'assets/img/default-product.webp'"
+      alt="{{ product.nombre }}"
       class="w-24 h-24 md:w-32 md:h-32 lg:w-40 lg:h-40 object-cover rounded-lg cursor-pointer"
     />
   </div>
@@ -11,9 +11,11 @@
     class="text-xs md:text-sm lg:text-base font-semibold text-center mt-2 cursor-pointer"
     [routerLink]="['/detalle', product.id]"
   >
-    {{ product?.nombre }}
+    {{ product.nombre }}
   </p>
-  <span class="text-secondary text-xs md:text-sm lg:text-base font-medium text-center">
-    {{ product?.precio | currency:'PEN ':'symbol':'1.2-2' }}
+  <span
+    class="text-secondary text-xs md:text-sm lg:text-base font-medium text-center"
+  >
+    {{ product.precio | currency : "PEN " : "symbol" : "1.2-2" }}
   </span>
 </a>
