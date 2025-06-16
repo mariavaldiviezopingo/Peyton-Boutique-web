@@ -2,7 +2,6 @@ import { Routes } from '@angular/router';
 import { AdminGuard } from './auth/authGuard/admin.guard';
 import { LoginComponent } from './auth/login/login.component';
 import { LoginSuccessComponent } from './pages/login-success/login-success.component';
-import { InventarioProductosComponent } from './private/inventario-productos/inventario-productos.component';
 import { ProductDetailComponent } from './public';
 import { CarritoComprasComponent } from './public/carrito-compras/carrito-compras.component';
 import { CatalogoComponent } from './public/catalogo/catalogo.component';
@@ -81,9 +80,6 @@ export const routes: Routes = [
       { path: 'detalle', component: ProductDetailComponent },
       { path: 'detalle/:id', component: ProductDetailComponent },
       { path: 'catalogo/:categoria', component: CatalogoComponent },
-      { path: 'inventario-productos', component: InventarioProductosComponent }
-
-      
     ],
   },
   {
@@ -95,11 +91,23 @@ export const routes: Routes = [
       ),
     children: [
       {
+        path: '',
+        redirectTo: 'dashboard',
+        pathMatch: 'full',
+      },
+      {
         path: 'dashboard',
         loadComponent: () =>
           import('./admin/admin-dashboard/admin-dashboard.component').then(
             (m) => m.AdminDashboardComponent
           ),
+      },
+      {
+        path: 'inventario-productos',
+        loadComponent: () =>
+          import(
+            './admin/inventario-productos/inventario-productos.component'
+          ).then((m) => m.InventarioProductosComponent),
       },
     ],
   },
