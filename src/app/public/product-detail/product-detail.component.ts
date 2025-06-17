@@ -127,12 +127,46 @@ export class ProductDetailComponent implements OnInit {
     this.selectedVariante = { ...variante };
   }
 
-  selectTalla(talla: string) {
-    this.tallaSeleccionada = talla;
-  }
+  // selectTalla(talla: string) {
+  //   this.tallaSeleccionada = talla;
+  // }
+
+  // selectColor(color: string) {
+  //   this.colorSeleccionado = color;
+  // }
 
   selectColor(color: string) {
     this.colorSeleccionado = color;
+    this.actualizarSelectedVariante();
+  }
+
+  selectTalla(talla: string) {
+    this.tallaSeleccionada = talla;
+    this.actualizarSelectedVariante();
+  }
+
+  private actualizarSelectedVariante() {
+    if (!this.product || !this.colorSeleccionado || !this.tallaSeleccionada) {
+      return;
+    }
+
+    const variante = this.product.variantes.find(
+      (v) =>
+        v.color === this.colorSeleccionado && v.talla === this.tallaSeleccionada
+    );
+
+    if (variante) {
+      this.selectedVariante = variante;
+      this.actualizarEstadoStock();
+      this.cdr.markForCheck();
+      console.log('Variante actualizada:', variante);
+    } else {
+      console.warn(
+        'No existe variante para',
+        this.colorSeleccionado,
+        this.tallaSeleccionada
+      );
+    }
   }
 
   // agregarAlCarrito() {

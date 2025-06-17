@@ -1,7 +1,7 @@
 import { isPlatformBrowser } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, PLATFORM_ID } from '@angular/core';
-import { BehaviorSubject, catchError, of, tap } from 'rxjs';
+import { BehaviorSubject, catchError, Observable, of, tap } from 'rxjs';
 import { environment } from 'src/environment/environment';
 
 export interface ItemCarrito {
@@ -104,6 +104,10 @@ export class CarritoService {
     }
   }
 
+  checkout(): Observable<string> {
+    return this.http.post<string>('/api/carrito/checkout', {});
+  }
+
   sincronizarCarritoAlIniciarSesion(): void {
     if (!this.isBrowser()) return;
 
@@ -142,8 +146,17 @@ export class CarritoService {
             this.items = [];
             this.totalCarrito = 0;
           } else {
-            this.items = response.detalles;
-            this.totalCarrito = response.total;
+            this.items = response.detalles.map((detalle: any) => ({
+              productoId: detalle.productoId,
+              varianteId: detalle.varianteId,
+              nombre: detalle.productoNombre,
+              precio: Number(detalle.precioUnitario),
+              imagen: detalle.imagenUrl,
+              color: detalle.varianteColor,
+              talla: detalle.varianteTalla,
+              cantidad: Number(detalle.cantidad),
+            }));
+            this.totalCarrito = Number(response.total);
           }
           this.save();
           this.actualizarCantidadTotal();
@@ -167,7 +180,10 @@ export class CarritoService {
       cantidad: item.cantidad,
     };
 
-    console.log('Agregando producto al servidor:', payload);
+    // console.log('Agregando producto al servidor:', payload);
+
+    console.log('Item recibido antes de post:', item);
+    console.log('Payload que envío al backend:', payload);
 
     return this.http.post(`${this.apiUrl}/carrito/agregar`, payload).pipe(
       tap(() => this.obtenerCarritoServidor()),
@@ -176,6 +192,10 @@ export class CarritoService {
         return of(null);
       })
     );
+  }
+
+  obtenerCarrito() {
+    return this.http.get<CarritoResponse>('/api/carrito/listar');
   }
 
   // getCantidadTotal(): number {

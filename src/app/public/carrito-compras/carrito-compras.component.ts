@@ -12,6 +12,7 @@ import { CarritoService, ItemCarrito } from './carrito.service';
 })
 export class CarritoComprasComponent {
   items: ItemCarrito[] = [];
+  carrito: any; // Agrega la propiedad carrito, ajusta el tipo si tienes una interfaz específica
 
   constructor(private router: Router, private carritoService: CarritoService) {}
 
@@ -28,15 +29,42 @@ export class CarritoComprasComponent {
     this.router.navigate(['pasarela']);
   }
 
+  finalizarCompra() {
+    this.carritoService.checkout().subscribe({
+      next: (msg) => {
+        alert(msg); // o usa un toast si tienes uno
+        this.obtenerCarrito(); // esto refresca el carrito
+      },
+      error: (err) => {
+        alert(err.error.message || 'Ocurrió un error al finalizar la compra');
+      },
+    });
+  }
+
+  obtenerCarrito(): void {
+    this.carritoService.obtenerCarrito().subscribe({
+      next: (carrito) => {
+        this.carrito = carrito;
+      },
+      error: (err) => {
+        console.error('Error al obtener el carrito:', err);
+      },
+    });
+  }
+
   get subtotal(): number {
-    return this.items.reduce(
-      (sum, item) => sum + item.precio * item.cantidad,
-      0
-    );
+    return this.items.reduce((acc, item) => {
+      const precio = Number(item.precio);
+      const cantidad = Number(item.cantidad);
+      if (!isNaN(precio) && !isNaN(cantidad)) {
+        return acc + precio * cantidad;
+      }
+      return acc;
+    }, 0);
   }
 
   get total(): number {
-    return this.carritoService.getTotalCarrito();
+    return this.subtotal; // o suma + envío si tienes envío
   }
 
   // get subtotal(): number {

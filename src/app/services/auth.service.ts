@@ -210,16 +210,23 @@ export class AuthService {
   private mergeAnonymousCart(): void {
     if (!this.isBrowser()) return;
 
-    const cartJson = localStorage.getItem('cart');
+    const cartJson = localStorage.getItem('carrito');
     if (!cartJson) return;
 
     try {
       const anonymousCart = JSON.parse(cartJson);
       if (!Array.isArray(anonymousCart) || anonymousCart.length === 0) return;
 
-      this.http.post(`${this.apiUrl}/carrito/merge`, anonymousCart).subscribe({
+      const payload = anonymousCart.map((item) => ({
+        productoId: item.productoId,
+        varianteId: item.varianteId,
+        cantidad: item.cantidad,
+      }));
+
+      this.http.post(`${this.apiUrl}/carrito/merge`, payload).subscribe({
         next: () => {
-          localStorage.removeItem('cart');
+          localStorage.removeItem('carrito');
+          this.carritoService.obtenerCarritoServidor();
         },
         error: (err) => {
           console.error('Error al fusionar el carrito anónimo:', err);
