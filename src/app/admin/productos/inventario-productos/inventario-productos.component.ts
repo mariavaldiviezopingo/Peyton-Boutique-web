@@ -1,5 +1,10 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
+import {
+  BreadcrumbComponent,
+  BreadcrumbItem,
+} from '../../components/breadcrumb/breadcrumb.component';
 
 interface ProductoInventario {
   id: number;
@@ -17,11 +22,13 @@ interface ProductoInventario {
 @Component({
   selector: 'app-inventario-productos',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, BreadcrumbComponent],
   templateUrl: './inventario-productos.component.html',
   styleUrls: ['./inventario-productos.component.css'],
 })
 export class InventarioProductosComponent {
+  breadcrumbItems: BreadcrumbItem[] = [{ label: 'Productos', url: '' }];
+
   productos: ProductoInventario[] = [
     {
       id: 1,
@@ -85,5 +92,9 @@ export class InventarioProductosComponent {
     },
   ];
 
-  constructor() {}
+  constructor(private router: Router) {}
+
+  irAgregarProducto() {
+    this.router.navigate(['/admin/inventario-productos/agregar']);
+  }
 }
