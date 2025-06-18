@@ -1,0 +1,80 @@
+/* Estilos para el componente de variantes */
+.variants-card {
+  @apply bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden;
+}
+
+.variants-header {
+  @apply bg-gradient-to-r from-secondary to-secondary-dark text-white px-6 py-4;
+}
+
+.variants-table {
+  @apply min-w-full divide-y divide-gray-200;
+}
+
+.variants-th {
+  @apply px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider bg-gray-50;
+}
+
+.variants-td {
+  @apply px-4 py-3 whitespace-nowrap text-sm text-gray-700 border-b border-gray-100;
+}
+
+.variants-row {
+  @apply hover:bg-gray-50 transition-colors duration-150;
+}
+
+.editable-input {
+  @apply w-full border border-gray-300 rounded px-2 py-1 text-sm focus:border-primary focus:ring-1 focus:ring-primary/20 focus:outline-none transition-all duration-200;
+}
+
+.editable-select {
+  @apply w-full border border-gray-300 rounded px-2 py-1 text-sm focus:border-primary focus:ring-1 focus:ring-primary/20 focus:outline-none transition-all duration-200;
+}
+
+/* Estilos para drag & drop de imágenes */
+.image-upload-container {
+  @apply flex flex-col space-y-4;
+}
+
+.image-upload-box {
+  @apply border-2 border-dashed border-gray-300 rounded-lg p-4 text-center transition-all duration-200 cursor-pointer hover:border-primary hover:bg-primary/5;
+}
+
+.image-upload-box.dragover {
+  @apply border-primary bg-primary/10;
+}
+
+.image-upload-box.has-image {
+  @apply border-solid border-primary bg-primary/5;
+}
+
+.image-preview {
+  @apply w-full h-32 object-cover rounded-lg;
+}
+
+.image-upload-text {
+  @apply text-sm text-gray-500 mt-2;
+}
+
+.remove-image-btn {
+  @apply absolute top-2 right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs hover:bg-red-600 transition-colors;
+}
+
+/* Estilos adicionales para la animación de carga */
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Estilos para estados del formulario */
+.form-disabled {
+  @apply opacity-60 pointer-events-none;
+}
