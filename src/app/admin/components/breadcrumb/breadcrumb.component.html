@@ -1,0 +1,29 @@
+<div class="mb-6 p-4">
+  <nav aria-label="Breadcrumb">
+    <ol class="list-reset flex items-center">
+      <ng-container *ngFor="let item of items; let last = last; let i = index">
+        <li class="flex items-center">
+          <!-- Si es el último elemento (página actual), mostrar como texto -->
+          <ng-container *ngIf="last; else linkTemplate">
+            <span class="text-gray-800 font-bold text-3xl">
+              {{ item.label }}
+            </span>
+          </ng-container>
+
+          <!-- Si no es el último elemento, mostrar como enlace -->
+          <ng-template #linkTemplate>
+            <a
+              [routerLink]="item.url"
+              class="text-primary hover:text-primary-dark font-medium transition-colors duration-200 text-3xl"
+            >
+              {{ item.label }}
+            </a>
+          </ng-template>
+        </li>
+        <li *ngIf="!last" class="mx-2 text-gray-400 font-medium text-3xl">
+          &gt;
+        </li>
+      </ng-container>
+    </ol>
+  </nav>
+</div>
