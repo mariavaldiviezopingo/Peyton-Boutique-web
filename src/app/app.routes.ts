@@ -109,6 +109,13 @@ export const routes: Routes = [
             './admin/productos/inventario-productos/inventario-productos.component'
           ).then((m) => m.InventarioProductosComponent),
       },
+      {
+        path: 'inventario-productos/agregar',
+        loadComponent: () =>
+          import(
+            './admin/productos/agregar-producto/agregar-producto.component'
+          ).then((m) => m.AgregarProductoComponent),
+      },
     ],
   },
   { path: '**', redirectTo: '' },
