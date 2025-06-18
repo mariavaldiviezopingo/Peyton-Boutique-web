@@ -106,7 +106,7 @@ export const routes: Routes = [
         path: 'inventario-productos',
         loadComponent: () =>
           import(
-            './admin/inventario-productos/inventario-productos.component'
+            './admin/productos/inventario-productos/inventario-productos.component'
           ).then((m) => m.InventarioProductosComponent),
       },
     ],
