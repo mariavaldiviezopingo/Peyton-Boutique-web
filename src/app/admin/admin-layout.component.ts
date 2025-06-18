@@ -20,7 +20,7 @@ import { AdminHeaderComponent } from './components/header/header.component';
         <!-- Sidebar Component -->
         <app-admin-sidebar></app-admin-sidebar>
         <!-- Main content -->
-        <main class="flex-1 bg-gray-100 p-8 ml-64">
+        <main class="flex-1 bg-white p-8 ml-64">
           <!-- Header Component -->
           <app-admin-header></app-admin-header>
           <!-- Page Content -->
