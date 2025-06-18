@@ -1,0 +1,600 @@
+<div class="container mx-auto pb-10 px-10 bg-white">
+  <!-- Breadcrumb -->
+  <app-breadcrumb [items]="breadcrumbItems"></app-breadcrumb>
+
+  <!-- Formulario de producto -->
+  <div class="card mb-8">
+    <div class="card-header">
+      <h1 class="text-2xl font-bold flex items-center">
+        <svg
+          class="w-8 h-8 mr-3"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+          ></path>
+        </svg>
+        Agregar Nuevo Producto
+      </h1>
+      <p class="text-primary-100 mt-2">
+        Complete toda la información del producto incluyendo variantes e
+        imágenes
+      </p>
+    </div>
+
+    <form
+      class="card-body"
+      (ngSubmit)="guardarProducto()"
+      #productoForm="ngForm"
+    >
+      <!-- Sección: Información Básica -->
+      <div class="mb-8">
+        <h2 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+          <svg
+            class="w-5 h-5 mr-2 text-primary"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+            ></path>
+          </svg>
+          Información Básica
+        </h2>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <!-- Nombre del producto (2/3 del ancho) -->
+          <div class="form-group lg:col-span-2">
+            <label class="form-label" for="nombre">
+              <span class="flex items-center">
+                <svg
+                  class="w-4 h-4 mr-2 text-primary"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"
+                  ></path>
+                </svg>
+                Nombre del producto *
+              </span>
+            </label>
+            <input
+              id="nombre"
+              type="text"
+              class="form-input"
+              placeholder="Ingrese el nombre del producto"
+              [value]="producto().nombre"
+              (input)="onInputChange($event, 'nombre')"
+              required
+            />
+          </div>
+
+          <!-- Fecha de ingreso (1/3 del ancho) -->
+          <div class="form-group">
+            <label class="form-label" for="fechaIngreso">
+              <span class="flex items-center">
+                <svg
+                  class="w-4 h-4 mr-2 text-secondary"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                  ></path>
+                </svg>
+                Fecha de ingreso *
+              </span>
+            </label>
+            <input
+              id="fechaIngreso"
+              type="date"
+              class="form-input"
+              [value]="producto().fechaIngreso"
+              (input)="onInputChange($event, 'fechaIngreso')"
+              required
+            />
+          </div>
+
+          <!-- Categoría -->
+          <div class="form-group">
+            <label class="form-label" for="categoria">
+              <span class="flex items-center">
+                <svg
+                  class="w-4 h-4 mr-2 text-primary"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
+                  ></path>
+                </svg>
+                Categoría *
+              </span>
+            </label>
+            <select
+              id="categoria"
+              class="form-input"
+              [value]="producto().categoria"
+              (change)="onInputChange($event, 'categoria')"
+              required
+            >
+              <option value="">Seleccione una categoría</option>
+              <option *ngFor="let cat of categorias" [value]="cat">
+                {{ cat }}
+              </option>
+            </select>
+          </div>
+
+          <!-- Subcategoría -->
+          <div class="form-group">
+            <label class="form-label" for="subcategoria">
+              <span class="flex items-center">
+                <svg
+                  class="w-4 h-4 mr-2 text-secondary"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"
+                  ></path>
+                </svg>
+                Subcategoría *
+              </span>
+            </label>
+            <input
+              id="subcategoria"
+              type="text"
+              class="form-input"
+              placeholder="Ingrese la subcategoría"
+              [value]="producto().subcategoria"
+              (input)="onInputChange($event, 'subcategoria')"
+              required
+            />
+          </div>
+
+          <!-- Proveedor -->
+          <div class="form-group">
+            <label class="form-label" for="proveedor">
+              <span class="flex items-center">
+                <svg
+                  class="w-4 h-4 mr-2 text-primary"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h4a1 1 0 011 1v5m-6 0h6"
+                  ></path>
+                </svg>
+                Proveedor *
+              </span>
+            </label>
+            <input
+              id="proveedor"
+              type="text"
+              class="form-input"
+              placeholder="Nombre del proveedor"
+              [value]="producto().proveedor"
+              (input)="onInputChange($event, 'proveedor')"
+              required
+            />
+          </div>
+
+          <!-- Descripción -->
+          <div class="form-group lg:col-span-3">
+            <label class="form-label" for="descripcion">
+              <span class="flex items-center">
+                <svg
+                  class="w-4 h-4 mr-2 text-secondary"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                  ></path>
+                </svg>
+                Descripción *
+              </span>
+            </label>
+            <textarea
+              id="descripcion"
+              class="form-textarea"
+              rows="4"
+              placeholder="Describa las características principales del producto..."
+              [value]="producto().descripcion"
+              (input)="onInputChange($event, 'descripcion')"
+              required
+            ></textarea>
+          </div>
+
+          <!-- Separador visual -->
+          <div class="lg:col-span-3 my-6">
+            <div class="border-t border-gray-200 pt-6">
+              <h2
+                class="text-lg font-semibold text-gray-800 mb-2 flex items-center"
+              >
+                <svg
+                  fill="#00A48A"
+                  width="256px"
+                  height="256px"
+                  viewBox="-2 0 19 19"
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="cf-icon-svg size-6"
+                >
+                  <path
+                    d="m13.842 11.52-4.389 4.388a1.112 1.112 0 0 1-1.567 0l-6.28-6.28a3.027 3.027 0 0 1-.771-1.892l.043-3.681A1.141 1.141 0 0 1 2 2.935L5.67 2.9a3.04 3.04 0 0 1 1.892.773l6.28 6.28a1.112 1.112 0 0 1 0 1.567zM3.826 5.133a.792.792 0 1 0-.792.792.792.792 0 0 0 .792-.792zm6.594 7.348a.554.554 0 0 0 0-.784l-.401-.401a2.53 2.53 0 0 0 .35-.83 1.565 1.565 0 0 0-.397-1.503 1.59 1.59 0 0 0-1.017-.46 2.14 2.14 0 0 0-.75.085h-.002a2.444 2.444 0 0 0-.59.277H7.61a2.677 2.677 0 0 0-.438.357 2.043 2.043 0 0 1-.259.22 1.29 1.29 0 0 1-.329.17h-.002a.835.835 0 0 1-.338.038h-.002a.53.53 0 0 1-.314-.136.539.539 0 0 1-.106-.534 1.54 1.54 0 0 1 .41-.71 1.632 1.632 0 0 1 .23-.165l.03-.019a1.783 1.783 0 0 1 .322-.155.942.942 0 0 1 .325-.06.554.554 0 0 0 0-1.108h-.001a2.058 2.058 0 0 0-.717.132 2.846 2.846 0 0 0-.529.26l-.01.006-.398-.4a.554.554 0 1 0-.784.785l.388.387a2.513 2.513 0 0 0-.347.803 1.644 1.644 0 0 0 .404 1.561 1.622 1.622 0 0 0 .983.456 1.922 1.922 0 0 0 .805-.089 2.372 2.372 0 0 0 .624-.319 3.142 3.142 0 0 0 .398-.339 1.569 1.569 0 0 1 .256-.208 1.381 1.381 0 0 1 .32-.151 1.023 1.023 0 0 1 .348-.038.485.485 0 0 1 .308.139c.05.049.165.165.097.488a1.558 1.558 0 0 1-.413.729 2.476 2.476 0 0 1-.28.219 1.727 1.727 0 0 1-.306.157.687.687 0 0 1-.32.042.554.554 0 1 0-.08 1.106c.052.004.103.005.152.005a1.723 1.723 0 0 0 .685-.134 2.678 2.678 0 0 0 .507-.27l.01-.007.397.398a.555.555 0 0 0 .783 0z"
+                  ></path>
+                </svg>
+                Precios y Costos
+              </h2>
+              <p class="text-sm text-gray-600">
+                Configure los precios de costo y ganancia. El IGV y precio de
+                venta se calcularán automáticamente.
+              </p>
+            </div>
+          </div>
+
+          <!-- Primera fila de precios: Costo y Ganancia -->
+          <!-- Precio de costo -->
+          <div class="form-group lg:col-span-1">
+            <label class="form-label" for="precioCosto">
+              <span class="flex items-center">
+                <svg
+                  class="w-4 h-4 mr-1 text-primary"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v2a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"
+                  ></path>
+                </svg>
+                Precio de costo (S/.) *
+              </span>
+            </label>
+            <div class="relative">
+              <span
+                class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 font-medium"
+                >S/.</span
+              >
+              <input
+                id="precioCosto"
+                type="number"
+                class="form-input-price pl-10"
+                placeholder="0.00"
+                step="0.01"
+                min="0"
+                [value]="producto().precioCosto"
+                (input)="onInputChange($event, 'precioCosto')"
+                required
+              />
+            </div>
+            <p class="text-xs text-gray-500 mt-1">
+              Costo unitario del producto
+            </p>
+          </div>
+
+          <!-- Ganancia -->
+          <div class="form-group lg:col-span-1">
+            <label class="form-label" for="ganancia">
+              <span class="flex items-center">
+                <svg
+                  class="w-4 h-4 mr-1 text-primary"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M7 11l5-5m0 0l5 5m-5-5v12M3 21h18"
+                  ></path>
+                </svg>
+                Ganancia (S/.) *
+              </span>
+            </label>
+            <div class="relative">
+              <span
+                class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 font-medium"
+                >S/.</span
+              >
+              <input
+                id="ganancia"
+                type="number"
+                class="form-input-price pl-10"
+                placeholder="0.00"
+                step="0.01"
+                min="0"
+                [value]="producto().ganancia"
+                (input)="onInputChange($event, 'ganancia')"
+                required
+              />
+            </div>
+            <p class="text-xs text-gray-500 mt-1">
+              Ganancia esperada por unidad
+            </p>
+          </div>
+
+          <!-- Espacio para separar las filas visualmente -->
+          <div class="lg:col-span-1"></div>
+
+          <!-- Segunda fila de precios: IGV y Precio de venta (calculados) -->
+          <!-- IGV (calculado automáticamente) -->
+          <div class="form-group lg:col-span-1">
+            <label class="form-label" for="igv">
+              <span class="flex items-center">
+                <svg
+                  class="w-4 h-4 mr-1 text-primary"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 7h6m0 10v-3m-3 0h3m0 0V7m-3 0v3M9 7v3m0 0v3"
+                  ></path>
+                  <circle
+                    cx="12"
+                    cy="12"
+                    r="9"
+                    stroke-width="1.5"
+                    stroke-dasharray="2 2"
+                  ></circle>
+                </svg>
+                IGV (18%)
+              </span>
+            </label>
+            <div class="relative">
+              <span
+                class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 font-medium"
+                >S/.</span
+              >
+              <input
+                id="igv"
+                type="number"
+                class="form-input-price pl-10 bg-primary/5 text-primary font-semibold"
+                placeholder="0.00"
+                step="0.01"
+                [value]="producto().igv.toFixed(2)"
+                readonly
+              />
+            </div>
+            <p class="text-xs text-primary mt-1 font-medium">
+              Se calcula automáticamente (18%)
+            </p>
+          </div>
+
+          <!-- Precio de venta (calculado automáticamente) -->
+          <div class="form-group lg:col-span-1">
+            <label class="form-label" for="precioVenta">
+              <span class="flex items-center">
+                <svg
+                  class="w-4 h-4 mr-1 text-primary"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"
+                  ></path>
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="1"
+                    d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                  ></path>
+                </svg>
+                Precio de venta final
+              </span>
+            </label>
+            <div class="relative">
+              <span
+                class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 font-medium"
+                >S/.</span
+              >
+              <input
+                id="precioVenta"
+                type="number"
+                class="form-input-highlight"
+                placeholder="0.00"
+                step="0.01"
+                [value]="producto().precioVenta.toFixed(2)"
+                readonly
+              />
+            </div>
+            <p class="text-xs text-primary mt-1 font-bold">
+              Precio final con IGV incluido
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Botones de acción del formulario básico -->
+      <div
+        class="flex flex-col sm:flex-row gap-4 justify-between mt-8 pt-6 border-t border-gray-200"
+      >
+        <button type="button" class="btn-outline" (click)="limpiarFormulario()">
+          <svg
+            class="w-5 h-5 mr-2 inline"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+            ></path>
+          </svg>
+          Limpiar Formulario
+        </button>
+
+        <div class="flex gap-4">
+          <button type="button" class="btn-secondary" (click)="cancelar()">
+            <svg
+              class="w-5 h-5 mr-2 inline"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M6 18L18 6M6 6l12 12"
+              ></path>
+            </svg>
+            Cancelar
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <!-- Componente de variantes del producto -->
+  <app-variante-producto #variantesComponent></app-variante-producto>
+
+  <!-- Botones finales de guardado -->
+  <div class="bg-white rounded-xl shadow-lg border border-gray-100 p-6 mt-6">
+    <div class="flex flex-col sm:flex-row gap-4 justify-end">
+      <!-- Indicador de estado -->
+      <div class="flex items-center text-sm text-gray-600 mr-auto">
+        <svg
+          [class]="isFormularioValido() ? 'text-green-500' : 'text-yellow-500'"
+          class="w-5 h-5 mr-2"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          @if (isFormularioValido()) {
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+          ></path>
+          } @else {
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.732-.833-2.5 0L4.268 16.5c-.77.833.192 2.5 1.732 2.5z"
+          ></path>
+          }
+        </svg>
+        <span
+          [class]="isFormularioValido() ? 'text-green-600' : 'text-yellow-600'"
+        >
+          {{
+            isFormularioValido()
+              ? "Formulario completo y listo para guardar"
+              : "Complete todos los campos requeridos"
+          }}
+        </span>
+      </div>
+
+      <!-- Botones -->
+      <button
+        type="button"
+        class="btn-secondary"
+        (click)="cancelar()"
+        [disabled]="isLoading()"
+      >
+        <svg
+          class="w-5 h-5 mr-2 inline"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M6 18L18 6M6 6l12 12"
+          ></path>
+        </svg>
+        Cancelar
+      </button>
+
+      <button
+        type="button"
+        class="btn-primary"
+        (click)="guardarProducto()"
+        [disabled]="!isFormularioValido() || isLoading()"
+      >
+        <svg
+          class="w-5 h-5 mr-2 inline"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          @if (!isLoading()) {
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M5 13l4 4L19 7"
+          ></path>
+          } @else {
+          <circle
+            cx="12"
+            cy="12"
+            r="10"
+            stroke-width="4"
+            class="opacity-25"
+          ></circle>
+          <path
+            class="opacity-75"
+            fill="currentColor"
+            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+          ></path>
+          }
+        </svg>
+        {{ isLoading() ? "Guardando..." : "Guardar Producto Completo" }}
+      </button>
+    </div>
+  </div>
+</div>

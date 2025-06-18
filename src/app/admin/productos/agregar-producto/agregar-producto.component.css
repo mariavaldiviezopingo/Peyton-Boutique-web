@@ -1,0 +1,55 @@
+.form-input {
+  @apply w-full border border-gray-300 rounded-lg px-4 py-3 text-gray-700 placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none transition-all duration-200 hover:border-primary;
+}
+
+.form-input-price {
+  @apply w-full border border-gray-300 rounded-lg pl-8 pr-4 py-3 text-gray-700 placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none transition-all duration-200;
+}
+
+.form-label {
+  @apply block text-gray-700 font-semibold mb-2 text-base tracking-wide;
+}
+
+.form-textarea {
+  @apply w-full border border-gray-300 rounded-lg px-4 py-3 text-gray-700 placeholder-gray-400 focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none transition-all duration-200 resize-none;
+}
+
+.form-group {
+  @apply flex flex-col space-y-2;
+}
+
+.btn-primary {
+  @apply bg-primary hover:bg-primary-dark text-white font-semibold px-8 py-3 rounded-lg shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 focus:outline-none focus:ring-4 focus:ring-primary/30;
+}
+
+.btn-secondary {
+  @apply bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold px-8 py-3 rounded-lg border border-gray-300 transition-all duration-200 focus:outline-none focus:ring-4 focus:ring-gray-300/30;
+}
+
+.btn-outline {
+  @apply bg-white hover:bg-gray-50 text-gray-700 font-semibold px-8 py-3 rounded-lg border-2 border-gray-300 hover:border-gray-400 transition-all duration-200 focus:outline-none focus:ring-4 focus:ring-gray-300/30;
+}
+
+.card {
+  @apply bg-gray-100 rounded-xl shadow-lg border border-gray-200 overflow-hidden;
+}
+
+.card-header {
+  @apply bg-gradient-to-r from-primary to-primary-dark text-white px-6 py-4;
+}
+
+.card-body {
+  @apply p-6;
+}
+
+.form-input-highlight {
+  @apply w-full border-2 border-primary/30 rounded-lg pl-8 pr-4 py-3 bg-primary/5 text-primary font-bold placeholder-primary/50 focus:border-primary focus:ring-2 focus:ring-primary/30 focus:outline-none transition-all duration-200;
+}
+
+.section-title {
+  @apply text-lg font-semibold text-gray-800 mb-4 flex items-center;
+}
+
+.form-icon {
+  @apply w-4 h-4 mr-2;
+}
