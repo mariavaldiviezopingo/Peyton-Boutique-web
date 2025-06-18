@@ -97,4 +97,18 @@ export class InventarioProductosComponent {
   irAgregarProducto() {
     this.router.navigate(['/admin/inventario-productos/agregar']);
   }
+
+  editarProducto(id: number) {
+    // TODO: Aquí redirigir al la pagina de edición del producto
+    console.log('Editando producto con ID:', id);
+    //* Ejemplo: this.router.navigate(['/admin/inventario-productos/editar', id]);
+  }
+
+  eliminarProducto(id: number) {
+    if (confirm('¿Estás seguro de que deseas eliminar este producto?')) {
+      this.productos = this.productos.filter((producto) => producto.id !== id);
+      console.log('Producto eliminado con ID:', id);
+      // TODO: Aquí llamar a un servicio para eliminar del backend
+    }
+  }
 }
