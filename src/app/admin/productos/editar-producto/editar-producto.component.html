@@ -1,0 +1,397 @@
+<!-- Loading spinner mientras se cargan los datos -->
+@if (isLoadingData()) {
+<div class="flex items-center justify-center min-h-screen bg-gray-50">
+  <div class="text-center">
+    <div
+      class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"
+    ></div>
+    <p class="text-gray-600">Cargando datos del producto...</p>
+  </div>
+</div>
+} @else {
+
+<div class="container mx-auto pb-10 px-10 bg-white">
+  <!-- Breadcrumb -->
+  <app-breadcrumb [items]="breadcrumbItems"></app-breadcrumb>
+
+  <!-- Formulario de producto -->
+  <div class="card mb-8">
+    <div class="card-header">
+      <h1 class="text-2xl font-bold flex items-center">
+        <svg
+          class="w-8 h-8 mr-3"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125"
+          ></path>
+        </svg>
+        Editar Producto #{{ productoId }}
+      </h1>
+      <p class="text-primary-100 mt-2">
+        Modifica la información del producto incluyendo variantes e imágenes
+      </p>
+    </div>
+
+    <form
+      class="card-body"
+      (ngSubmit)="actualizarProducto()"
+      #productoForm="ngForm"
+    >
+      <!-- Sección: Información Básica -->
+      <div class="mb-8">
+        <h2 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+          <svg
+            class="w-5 h-5 mr-2 text-primary"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+            ></path>
+          </svg>
+          Información Básica
+        </h2>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <!-- Nombre del producto (2/3 del ancho) -->
+          <div class="form-group lg:col-span-2">
+            <label class="form-label" for="nombre">
+              Nombre del producto <span class="text-red-500">*</span>
+            </label>
+            <input
+              type="text"
+              id="nombre"
+              name="nombre"
+              class="form-input"
+              placeholder="Ej: Camiseta básica de algodón"
+              [value]="producto().nombre"
+              (input)="onInputChange($event, 'nombre')"
+              required
+            />
+          </div>
+
+          <!-- Fecha de ingreso (1/3 del ancho) -->
+          <div class="form-group">
+            <label class="form-label" for="fechaIngreso">
+              Fecha de ingreso <span class="text-red-500">*</span>
+            </label>
+            <input
+              type="date"
+              id="fechaIngreso"
+              name="fechaIngreso"
+              class="form-input"
+              [value]="producto().fechaIngreso"
+              (input)="onInputChange($event, 'fechaIngreso')"
+              required
+            />
+          </div>
+
+          <!-- Categoría -->
+          <div class="form-group">
+            <label class="form-label" for="categoria">
+              Categoría <span class="text-red-500">*</span>
+            </label>
+            <select
+              id="categoria"
+              name="categoria"
+              class="form-input"
+              [value]="producto().categoria"
+              (change)="onInputChange($event, 'categoria')"
+              required
+            >
+              <option value="">Seleccionar categoría</option>
+              <option *ngFor="let cat of categorias" [value]="cat">
+                {{ cat }}
+              </option>
+            </select>
+          </div>
+
+          <!-- Subcategoría -->
+          <div class="form-group">
+            <label class="form-label" for="subcategoria">
+              Subcategoría <span class="text-red-500">*</span>
+            </label>
+            <input
+              type="text"
+              id="subcategoria"
+              name="subcategoria"
+              class="form-input"
+              placeholder="Ej: Camisetas, Polos, etc."
+              [value]="producto().subcategoria"
+              (input)="onInputChange($event, 'subcategoria')"
+              required
+            />
+          </div>
+
+          <!-- Proveedor -->
+          <div class="form-group">
+            <label class="form-label" for="proveedor">
+              Proveedor <span class="text-red-500">*</span>
+            </label>
+            <input
+              type="text"
+              id="proveedor"
+              name="proveedor"
+              class="form-input"
+              placeholder="Nombre del proveedor"
+              [value]="producto().proveedor"
+              (input)="onInputChange($event, 'proveedor')"
+              required
+            />
+          </div>
+
+          <!-- Descripción -->
+          <div class="form-group lg:col-span-3">
+            <label class="form-label" for="descripcion">
+              Descripción <span class="text-red-500">*</span>
+            </label>
+            <textarea
+              id="descripcion"
+              name="descripcion"
+              class="form-input"
+              rows="4"
+              placeholder="Describe las características del producto..."
+              [value]="producto().descripcion"
+              (input)="onInputChange($event, 'descripcion')"
+              required
+            ></textarea>
+          </div>
+
+          <!-- Separador visual -->
+          <div class="lg:col-span-3 my-6">
+            <div class="border-t border-gray-200 pt-6">
+              <h3 class="text-md font-medium text-gray-700 mb-4">
+                Información de Precios
+              </h3>
+            </div>
+          </div>
+
+          <!-- Primera fila de precios: Costo y Ganancia -->
+          <!-- Precio de costo -->
+          <div class="form-group lg:col-span-1">
+            <label class="form-label" for="precioCosto">
+              Precio de costo (S/.) <span class="text-red-500">*</span>
+            </label>
+            <input
+              type="number"
+              id="precioCosto"
+              name="precioCosto"
+              class="form-input"
+              step="0.01"
+              min="0"
+              placeholder="0.00"
+              [value]="producto().precioCosto"
+              (input)="onInputChange($event, 'precioCosto')"
+              required
+            />
+          </div>
+
+          <!-- Ganancia -->
+          <div class="form-group lg:col-span-1">
+            <label class="form-label" for="ganancia">
+              Ganancia (S/.) <span class="text-red-500">*</span>
+            </label>
+            <input
+              type="number"
+              id="ganancia"
+              name="ganancia"
+              class="form-input"
+              step="0.01"
+              min="0"
+              placeholder="0.00"
+              [value]="producto().ganancia"
+              (input)="onInputChange($event, 'ganancia')"
+              required
+            />
+          </div>
+
+          <!-- Espacio para separar las filas visualmente -->
+          <div class="lg:col-span-1"></div>
+
+          <!-- Segunda fila de precios: IGV y Precio de venta (calculados) -->
+          <!-- IGV (calculado automáticamente) -->
+          <div class="form-group lg:col-span-1">
+            <label class="form-label" for="igv">
+              IGV (18%) <span class="text-gray-500">- Calculado</span>
+            </label>
+            <input
+              type="number"
+              id="igv"
+              name="igv"
+              class="form-input bg-gray-50"
+              step="0.01"
+              [value]="producto().igv.toFixed(2)"
+              readonly
+            />
+          </div>
+
+          <!-- Precio de venta (calculado automáticamente) -->
+          <div class="form-group lg:col-span-1">
+            <label class="form-label" for="precioVenta">
+              Precio de venta final (S/.)
+              <span class="text-gray-500">- Calculado</span>
+            </label>
+            <input
+              type="number"
+              id="precioVenta"
+              name="precioVenta"
+              class="form-input bg-gray-50 font-semibold"
+              step="0.01"
+              [value]="producto().precioVenta.toFixed(2)"
+              readonly
+            />
+          </div>
+        </div>
+      </div>
+
+      <!-- Botones de acción del formulario básico -->
+      <div
+        class="flex flex-col sm:flex-row gap-4 justify-between mt-8 pt-6 border-t border-gray-200"
+      >
+        <button
+          type="button"
+          class="btn-outline"
+          (click)="resetearFormulario()"
+        >
+          <svg
+            class="w-5 h-5 mr-2 inline"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+            ></path>
+          </svg>
+          Resetear Cambios
+        </button>
+
+        <div class="flex gap-4">
+          <button type="button" class="btn-secondary" (click)="cancelar()">
+            Cancelar
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <!-- Componente de variantes del producto -->
+  <app-variante-producto #variantesComponent></app-variante-producto>
+
+  <!-- Botones finales de guardado -->
+  <div class="bg-white rounded-xl shadow-lg border border-gray-100 p-6 mt-6">
+    <div class="flex flex-col sm:flex-row gap-4 justify-end">
+      <!-- Indicador de estado -->
+      <div class="flex items-center text-sm text-gray-600 mr-auto">
+        <svg
+          [class]="isFormularioValido() ? 'text-green-500' : 'text-yellow-500'"
+          class="w-5 h-5 mr-2"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          @if (isFormularioValido()) {
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+          ></path>
+          } @else {
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.732-.833-2.5 0L4.268 16.5c-.77.833.192 2.5 1.732 2.5z"
+          ></path>
+          }
+        </svg>
+        <span
+          [class]="isFormularioValido() ? 'text-green-600' : 'text-yellow-600'"
+        >
+          {{
+            isFormularioValido()
+              ? "Formulario completo y válido"
+              : "Completa todos los campos obligatorios"
+          }}
+        </span>
+      </div>
+
+      <!-- Botones -->
+      <button
+        type="button"
+        class="btn-secondary"
+        (click)="cancelar()"
+        [disabled]="isLoading()"
+      >
+        <svg
+          class="w-5 h-5 mr-2 inline"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M6 18L18 6M6 6l12 12"
+          ></path>
+        </svg>
+        Cancelar
+      </button>
+
+      <button
+        type="button"
+        class="btn-primary"
+        (click)="actualizarProducto()"
+        [disabled]="!isFormularioValido() || isLoading()"
+      >
+        <svg
+          class="w-5 h-5 mr-2 inline"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          @if (!isLoading()) {
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M5 13l4 4L19 7"
+          ></path>
+          } @else {
+          <circle
+            class="opacity-25"
+            cx="12"
+            cy="12"
+            r="10"
+            stroke="currentColor"
+            stroke-width="4"
+          ></circle>
+          <path
+            class="opacity-75"
+            fill="currentColor"
+            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+          ></path>
+          }
+        </svg>
+        {{ isLoading() ? "Actualizando..." : "Actualizar Producto" }}
+      </button>
+    </div>
+  </div>
+</div>
+
+}
