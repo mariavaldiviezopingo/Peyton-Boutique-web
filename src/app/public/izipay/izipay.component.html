@@ -1,0 +1,69 @@
+<div class="izipay-container">
+  <div class="izipay-card">
+    <h2>Checkout Izipay</h2>
+    <!-- Advertencia sobre credenciales -->
+    <div *ngIf="showCredentialsWarning" class="warning-message">
+      <h4>⚠️ Usando credenciales de prueba</h4>
+      <p>
+        Este checkout usa credenciales de prueba. Si no funciona correctamente,
+        verifica que tu backend esté configurado con las credenciales reales de
+        Izipay.
+      </p>
+    </div>
+    <div class="info-section">
+      <h3>Información del Pago:</h3>
+      <ul>
+        <li><strong>Monto:</strong> S/ 1.99</li>
+        <li><strong>Moneda:</strong> PEN (Soles)</li>
+        <li><strong>Cliente:</strong> Juan Pérez</li>
+        <li><strong>Email:</strong> jwick&#64;izipay.pe</li>
+        <li><strong>Merchant:</strong> 4001834</li>
+      </ul>
+    </div>
+    <button
+      (click)="redirectToCheckout()"
+      [disabled]="isLoading"
+      class="checkout-btn"
+    >
+      <span *ngIf="!isLoading">💳 Iniciar Checkout</span>
+      <span *ngIf="isLoading">⏳ Procesando...</span>
+    </button>
+
+    <!-- Contenedor para el checkout modal -->
+    <div id="izipay-container"></div>
+
+    <div *ngIf="error" class="error-message">
+      <h4>❌ Error:</h4>
+      <p>{{ error }}</p>
+      <small>Revisa la consola para más detalles</small>
+    </div>
+
+    <div class="debug-info">
+      <h4>🐛 Información de Debug:</h4>
+      <p><strong>Estado:</strong> {{ isLoading ? "Cargando..." : "Listo" }}</p>
+      <p>
+        <strong>SDK Izipay:</strong>
+        <span [class]="window.Izipay ? 'status-ok' : 'status-error'">
+          {{ window.Izipay ? "✅ Cargado" : "❌ No cargado" }}
+        </span>
+      </p>
+      <small>Abre la consola (F12) para ver logs detallados</small>
+    </div>
+
+    <!-- Instrucciones para usar credenciales reales -->
+    <div class="credentials-info">
+      <h4>🔑 Para usar credenciales reales:</h4>
+      <ol>
+        <li>
+          Obtén tu <strong>Merchant Code</strong> desde tu panel de Izipay
+        </li>
+        <li>
+          Implementa un endpoint en tu backend para generar el
+          <strong>Token de Sesión</strong>
+        </li>
+        <li>Obtén tu <strong>Clave RSA</strong> desde tu cuenta Izipay</li>
+        <li>Reemplaza los valores falsos en el código</li>
+      </ol>
+    </div>
+  </div>
+</div>
