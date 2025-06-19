@@ -81,9 +81,18 @@ export const routes: Routes = [
       { path: 'detalle', component: ProductDetailComponent },
       { path: 'detalle/:id', component: ProductDetailComponent },
       { path: 'catalogo/:categoria', component: CatalogoComponent },
-      { path: 'inventario-productos', component: InventarioProductosComponent }
-
-      
+      { path: 'inventario-productos', component: InventarioProductosComponent },
+      // {
+      //   path: 'ordenes',
+      //   component: OrdenesComponent,
+      // },
+      {
+        path: 'izipay',
+        loadComponent: () =>
+          import('./public/izipay/izipay.component').then(
+            (m) => m.IzipayComponent
+          ),
+      },
     ],
   },
   {
@@ -99,6 +108,13 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./admin/admin-dashboard/admin-dashboard.component').then(
             (m) => m.AdminDashboardComponent
+          ),
+      },
+      {
+        path: 'ordenes',
+        loadComponent: () =>
+          import('./admin/ordenes/ordenes.component').then(
+            (m) => m.OrdenesComponent
           ),
       },
     ],

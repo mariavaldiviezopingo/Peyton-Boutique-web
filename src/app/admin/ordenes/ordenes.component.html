@@ -1,0 +1,102 @@
+<div class="p-6 bg-gray-50 min-h-screen">
+  <!-- Header -->
+  <div class="flex justify-between items-center mb-6">
+    <div class="text-xl font-semibold text-gray-700">
+      <i class="fas fa-user mr-2 text-teal-600"></i>SHEYLA CÁTEDRA
+    </div>
+    <div class="flex space-x-4 text-xl text-gray-600">
+      <!-- <i class="fas fa-eye cursor-pointer hover:text-teal-600"></i> -->
+      <i class="fas fa-bell cursor-pointer hover:text-teal-600"></i>
+      <i class="fas fa-sign-out-alt cursor-pointer hover:text-red-500"></i>
+    </div>
+  </div>
+
+  <!-- Filtros y acciones -->
+  <div
+    class="flex flex-col md:flex-row md:items-center md:justify-between space-y-3 md:space-y-0 mb-4"
+  >
+    <div class="flex items-center space-x-3">
+      <span class="font-semibold text-teal-700">ORDENES</span>
+      <input
+        type="text"
+        placeholder="Buscar..."
+        class="border rounded px-2 py-1 w-64 text-sm"
+      />
+      <button
+        class="flex items-center px-3 py-1.5 border rounded text-gray-500 bg-gray-100 cursor-not-allowed"
+        disabled
+      >
+        <i class="fas fa-filter mr-2"></i>Filtro
+      </button>
+    </div>
+    <div class="flex items-center space-x-2">
+      <button class="bg-gray-200 hover:bg-gray-300 text-sm px-3 py-1 rounded">
+        Exportar csv
+      </button>
+      <button
+        class="bg-white border hover:bg-gray-100 text-sm px-3 py-1 rounded"
+      >
+        + Agregar
+      </button>
+    </div>
+  </div>
+
+  <!-- Tabs de estado -->
+  <div class="flex space-x-3 mb-4">
+    <button class="px-3 py-1 rounded bg-black text-white text-sm">All</button>
+    <button class="px-3 py-1 rounded bg-gray-100 hover:bg-gray-200 text-sm">
+      Cancelado
+    </button>
+    <button class="px-3 py-1 rounded bg-gray-100 hover:bg-gray-200 text-sm">
+      Compras
+    </button>
+    <button class="px-3 py-1 rounded bg-gray-100 hover:bg-gray-200 text-sm">
+      Completado
+    </button>
+  </div>
+
+  <!-- Tabla -->
+  <div class="overflow-x-auto">
+    <table class="min-w-full border text-sm">
+      <thead class="bg-gray-100 text-left">
+        <tr>
+          <th class="px-4 py-2">N°</th>
+          <th class="px-4 py-2">CLIENTE</th>
+          <th class="px-4 py-2">FECHA</th>
+          <th class="px-4 py-2">PAGO</th>
+          <th class="px-4 py-2">PRECIO</th>
+          <th class="px-4 py-2">STOCK</th>
+          <th class="px-4 py-2">ESTADO</th>
+          <th class="px-4 py-2">VER DETALLES</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y">
+        <tr *ngFor="let orden of ordenes">
+          <td class="px-4 py-2">{{ orden.numero }}</td>
+          <td class="px-4 py-2">{{ orden.cliente }}</td>
+          <td class="px-4 py-2">{{ orden.fecha }}</td>
+          <td class="px-4 py-2">{{ orden.pago }}</td>
+          <td class="px-4 py-2">{{ orden.precio }}</td>
+          <td class="px-4 py-2">{{ orden.stock }}</td>
+          <td class="px-4 py-2">{{ orden.estado }}</td>
+          <td class="px-4 py-2 text-center">
+            <i
+              class="fas fa-eye text-gray-600 hover:text-teal-600 cursor-pointer"
+            ></i>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Paginación -->
+  <div class="flex justify-center mt-4 space-x-2">
+    <button class="px-2 py-1 border rounded text-sm">&lt;</button>
+    <button class="px-2 py-1 border rounded text-sm bg-black text-white">
+      1
+    </button>
+    <button class="px-2 py-1 border rounded text-sm">2</button>
+    <button class="px-2 py-1 border rounded text-sm">3</button>
+    <button class="px-2 py-1 border rounded text-sm">&gt;</button>
+  </div>
+</div>
