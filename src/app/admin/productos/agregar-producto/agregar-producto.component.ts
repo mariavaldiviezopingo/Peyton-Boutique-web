@@ -11,10 +11,7 @@ import {
   VarianteProductoComponent,
   VarianteProducto,
 } from '../variante-producto/variante-producto.component';
-import {
-  BreadcrumbComponent,
-  BreadcrumbItem,
-} from '../../components/breadcrumb/breadcrumb.component';
+import { BreadcrumbComponent, BreadcrumbItem } from '../../components';
 
 // Interfaz para el producto completo
 export interface Producto {
