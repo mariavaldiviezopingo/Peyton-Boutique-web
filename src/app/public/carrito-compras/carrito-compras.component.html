@@ -22,14 +22,29 @@
             </p>
           </div>
           <div class="flex flex-row gap-4 justify-center items-center">
-            <div>
+            <div class="flex items-center gap-2">
+              <button
+                class="px-2 py-1 border rounded"
+                (click)="cambiarCantidad(item, -1)"
+                [disabled]="item.cantidad <= 1"
+              >
+                -
+              </button>
               <input
                 type="number"
                 [value]="item.cantidad"
+                (change)="actualizarCantidadManual(item, $event)"
                 min="1"
                 class="w-16 p-2 border rounded text-center"
               />
+              <button
+                class="px-2 py-1 border rounded"
+                (click)="cambiarCantidad(item, 1)"
+              >
+                +
+              </button>
             </div>
+
             <div>
               <p class="text-lg font-bold">
                 S/ {{ item.precio * item.cantidad }}

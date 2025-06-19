@@ -82,4 +82,26 @@ export class CarritoComprasComponent {
     this.carritoService.removeItem(item);
     this.items = this.carritoService.getItems(); // refrescar lista local
   }
+
+  cambiarCantidad(item: ItemCarrito, cambio: number) {
+    const nuevaCantidad = item.cantidad + cambio;
+    if (nuevaCantidad < 1) return;
+
+    item.cantidad = nuevaCantidad;
+    this.carritoService.updateItem(item); // Nuevo método en el servicio
+    this.items = this.carritoService.getItems(); // refrescar
+  }
+
+  actualizarCantidadManual(item: ItemCarrito, event: Event) {
+    const input = event.target as HTMLInputElement;
+    const nuevaCantidad = parseInt(input.value, 10);
+
+    if (!isNaN(nuevaCantidad) && nuevaCantidad >= 1) {
+      item.cantidad = nuevaCantidad;
+      this.carritoService.updateItem(item);
+      this.items = this.carritoService.getItems();
+    } else {
+      input.value = item.cantidad.toString(); // Restaurar valor válido
+    }
+  }
 }

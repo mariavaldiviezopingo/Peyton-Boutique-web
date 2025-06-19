@@ -198,6 +198,22 @@ export class CarritoService {
     return this.http.get<CarritoResponse>('/api/carrito/listar');
   }
 
+  updateItem(itemActualizado: ItemCarrito): void {
+    const index = this.items.findIndex(
+      (i) =>
+        i.productoId === itemActualizado.productoId &&
+        i.varianteId === itemActualizado.varianteId &&
+        i.color === itemActualizado.color &&
+        i.talla === itemActualizado.talla
+    );
+
+    if (index !== -1) {
+      this.items[index].cantidad = itemActualizado.cantidad;
+      this.save();
+      this.actualizarCantidadTotal();
+    }
+  }
+
   // getCantidadTotal(): number {
   //   return this.cantidadTotalSubject.getValue();
   // }

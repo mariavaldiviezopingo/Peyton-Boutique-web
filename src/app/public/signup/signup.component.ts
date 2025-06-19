@@ -60,7 +60,7 @@ export class SignupComponent {
     this.authService.register({ name, email, password }).subscribe({
       next: (response) => {
         console.log('Usuario registrado con éxito:', response);
-        this.router.navigate(['/login']); // o redirige a donde quieras
+        this.router.navigate(['']); // o redirige a donde quieras
       },
       error: (error) => {
         console.error('Error al registrar:', error);
