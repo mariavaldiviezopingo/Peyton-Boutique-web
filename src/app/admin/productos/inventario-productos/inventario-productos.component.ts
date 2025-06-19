@@ -1,10 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import {
-  BreadcrumbComponent,
-  BreadcrumbItem,
-} from '../../components/breadcrumb/breadcrumb.component';
+import { BreadcrumbComponent, BreadcrumbItem } from '../../components';
+import { ModalConfirmacionComponent, ModalConfig } from '../../components';
 
 interface ProductoInventario {
   id: number;
@@ -22,12 +20,25 @@ interface ProductoInventario {
 @Component({
   selector: 'app-inventario-productos',
   standalone: true,
-  imports: [CommonModule, BreadcrumbComponent],
+  imports: [CommonModule, BreadcrumbComponent, ModalConfirmacionComponent],
   templateUrl: './inventario-productos.component.html',
   styleUrls: ['./inventario-productos.component.css'],
 })
 export class InventarioProductosComponent {
   breadcrumbItems: BreadcrumbItem[] = [{ label: 'Productos', url: '' }];
+
+  // Configuración del modal
+  mostrarModal = signal(false);
+  configModal = signal<ModalConfig>({
+    titulo: 'Confirmar eliminación',
+    mensaje: '¿Estás seguro de que deseas eliminar este producto?',
+    textoConfirmar: 'Eliminar',
+    textoCancelar: 'Cancelar',
+    tipo: 'danger',
+  });
+
+  // ID del producto a eliminar
+  productoAEliminar: number | null = null;
 
   productos: ProductoInventario[] = [
     {
@@ -99,16 +110,44 @@ export class InventarioProductosComponent {
   }
 
   editarProducto(id: number) {
-    // TODO: Aquí redirigir al la pagina de edición del producto
-    console.log('Editando producto con ID:', id);
-    //* Ejemplo: this.router.navigate(['/admin/inventario-productos/editar', id]);
+    this.router.navigate(['/admin/inventario-productos/editar', id]);
   }
 
   eliminarProducto(id: number) {
-    if (confirm('¿Estás seguro de que deseas eliminar este producto?')) {
-      this.productos = this.productos.filter((producto) => producto.id !== id);
-      console.log('Producto eliminado con ID:', id);
+    // Encontrar el producto para mostrar su nombre en el modal
+    const producto = this.productos.find((p) => p.id === id);
+
+    this.productoAEliminar = id;
+    this.configModal.set({
+      titulo: 'Confirmar eliminación',
+      mensaje: `¿Estás seguro de que deseas eliminar el producto "${
+        producto?.nombre || 'Producto'
+      }"? Esta acción no se puede deshacer.`,
+      textoConfirmar: 'Eliminar',
+      textoCancelar: 'Cancelar',
+      tipo: 'danger',
+    });
+    this.mostrarModal.set(true);
+  }
+
+  /**
+   * Confirma la eliminación del producto
+   */
+  confirmarEliminacion(): void {
+    if (this.productoAEliminar !== null) {
+      this.productos = this.productos.filter(
+        (producto) => producto.id !== this.productoAEliminar
+      );
+      console.log('Producto eliminado con ID:', this.productoAEliminar);
       // TODO: Aquí llamar a un servicio para eliminar del backend
+      this.productoAEliminar = null;
     }
+  }
+
+  /**
+   * Cancela la eliminación del producto
+   */
+  cancelarEliminacion(): void {
+    this.productoAEliminar = null;
   }
 }

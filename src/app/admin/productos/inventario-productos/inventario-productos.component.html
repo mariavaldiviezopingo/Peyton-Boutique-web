@@ -342,3 +342,12 @@
     </div>
   </div>
 </div>
+
+<!-- Modal de confirmación -->
+<app-modal-confirmacion
+  [visible]="mostrarModal"
+  [config]="configModal"
+  (confirmar)="confirmarEliminacion()"
+  (cancelar)="cancelarEliminacion()"
+  (cerrar)="cancelarEliminacion()"
+></app-modal-confirmacion>

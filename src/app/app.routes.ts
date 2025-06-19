@@ -116,6 +116,13 @@ export const routes: Routes = [
             './admin/productos/agregar-producto/agregar-producto.component'
           ).then((m) => m.AgregarProductoComponent),
       },
+      {
+        path: 'inventario-productos/editar/:id',
+        loadComponent: () =>
+          import(
+            './admin/productos/editar-producto/editar-producto.component'
+          ).then((m) => m.EditarProductoComponent),
+      },
     ],
   },
   { path: '**', redirectTo: '' },
